@@ -1,0 +1,16 @@
+.text-input
+{
+-fx-text-fill : #fff;
+}
+.radio-color
+{
+-fx-mark-highlight-color : #9643A9;
+-fx-mark-color : #CE201C;
+}
+.button-raised{
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+    -fx-background-color: rgb(77,102,204);
+    -fx-pref-width: 200;
+    -fx-text-fill: WHITE;
+}
