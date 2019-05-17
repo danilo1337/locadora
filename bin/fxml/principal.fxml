@@ -13,7 +13,7 @@
             <Menu mnemonicParsing="false" text="Cadastrar">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#cadastrarCliente" text="Sócio" />
-                  <MenuItem mnemonicParsing="false" text="Título" />
+                  <MenuItem fx:id="mnuTitulo" mnemonicParsing="false" onAction="#cadastrarTitulo" text="Título" />
                   <MenuItem mnemonicParsing="false" text="Funcionário" />
               </items>
             </Menu>
@@ -41,7 +41,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Sair">
             <items>
-              <MenuItem mnemonicParsing="false" text="Sair" />
+                  <MenuItem fx:id="mnuTelaLogin" mnemonicParsing="false" onAction="#telaLogin" text="Tela de login" />
+              <MenuItem mnemonicParsing="false" onAction="#telaSair" text="Sair" />
             </items>
           </Menu>
         </menus>
