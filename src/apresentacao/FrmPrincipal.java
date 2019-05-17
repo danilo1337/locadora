@@ -15,17 +15,19 @@ public class FrmPrincipal implements Initializable{
     private StackPane paneInterno;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
 	
     @FXML
     private void cadastrarCliente(ActionEvent event) {
     	paneInterno.getChildren().clear();
-    	paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmCadCliente.fxml"));
+    	paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmCadSocio.fxml"));
     }
-	
+
+    @FXML
+    private void listarSocio(ActionEvent event) {
+    	paneInterno.getChildren().clear();
+    	paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSocio.fxml"));
+    }
+
 }
