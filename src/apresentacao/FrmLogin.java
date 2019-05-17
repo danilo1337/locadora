@@ -66,7 +66,7 @@ public class FrmLogin implements Initializable {
 			root = (Parent) loader.load();
 		} else
 			throw new Exception("Não foi possível localizar a tela");
-
+		//a
 //		FrmPrincipal principal = loader.getController();
 //		principal.getPessoal().setNome_completo("Fulano de Tal");
 //		principal.getTeste().setText(principal.getPessoal().getNome_completo());
