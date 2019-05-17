@@ -96,7 +96,7 @@ public class FrmCadSocio implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		gerarUF();
-
+		
 	}
 
 	@FXML
