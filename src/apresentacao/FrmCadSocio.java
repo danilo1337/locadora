@@ -118,7 +118,7 @@ public class FrmCadSocio implements Initializable {
 		btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png",26,26,false,false)));
 		btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png",26,26,false,false)));
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR).show();
+			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
 
 	}
@@ -154,7 +154,7 @@ public class FrmCadSocio implements Initializable {
 
 			System.out.println(dataSql);
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR).show();
+			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
 	}
 
@@ -163,7 +163,7 @@ public class FrmCadSocio implements Initializable {
 		try {
 
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR).show();
+			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
 	}
 
@@ -172,7 +172,7 @@ public class FrmCadSocio implements Initializable {
 		try {
 			
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR).show();
+			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
 	}
 
@@ -181,7 +181,7 @@ public class FrmCadSocio implements Initializable {
 		try {
 
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR).show();
+			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
 	}
 
@@ -191,7 +191,7 @@ public class FrmCadSocio implements Initializable {
 		limparTudo();
 
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR).show();
+			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
 	}
 

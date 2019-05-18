@@ -23,15 +23,15 @@ public class Conexao {
     private static Connection conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost/lubexx", "postgres", "074185");
+            return DriverManager.getConnection("jdbc:postgresql://localhost/locadora", "postgres", "074185");
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger("Driver JDBC n√£o encontrado! Verifique as bibliotecas"
-                    + " da aplica√ß√£o.");
+            Logger.getLogger("Driver JDBC n„o encontrado! Verifique as bibliotecas"
+                    + " da aplicaÁ„o.");
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger("Caminho, banco de dados, usu√°rio ou senha incorretos. Verifique!");
+            Logger.getLogger("Caminho, banco de dados, usu·rio ou senha incorretos. Verifique!");
         }
         return null;
     }
