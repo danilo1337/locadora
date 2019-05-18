@@ -12,12 +12,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class FrmCadSocio implements Initializable {
 	@FXML
@@ -27,6 +32,9 @@ public class FrmCadSocio implements Initializable {
 	private TextField txtNome;
 
 	@FXML
+	private TextField txtCpf;
+
+	@FXML
 	private RadioButton raSexo_M;
 
 	@FXML
@@ -34,9 +42,6 @@ public class FrmCadSocio implements Initializable {
 
 	@FXML
 	private RadioButton raSexo_F;
-	
-	@FXML
-    private TextField txtCpf;
 
 	@FXML
 	private DatePicker dateNascimento;
@@ -89,14 +94,33 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private Button btnBuscar;
 
+	@FXML
+	private Tab mnuEndereco;
+
+	@FXML
+	private Tab mnuDadosPessoais;
 //------Objetos-----
 	Pessoal pessoal = new Pessoal();
 	Endereco endereco = new Endereco();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
 		gerarUF();
-		
+		btnNovo.setText("");
+		btnAlterar.setText("");
+		btnExcluir.setText("");
+		btnLimpar.setText("");
+		btnBuscar.setText("");
+		btnNovo.setGraphic(new ImageView(new Image("/icones/save.png",26,26,false,false)));
+		btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png",26,26,false,false)));
+		btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png",26,26,false,false)));
+		btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png",26,26,false,false)));
+		btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png",26,26,false,false)));
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR).show();
+		}
+
 	}
 
 	@FXML
@@ -111,37 +135,82 @@ public class FrmCadSocio implements Initializable {
 				dataUtil = sdf.parse(dateNascimento.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 				dataSql = new java.sql.Date(dataUtil.getTime());
 			}
-			System.out.println(dataSql);
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setCpf(txtCpf.getText());
 			pessoal.setData_nascimento(dataSql);
 			pessoal.setNome_completo(txtNome.getText());
-			
+			RadioButton rb = (RadioButton) grupoSexo.getSelectedToggle();
+			pessoal.setSexo(rb.getText());
+			pessoal.setTelefone_1(txtTelefone_1.getText());
+			pessoal.setTelefone_2(txtTelefone_2.getText());
+			pessoal.setCelular(txtCelular.getText());
+
+			endereco.setBairro(txtBairro.getText());
+			endereco.setCep(txtCep.getText());
+			endereco.setComplemento(txtComplemento.getText());
+			endereco.setLocalidade(txtLocalidade.getText());
+			endereco.setLogradouro(txtLogradouro.getText());
 			endereco.setUF(cbUF.getSelectionModel().getSelectedItem());
-			
+
+			System.out.println(dataSql);
 		} catch (Exception e) {
-			// TODO: handle exception
+			new Alert(AlertType.ERROR).show();
 		}
 	}
 
 	@FXML
 	private void alterar(ActionEvent event) {
+		try {
 
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR).show();
+		}
 	}
 
 	@FXML
 	private void buscar(ActionEvent event) {
-
+		try {
+			
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR).show();
+		}
 	}
 
 	@FXML
 	private void excluir(ActionEvent event) {
+		try {
 
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR).show();
+		}
 	}
 
 	@FXML
 	private void limpar(ActionEvent event) {
+		try {
+		limparTudo();
 
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR).show();
+		}
+	}
+
+	private void limparTudo() {
+		txtBairro.setText("");
+		txtCelular.setText("");
+		txtCep.setText("");
+		txtComplemento.setText("");
+		txtCpf.setText("");
+		txtEmail.setText("");
+		txtID.setText("");
+		txtLocalidade.setText("");
+		txtLogradouro.setText("");
+		txtNome.setText("");
+		txtTelefone_1.setText("");
+		txtTelefone_2.setText("");
+		dateNascimento.setValue(null);
+		raSexo_F.setSelected(true);
+		gerarUF();
 	}
 
 //--------------------------Combobox--------------------------
