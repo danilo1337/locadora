@@ -1,6 +1,10 @@
 package util;
 
-import javafx.event.ActionEvent;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -32,4 +36,17 @@ public class NovaCena {
         stage.centerOnScreen();
 	}
 	
+	public static final LocalDate LOCAL_DATE (String dateString){
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    LocalDate localDate = LocalDate.parse(dateString, formatter);
+	    
+	    return localDate;
+	}
+	public static final LocalDate LOCAL_DATE (Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+	    LocalDate localDate = LocalDate.parse(sdf.format(date));
+	    
+	    return localDate;
+	}
+
 }

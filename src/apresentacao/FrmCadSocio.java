@@ -2,6 +2,7 @@ package apresentacao;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.converter.LocalDateStringConverter;
+import negocio.NPessoal;
+import util.NovaCena;
 
 public class FrmCadSocio implements Initializable {
 	@FXML
@@ -100,8 +104,7 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private Tab mnuDadosPessoais;
 //------Objetos-----
-	Pessoal pessoal = new Pessoal();
-	Endereco endereco = new Endereco();
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -129,12 +132,22 @@ public class FrmCadSocio implements Initializable {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			java.sql.Date dataSql = null;
 			java.util.Date dataUtil = null;
+			Pessoal pessoal = new Pessoal();
+			Endereco endereco = new Endereco();
 			if (dateNascimento.getValue() == null) {
 				dataSql = new java.sql.Date(new java.util.Date().getTime());
 			} else {
 				dataUtil = sdf.parse(dateNascimento.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 				dataSql = new java.sql.Date(dataUtil.getTime());
 			}
+			
+			endereco.setBairro(txtBairro.getText());
+			endereco.setCep(txtCep.getText());
+			endereco.setComplemento(txtComplemento.getText());
+			endereco.setLocalidade(txtLocalidade.getText());
+			endereco.setLogradouro(txtLogradouro.getText());
+			endereco.setUF(cbUF.getSelectionModel().getSelectedItem());
+			
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setCpf(txtCpf.getText());
 			pessoal.setData_nascimento(dataSql);
@@ -144,15 +157,11 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setTelefone_1(txtTelefone_1.getText());
 			pessoal.setTelefone_2(txtTelefone_2.getText());
 			pessoal.setCelular(txtCelular.getText());
+			pessoal.setEndereco(endereco);
 
-			endereco.setBairro(txtBairro.getText());
-			endereco.setCep(txtCep.getText());
-			endereco.setComplemento(txtComplemento.getText());
-			endereco.setLocalidade(txtLocalidade.getText());
-			endereco.setLogradouro(txtLogradouro.getText());
-			endereco.setUF(cbUF.getSelectionModel().getSelectedItem());
-
-			System.out.println(dataSql);
+			new NPessoal().salvar(pessoal);
+			new Alert(AlertType.ERROR,"Incluido com sucesso! Nº"+pessoal.getId()).show();
+			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
@@ -161,7 +170,7 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void alterar(ActionEvent event) {
 		try {
-
+			
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
@@ -170,7 +179,22 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void buscar(ActionEvent event) {
 		try {
-			
+			Pessoal pessoal = new NPessoal().consultar_cpf(txtCpf_consulta.getText());
+			txtBairro.setText(pessoal.getEndereco().getBairro());
+			txtCelular.setText(pessoal.getCelular());
+			txtCep.setText(pessoal.getEndereco().getCep());
+			txtComplemento.setText(pessoal.getEndereco().getComplemento());
+			txtCpf.setText(pessoal.getCpf());
+			txtEmail.setText("");//colocar e-mail no banco
+			txtID.setText(pessoal.getId()+"");
+			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
+			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
+			txtNome.setText(pessoal.getNome_completo());
+			txtTelefone_1.setText(pessoal.getTelefone_1());
+			txtTelefone_2.setText(pessoal.getTelefone_2());
+//			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getData_nascimento()));
+//			raSexo_F.setSelected(true);
+//			gerarUF();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
@@ -179,7 +203,7 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void excluir(ActionEvent event) {
 		try {
-
+			
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR,e.getMessage()).show();
 		}
@@ -211,6 +235,7 @@ public class FrmCadSocio implements Initializable {
 		dateNascimento.setValue(null);
 		raSexo_F.setSelected(true);
 		gerarUF();
+		
 	}
 
 //--------------------------Combobox--------------------------

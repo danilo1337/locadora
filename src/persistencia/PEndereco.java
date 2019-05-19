@@ -9,7 +9,7 @@ import java.sql.Statement;
 import entidade.Endereco;
 
 public class PEndereco {
-	public void incluir(Endereco endereco) throws SQLException {
+	public void incluir(Endereco endereco, Connection cnn) throws SQLException {
 			String sql ="INSERT INTO endereco("
 					+ "	cep,"
 					+ " logradouro, complemento,"
@@ -18,7 +18,6 @@ public class PEndereco {
 					+ " VALUES ("
 					+ "?,?,?,?,?,?)"; 
 			
-			Connection cnn = util.Conexao.getConexao();
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, endereco.getCep());
 			ps.setString(2, endereco.getLogradouro());
@@ -39,15 +38,13 @@ public class PEndereco {
 	            endereco.setId(rs.getInt("id"));
 	        }
 	        rs.close();
-	        cnn.close();
 	}
-	public void alterar(Endereco endereco) throws SQLException {
+	public void alterar(Endereco endereco,Connection cnn) throws SQLException {
 		String sql ="UPDATE endereco SET"
 				+ "	cep = ?,"
 				+ " logradouro = ?, complemento = ?,"
 				+ " bairro = ?, localidade = ?,"
-				+ " uf = ?";
-		Connection cnn = util.Conexao.getConexao();
+				+ " uf = ? WHERE id = ?";
 		PreparedStatement ps = cnn.prepareStatement(sql);
 		ps.setString(1, endereco.getCep());
 		ps.setString(2, endereco.getLogradouro());
@@ -55,7 +52,7 @@ public class PEndereco {
 		ps.setString(4, endereco.getBairro());
 		ps.setString(5, endereco.getLocalidade());
 		ps.setString(6, endereco.getUF());
-		
+		ps.setInt(7, endereco.getId());
 		
 		ps.execute();
 		
@@ -69,20 +66,19 @@ public class PEndereco {
             endereco.setId(rs.getInt("id"));
         }
         rs.close();
-        cnn.close();
 		
 	}
 	
-	public void excluir(int idEndereco, Connection cnn) throws SQLException {
+	public void excluir(Endereco endereco, Connection cnn) throws SQLException {
 		String sql = "DELETE FROM endereco WHERE id = ?";
 		PreparedStatement ps = cnn.prepareStatement(sql);
-		ps.setInt(1, idEndereco);
+		ps.setInt(1, endereco.getId());
 		ps.execute();
 	}
 	
-	public Endereco consultar(Endereco endereco) throws SQLException {
+	public Endereco consultar(Endereco endereco, Connection cnn) throws SQLException {
 		String sql = "SELECT * FROM endereco WHERE id = ?";
-		Connection cnn = util.Conexao.getConexao();
+		
 		PreparedStatement ps = cnn.prepareStatement(sql);
 		
 		ps.setInt(1, endereco.getId());
@@ -99,7 +95,6 @@ public class PEndereco {
 			retorno.setUF(rs.getString("uf"));
 		}
 		rs.close();
-		cnn.close();
 		return retorno;
 	}
 	
