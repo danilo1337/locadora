@@ -8,52 +8,52 @@ package entidade;
 public class Filmes {
 
 	private int id = 0;
-	private String anoLançamento = "";
+	private String anoLancamento = "";
 	private int faixaEtaria = 0;
 	private String titulo = "";
 	private String observacao = "";
 	private Genero genero = null;
-	
+
 	public Filmes() {
 		genero = new Genero();
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getAnoLançamento() {
-		return anoLançamento;
+
+	public String getAnoLancamento() {
+		return anoLancamento;
 	}
-	
-	public void setAnoLançamento(String anoLançamento) {
-		this.anoLançamento = anoLançamento;
+
+	public void setAnoLancamento(String anoLancamento) {
+		this.anoLancamento = anoLancamento;
 	}
-	
+
 	public int getFaixaEtaria() {
 		return faixaEtaria;
 	}
-	
+
 	public void setFaixaEtaria(int faixaEtaria) {
 		this.faixaEtaria = faixaEtaria;
 	}
-	
+
 	public String getTitulo() {
 		return titulo;
 	}
-	
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	
+
 	public String getObservacao() {
 		return observacao;
 	}
-	
+
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
@@ -65,8 +65,4 @@ public class Filmes {
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
-	
-	
-	
-	
 }

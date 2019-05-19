@@ -6,11 +6,11 @@ public class ItemPedido {
     private double quantidade;
     private double valor;
     private Pedido pedido;
-    private Titulo titulo;
+//    private Titulo titulo;
 
     public ItemPedido() {
         pedido = new Pedido();
-        titulo = new Titulo();
+//        titulo = new Titulo();
     }
 
     public int getId() {
@@ -45,12 +45,12 @@ public class ItemPedido {
         this.pedido = pedido;
     }
 
-    public Titulo getProduto() {
-        return titulo;
-    }
+//    public Titulo getProduto() {
+//        return titulo;
+//    }
 
-    public void setProduto(Titulo titulo) {
-        this.titulo = titulo;
-    }
+//    public void setProduto(Titulo titulo) {
+//        this.titulo = titulo;
+//    }
 
 }
