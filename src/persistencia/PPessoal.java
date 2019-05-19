@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entidade.Endereco;
 import entidade.Pessoal;
 
 /**
@@ -54,6 +53,7 @@ public class PPessoal {
 			cnn.rollback();
 			e.printStackTrace();
 		}
+		cnn.close();
 	}
 
 	public void alterar(Pessoal pessoal) throws SQLException {
@@ -61,7 +61,7 @@ public class PPessoal {
 		cnn.setAutoCommit(false);
 		try {
 			String sql = "UPDATE pessoal SET" + "	nome_completo = ?," + " sexo = ?, cpf = ?, data_nascimento = ?,"
-					+ " telefone_1 = ?, telefone_2= ?," + " celular = ?, endereco_id= ? WHERE id = ?";
+					+ " telefone_1 = ?, telefone_2= ?," + " celular = ? WHERE id = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, pessoal.getNome_completo());
 			ps.setString(2, pessoal.getSexo());
@@ -70,25 +70,17 @@ public class PPessoal {
 			ps.setString(5, pessoal.getTelefone_1());
 			ps.setString(6, pessoal.getTelefone_2());
 			ps.setString(7, pessoal.getCelular());
-			new PEndereco().alterar(pessoal.getEndereco(), cnn);
-			ps.setInt(8, pessoal.getEndereco().getId());
-			ps.setInt(9, pessoal.getId());
+			ps.setInt(8, pessoal.getId());
 			ps.execute();
 
-			// recuperar id gerado
-			String sql2 = "SELECT currval('pessoal_id_seq') as id";
-
-			Statement st = cnn.createStatement();
-			ResultSet rs = st.executeQuery(sql2);
-			if (rs.next()) {
-				pessoal.setId(rs.getInt("id"));
-			}
-			rs.close();
+			new PEndereco().alterar(pessoal.getEndereco(), cnn);
+			
 			cnn.commit();
 		} catch (Exception e) {
 			cnn.rollback();
 			e.printStackTrace();
 		}
+		cnn.close();
 	}
 
 	public void excluir(Pessoal pessoal) throws SQLException {
@@ -151,6 +143,7 @@ public class PPessoal {
 		}
 		rs.close();
 		cnn.close();
+		
 		return lista;
 	}
 	

@@ -104,24 +104,26 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private Tab mnuDadosPessoais;
 //------Objetos-----
-
+	ObservableList<String> lista;
+	int id_endereco = 0;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-		gerarUF();
-		btnNovo.setText("");
-		btnAlterar.setText("");
-		btnExcluir.setText("");
-		btnLimpar.setText("");
-		btnBuscar.setText("");
-		btnNovo.setGraphic(new ImageView(new Image("/icones/save.png",26,26,false,false)));
-		btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png",26,26,false,false)));
-		btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png",26,26,false,false)));
-		btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png",26,26,false,false)));
-		btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png",26,26,false,false)));
+			gerarUF();
+			txtID.setText("0");
+			btnNovo.setText("");
+			btnAlterar.setText("");
+			btnExcluir.setText("");
+			btnLimpar.setText("");
+			btnBuscar.setText("");
+			btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
+			btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
+			btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
+			btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
+			btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png", 26, 26, false, false)));
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,e.getMessage()).show();
+			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 
 	}
@@ -140,14 +142,16 @@ public class FrmCadSocio implements Initializable {
 				dataUtil = sdf.parse(dateNascimento.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 				dataSql = new java.sql.Date(dataUtil.getTime());
 			}
-			
+
+			endereco.setId(id_endereco);
 			endereco.setBairro(txtBairro.getText());
 			endereco.setCep(txtCep.getText());
 			endereco.setComplemento(txtComplemento.getText());
 			endereco.setLocalidade(txtLocalidade.getText());
 			endereco.setLogradouro(txtLogradouro.getText());
 			endereco.setUF(cbUF.getSelectionModel().getSelectedItem());
-			
+
+			pessoal.setId(Integer.parseInt(txtID.getText()));
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setCpf(txtCpf.getText());
 			pessoal.setData_nascimento(dataSql);
@@ -160,19 +164,19 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setEndereco(endereco);
 
 			new NPessoal().salvar(pessoal);
-			new Alert(AlertType.ERROR,"Incluido com sucesso! Nº"+pessoal.getId()).show();
+			new Alert(AlertType.ERROR, "Incluido com sucesso! Nº" + pessoal.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,e.getMessage()).show();
+			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 	}
 
 	@FXML
 	private void alterar(ActionEvent event) {
 		try {
-			
+			limparTudo();
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,e.getMessage()).show();
+			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 	}
 
@@ -185,37 +189,55 @@ public class FrmCadSocio implements Initializable {
 			txtCep.setText(pessoal.getEndereco().getCep());
 			txtComplemento.setText(pessoal.getEndereco().getComplemento());
 			txtCpf.setText(pessoal.getCpf());
-			txtEmail.setText("");//colocar e-mail no banco
-			txtID.setText(pessoal.getId()+"");
+			txtEmail.setText("");// colocar e-mail no banco
+			txtID.setText(pessoal.getId() + "");
 			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
 			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
 			txtNome.setText(pessoal.getNome_completo());
 			txtTelefone_1.setText(pessoal.getTelefone_1());
 			txtTelefone_2.setText(pessoal.getTelefone_2());
-//			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getData_nascimento()));
-//			raSexo_F.setSelected(true);
-//			gerarUF();
+			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getData_nascimento()));
+			if (pessoal.getSexo().equals("Masculino"))
+				raSexo_M.setSelected(true);
+			else
+				raSexo_F.setSelected(true);
+			id_endereco = pessoal.getEndereco().getId();
+
+			String uf = pessoal.getEndereco().getUF();
+			for (int i = 0; i < lista.size(); i++) {
+				if (lista.get(i).equals(uf)) {
+					cbUF.getSelectionModel().select(i);
+					break;
+				}
+			}
+
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,e.getMessage()).show();
+			new Alert(AlertType.ERROR, e.getMessage()).show();
+			e.printStackTrace();
 		}
 	}
 
 	@FXML
 	private void excluir(ActionEvent event) {
 		try {
+			Pessoal pessoal = new Pessoal();
+			pessoal.setId(Integer.parseInt(txtID.getText()));
+			
+			new NPessoal().excluir(pessoal);
+			limparTudo();
 			
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,e.getMessage()).show();
+			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 	}
 
 	@FXML
 	private void limpar(ActionEvent event) {
 		try {
-		limparTudo();
+			limparTudo();
 
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR,e.getMessage()).show();
+			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 	}
 
@@ -226,7 +248,7 @@ public class FrmCadSocio implements Initializable {
 		txtComplemento.setText("");
 		txtCpf.setText("");
 		txtEmail.setText("");
-		txtID.setText("");
+		txtID.setText("0");
 		txtLocalidade.setText("");
 		txtLogradouro.setText("");
 		txtNome.setText("");
@@ -234,13 +256,14 @@ public class FrmCadSocio implements Initializable {
 		txtTelefone_2.setText("");
 		dateNascimento.setValue(null);
 		raSexo_F.setSelected(true);
+		id_endereco = 0;
 		gerarUF();
-		
+		cbUF.getSelectionModel().select(0);
 	}
 
 //--------------------------Combobox--------------------------
 	private void gerarUF() {
-		ObservableList<String> lista = FXCollections.observableArrayList();
+		lista = FXCollections.observableArrayList();
 		lista.add("AC");
 		lista.add("AL");
 		lista.add("AM");

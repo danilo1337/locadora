@@ -55,18 +55,6 @@ public class PEndereco {
 		ps.setInt(7, endereco.getId());
 		
 		ps.execute();
-		
-		//recuperar id gerado
-        String sql2 = "SELECT currval('endereco_id_seq') as id";
-
-        Statement stm = cnn.createStatement();
-        ResultSet rs = stm.executeQuery(sql2);
-
-        if (rs.next()) {
-            endereco.setId(rs.getInt("id"));
-        }
-        rs.close();
-		
 	}
 	
 	public void excluir(Endereco endereco, Connection cnn) throws SQLException {
