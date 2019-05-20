@@ -12,5 +12,5 @@ public class NPedido {
             new persistencia.PPedido().alterar(parametro);
         }
     }
-
+//isso precisa tambem
 }

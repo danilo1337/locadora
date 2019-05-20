@@ -12,6 +12,8 @@ public class Pedido {
             private Pessoal pessoal;
             private List<ItemPedido> listaItens;
 
+            //teste
+
         public Pedido() {
             pessoal = new Pessoal();
             listaItens = new ArrayList<>();

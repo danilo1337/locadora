@@ -92,7 +92,7 @@ public class FrmPedido implements Initializable {
 
     }
 
-
+//isso daqui nem precisa se pah
     /*private void carregarCombos() {
     }*/
 

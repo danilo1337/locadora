@@ -61,7 +61,7 @@ public class FrmPrincipal implements Initializable{
     void mnuPedidos(ActionEvent event) {
         paneInterno.getChildren().clear();
         paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmPedidos.fxml"));
-
+//isso precisa
     }
 
     @FXML

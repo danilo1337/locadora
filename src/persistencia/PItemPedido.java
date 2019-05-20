@@ -19,7 +19,7 @@ public class PItemPedido {
         prd.setDouble(2, item.getValor());
         prd.setInt(3, item.getPedido().getId());
 
-        //modificar com parte do felipe
+
         //prd.setInt(4, item.getTitulo().getId());
         prd.execute();
     }

@@ -43,8 +43,9 @@ public class NovaCena {
 	    return localDate;
 	}
 	public static final LocalDate LOCAL_DATE (Date date){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-	    LocalDate localDate = LocalDate.parse(sdf.format(date));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    LocalDate localDate = LocalDate.parse(sdf.format(date),formatter);
 	    
 	    return localDate;
 	}

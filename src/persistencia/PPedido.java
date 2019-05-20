@@ -24,7 +24,7 @@ public class PPedido {
             ps.execute();
 
             //Recupera a informação do código gerado no pedido
-            // pai id
+            // pai id id
             String sql2 = "SELECT currval('pedido_id_seq') as id";
             Statement st = cnn.createStatement();
             ResultSet rs = st.executeQuery(sql2);
