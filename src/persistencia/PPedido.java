@@ -24,7 +24,7 @@ public class PPedido {
             ps.execute();
 
             //Recupera a informação do código gerado no pedido
-            //Id do PÂAAiiii
+            // pai id
             String sql2 = "SELECT currval('pedido_id_seq') as id";
             Statement st = cnn.createStatement();
             ResultSet rs = st.executeQuery(sql2);
@@ -51,6 +51,8 @@ public class PPedido {
         cnn.close();
     }
 
+
+    //testar alterar após dar o pull com entidades de filmes / copias
     public void alterar(Pedido pedido) throws SQLException {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
@@ -85,6 +87,7 @@ public class PPedido {
         cnn.close();
     }
 
+    //testar após da o pull com entidades de filme / copia
     public void excluir(Pedido pedido) throws SQLException {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);

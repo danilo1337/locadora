@@ -18,12 +18,13 @@ public class PItemPedido {
         prd.setDouble(1, item.getQuantidade());
         prd.setDouble(2, item.getValor());
         prd.setInt(3, item.getPedido().getId());
-        prd.setInt(4, item.getTitulo().getId());
+
+        //modificar com parte do felipe
+        //prd.setInt(4, item.getTitulo().getId());
         prd.execute();
     }
 
     public void excluirPorPedido(int idPedido, Connection cnn) throws SQLException{
-
         String sql = "DELETE FROM item_pedido WHERE id_pedido = ?";
 
         PreparedStatement prd = cnn.prepareStatement(sql);

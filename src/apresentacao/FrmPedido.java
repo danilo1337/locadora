@@ -92,30 +92,8 @@ public class FrmPedido implements Initializable {
 
     }
 
+
     /*private void carregarCombos() {
-
-        try {
-
-            //Carregando produtos
-            cmbProduto.removeAllItems();
-            cmbProduto.addItem(new Produto(0, "Selecione..."));
-
-            for (Produto produto : new NProduto().listar(new Produto())) {
-                cmbProduto.addItem(produto);
-            }
-
-            //Carregando clientes
-            cmbCliente.removeAllItems();
-            cmbCliente.addItem(new Cliente(0, "Selecione..."));
-
-            for (Cliente cliente : new NCliente().listar()) {
-                cmbCliente.addItem(cliente);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this.principal, e.getMessage());
-        }
-
     }*/
 
 
