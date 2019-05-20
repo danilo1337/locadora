@@ -42,6 +42,7 @@ public class FrmListarSocio implements Initializable {
 
     @FXML
     private void limpar(ActionEvent event) {
+    	//Apaga as colunas da tabela
     	tabela.getColumns().clear();
     }
 	@FXML
