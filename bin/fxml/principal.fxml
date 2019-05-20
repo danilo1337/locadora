@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apresentacao.FrmPrincipal">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apresentacao.FrmPrincipal">
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1024.0" style="-fx-border-color: #0A6DB0; -fx-border-radius: 20;">
         <menus>
@@ -23,6 +23,7 @@
                   <MenuItem mnemonicParsing="false" text="Vender" />
                   <MenuItem mnemonicParsing="false" text="Devolução" />
                   <MenuItem mnemonicParsing="false" text="Reserva" />
+                  <MenuItem mnemonicParsing="false" onAction="#mnuPedidos" text="Pedidos" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Consultar">

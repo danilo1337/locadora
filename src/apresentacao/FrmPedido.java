@@ -1,5 +1,6 @@
 package apresentacao;
 
+import entidade.Pedido;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,11 +9,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class FrmPedido implements Initializable {
+
+
 
     @FXML
     private TextField txtFieldId;
@@ -38,11 +42,13 @@ public class FrmPedido implements Initializable {
     @FXML
     private Button btFechar;
 
+    JDesktopPane principal;
+    Pedido pedido;
+
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-
-
-
+        txtFieldId.requestFocus();
     }
 
 
@@ -85,6 +91,32 @@ public class FrmPedido implements Initializable {
     void btnSalvar(ActionEvent event) {
 
     }
+
+    /*private void carregarCombos() {
+
+        try {
+
+            //Carregando produtos
+            cmbProduto.removeAllItems();
+            cmbProduto.addItem(new Produto(0, "Selecione..."));
+
+            for (Produto produto : new NProduto().listar(new Produto())) {
+                cmbProduto.addItem(produto);
+            }
+
+            //Carregando clientes
+            cmbCliente.removeAllItems();
+            cmbCliente.addItem(new Cliente(0, "Selecione..."));
+
+            for (Cliente cliente : new NCliente().listar()) {
+                cmbCliente.addItem(cliente);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this.principal, e.getMessage());
+        }
+
+    }*/
 
 
 

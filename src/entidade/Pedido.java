@@ -7,10 +7,10 @@ import java.util.List;
 public class Pedido {
 
         private int id;
-        private Date data;
-        private double valorTotal;
-        private Pessoal pessoal;
-        private List<ItemPedido> listaItens;
+            private Date data;
+            private double valorTotal;
+            private Pessoal pessoal;
+            private List<ItemPedido> listaItens;
 
         public Pedido() {
             pessoal = new Pessoal();
@@ -50,11 +50,11 @@ public class Pedido {
             this.valorTotal += valor;
         }
 
-        public Pessoal getCliente() {
+        public Pessoal getPessoal() {
             return pessoal;
         }
 
-        public void setCliente(Pessoal pessoal) {
+        public void setPessoal(Pessoal pessoal) {
             this.pessoal = pessoal;
         }
 
