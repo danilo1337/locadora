@@ -20,6 +20,11 @@ public class Endereco {
 		
 	}
 	
+	@Override
+	public String toString() {
+		return localidade;
+	}
+	
 	public int getId() {
 		return id;
 	}
