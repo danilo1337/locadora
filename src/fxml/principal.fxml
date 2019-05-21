@@ -42,8 +42,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Sair">
             <items>
-                  <MenuItem fx:id="mnuTelaLogin" mnemonicParsing="false" onAction="#telaLogin" text="Tela de login" />
-              <MenuItem mnemonicParsing="false" onAction="#telaSair" text="Sair" />
+                <MenuItem mnemonicParsing="false" onAction="#logout" text="Deslogar" />
+                <MenuItem mnemonicParsing="false" onAction="#sair" text="Sair" />
             </items>
           </Menu>
         </menus>

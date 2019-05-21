@@ -18,6 +18,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Gerenciador de Locação - Altas Horas");
 			primaryStage.getIcons().add(new Image("/icones/flm_happy.png"));
+			primaryStage.centerOnScreen();
 			primaryStage.show();
 			
 		} catch(Exception e) {

@@ -6,6 +6,7 @@ import application.Main;
 import entidade.Login;
 import enums.PermissaoUsuario;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -18,9 +19,8 @@ import util.NovaCena;
 import util.Sessao;
 
 public class FrmPrincipal implements Initializable{
-	Stage stage;
-	Parent root;
     Sessao sessao = Sessao.getInstance();
+    Stage stage;
 
     @FXML
     private StackPane paneInterno;
@@ -30,9 +30,6 @@ public class FrmPrincipal implements Initializable{
 
     @FXML
     private MenuItem mnuTitulo;
-    
-    @FXML
-    private MenuItem mnuTelaLogin;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -66,18 +63,18 @@ public class FrmPrincipal implements Initializable{
     void mnuPedidos(ActionEvent event) {
         paneInterno.getChildren().clear();
         paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmPedidos.fxml"));
-//isso precisa
     }
 
     @FXML
-    void telaLogin(ActionEvent event) {
-    	Main a = new Main();
-    	a.start(stage);
+    void logout(ActionEvent event) {
         sessao.setLogin(null);
+        Main a = new Main();
+        stage=(Stage) paneInterno.getScene().getWindow();
+    	a.start(stage);
     }
 
     @FXML
-    void telaSair(ActionEvent event) {
+    void sair(ActionEvent event) {
         sessao.setLogin(null);
 	    System.exit(0);
     }
