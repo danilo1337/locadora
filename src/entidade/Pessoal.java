@@ -15,9 +15,10 @@ public class Pessoal {
 	private String sexo = "";
 	private String cpf = "";
 	private java.sql.Date data_nascimento = null;
-	private String telefone_1 = "";
-	private String telefone_2 = "";
+	private String telefone = "";
 	private String celular = "";
+	private String email = "";
+	private char tipo = ' ';
 	private Endereco endereco = null;
 
 	public Pessoal() {
@@ -65,21 +66,6 @@ public class Pessoal {
 		this.data_nascimento = data_nascimento;
 	}
 
-	public String getTelefone_1() {
-		return telefone_1;
-	}
-
-	public void setTelefone_1(String telefone_1) {
-		this.telefone_1 = telefone_1;
-	}
-
-	public String getTelefone_2() {
-		return telefone_2;
-	}
-
-	public void setTelefone_2(String telefone_2) {
-		this.telefone_2 = telefone_2;
-	}
 
 	public String getCelular() {
 		return celular;
@@ -95,5 +81,29 @@ public class Pessoal {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public char getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(char tipo) {
+		this.tipo = tipo;
 	}
 }

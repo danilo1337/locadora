@@ -22,19 +22,23 @@ public class PPessoal {
 		Connection cnn = util.Conexao.getConexao();
 		cnn.setAutoCommit(false);
 		try {
-			String sql = "INSERT INTO pessoal(" + "	nome_completo," + " sexo, cpf, data_nascimento,"
-					+ " telefone_1 , telefone_2," + " celular, endereco_id)" + "VALUES (" + "?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO pessoal("
+						+ "	nome_completo, sexo,"
+						+ " cpf, data_nascimento,"
+						+ " telefone , celular,"
+						+ " endereco_id, email,"
+						+ "	tipo)" + "VALUES (?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, pessoal.getNome_completo());
 			ps.setString(2, pessoal.getSexo());
 			ps.setString(3, pessoal.getCpf());
 			ps.setDate(4, pessoal.getData_nascimento());
-			ps.setString(5, pessoal.getTelefone_1());
-			ps.setString(6, pessoal.getTelefone_2());
-			ps.setString(7, pessoal.getCelular());
+			ps.setString(5, pessoal.getTelefone());
+			ps.setString(6, pessoal.getCelular());
 			new PEndereco().incluir(pessoal.getEndereco(), cnn);
-
-			ps.setInt(8, pessoal.getEndereco().getId());
+			ps.setInt(7, pessoal.getEndereco().getId());
+			ps.setString(8, pessoal.getEmail());
+			ps.setString(9, pessoal.getTipo()+"");
 			ps.execute();
 
 			// recuperar id gerado
@@ -60,17 +64,23 @@ public class PPessoal {
 		Connection cnn = util.Conexao.getConexao();
 		cnn.setAutoCommit(false);
 		try {
-			String sql = "UPDATE pessoal SET" + "	nome_completo = ?," + " sexo = ?, cpf = ?, data_nascimento = ?,"
-					+ " telefone_1 = ?, telefone_2= ?," + " celular = ? WHERE id = ?";
+			String sql = "UPDATE pessoal SET"
+					+ "nome_completo = ?, sexo = ?,"
+					+ " cpf = ?, data_nascimento = ?,"
+					+ " telefone = ?, celular = ?,"
+					+ " endereco_id = ?, email = ? WHERE id = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, pessoal.getNome_completo());
 			ps.setString(2, pessoal.getSexo());
 			ps.setString(3, pessoal.getCpf());
 			ps.setDate(4, pessoal.getData_nascimento());
-			ps.setString(5, pessoal.getTelefone_1());
-			ps.setString(6, pessoal.getTelefone_2());
-			ps.setString(7, pessoal.getCelular());
-			ps.setInt(8, pessoal.getId());
+			ps.setString(5, pessoal.getTelefone());
+			ps.setString(6, pessoal.getCelular());
+			new PEndereco().incluir(pessoal.getEndereco(), cnn);
+			ps.setInt(7, pessoal.getEndereco().getId());
+			ps.setString(8, pessoal.getEmail());
+			ps.setString(9, pessoal.getTipo()+"");
+			ps.setInt(10, pessoal.getId());
 			ps.execute();
 
 			new PEndereco().alterar(pessoal.getEndereco(), cnn);
@@ -101,14 +111,15 @@ public class PPessoal {
 		ResultSet rs = ps.executeQuery();
 		Pessoal retorno = new Pessoal();
 		if(rs.next()) {
-			retorno.setCelular(rs.getString("celular"));
-			retorno.setCpf(rs.getString("cpf"));
-			retorno.setData_nascimento(rs.getDate("data_nascimento"));
 			retorno.setId(rs.getInt("id"));
 			retorno.setNome_completo(rs.getString("nome_completo"));
+			retorno.setTipo(rs.getString("tipo").charAt(0));
 			retorno.setSexo(rs.getString("sexo"));
-			retorno.setTelefone_1(rs.getString("telefone_1"));
-			retorno.setTelefone_2(rs.getString("telefone_2"));
+			retorno.setCpf(rs.getString("cpf"));
+			retorno.setData_nascimento(rs.getDate("data_nascimento"));
+			retorno.setTelefone(rs.getString("telefone"));
+			retorno.setCelular(rs.getString("celular"));
+			retorno.setEmail(rs.getString("email"));
 			retorno.getEndereco().setId(rs.getInt("endereco_id"));
 			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 		}
@@ -129,16 +140,17 @@ public class PPessoal {
 		List<Pessoal>lista = new ArrayList<>();
 		while(rs.next()) {
 			Pessoal retorno = new Pessoal();
-			retorno.setCelular(rs.getString("celular"));
-			retorno.setCpf(rs.getString("cpf"));
-			retorno.setData_nascimento(rs.getDate("data_nascimento"));
 			retorno.setId(rs.getInt("id"));
 			retorno.setNome_completo(rs.getString("nome_completo"));
+			retorno.setTipo(rs.getString("tipo").charAt(0));
 			retorno.setSexo(rs.getString("sexo"));
-			retorno.setTelefone_1(rs.getString("telefone_1"));
-			retorno.setTelefone_2(rs.getString("telefone_2"));
-			retorno.getEndereco().setId(rs.getInt("endereco_id"));
+			retorno.setCpf(rs.getString("cpf"));
+			retorno.setData_nascimento(rs.getDate("data_nascimento"));
+			retorno.setTelefone(rs.getString("telefone"));
+			retorno.setCelular(rs.getString("celular"));
+			retorno.setEmail(rs.getString("email"));
 			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
+			retorno.getEndereco().setId(rs.getInt("endereco_id"));
 			lista.add(retorno);
 		}
 		rs.close();
@@ -156,14 +168,15 @@ public class PPessoal {
 		ResultSet rs = ps.executeQuery();
 		Pessoal retorno = new Pessoal();
 		if(rs.next()) {
-			retorno.setCelular(rs.getString("celular"));
-			retorno.setCpf(rs.getString("cpf"));
-			retorno.setData_nascimento(rs.getDate("data_nascimento"));
 			retorno.setId(rs.getInt("id"));
 			retorno.setNome_completo(rs.getString("nome_completo"));
+			retorno.setTipo(rs.getString("tipo").charAt(0));
 			retorno.setSexo(rs.getString("sexo"));
-			retorno.setTelefone_1(rs.getString("telefone_1"));
-			retorno.setTelefone_2(rs.getString("telefone_2"));
+			retorno.setCpf(rs.getString("cpf"));
+			retorno.setData_nascimento(rs.getDate("data_nascimento"));
+			retorno.setTelefone(rs.getString("telefone"));
+			retorno.setCelular(rs.getString("celular"));
+			retorno.setEmail(rs.getString("email"));
 			retorno.getEndereco().setId(rs.getInt("endereco_id"));
 			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 		}

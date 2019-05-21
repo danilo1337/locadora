@@ -158,8 +158,7 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setNome_completo(txtNome.getText());
 			RadioButton rb = (RadioButton) grupoSexo.getSelectedToggle();
 			pessoal.setSexo(rb.getText());
-			pessoal.setTelefone_1(txtTelefone_1.getText());
-			pessoal.setTelefone_2(txtTelefone_2.getText());
+			pessoal.setTelefone(txtTelefone_1.getText());
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setEndereco(endereco);
 
@@ -194,8 +193,7 @@ public class FrmCadSocio implements Initializable {
 			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
 			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
 			txtNome.setText(pessoal.getNome_completo());
-			txtTelefone_1.setText(pessoal.getTelefone_1());
-			txtTelefone_2.setText(pessoal.getTelefone_2());
+			txtTelefone_1.setText(pessoal.getTelefone());
 			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getData_nascimento()));
 			if (pessoal.getSexo().equals("Masculino"))
 				raSexo_M.setSelected(true);

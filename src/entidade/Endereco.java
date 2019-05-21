@@ -22,7 +22,7 @@ public class Endereco {
 	
 	@Override
 	public String toString() {
-		return localidade;
+		return cep;
 	}
 	
 	public int getId() {
