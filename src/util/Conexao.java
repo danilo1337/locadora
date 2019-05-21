@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package util;
 
-/**
- *
+/*
  * @author Heuber
  */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,15 +17,15 @@ public class Conexao {
     private static Connection conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost/locadora", "postgres", "074185");
+            return DriverManager.getConnection("jdbc:postgresql://localhost/altas_horas", "postgres", "123");
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger("Driver JDBC n„o encontrado! Verifique as bibliotecas"
-                    + " da aplicaÁ„o.");
+            Logger.getLogger("Driver JDBC n√£o encontrado! Verifique as bibliotecas"
+                    + " da aplica√ß√£o.");
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger("Caminho, banco de dados, usu·rio ou senha incorretos. Verifique!");
+            Logger.getLogger("Caminho, banco de dados, usu√°rio ou senha incorretos. Verifique!");
         }
         return null;
     }

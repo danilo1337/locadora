@@ -1,8 +1,6 @@
 package apresentacao;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import entidade.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +14,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import negocio.NLogin;
+import util.Sessao;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class FrmLogin implements Initializable {
-	Stage stage;
-	Parent root;
+	Sessao sessao = Sessao.getInstance();
 
 	@FXML
 	private AnchorPane pane;
@@ -37,47 +39,47 @@ public class FrmLogin implements Initializable {
 	private Button btnLogar;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-	}
+	public void initialize(URL location, ResourceBundle resources) { }
 
 	@FXML
-	private void cadastrar(ActionEvent event) {
-
-	}
+	private void cadastrar(ActionEvent event) { }
 
 	@FXML
 	private void logar(ActionEvent event) {
 		try {
+			NLogin nLogin = new NLogin();
+			String loginTxt = txtLogin.getText();
+			String senhaTxt = util.Hash.codificar(txtSenha.getText());
 
-			gerarNovaCena(event);
+			Login login = nLogin.logar(loginTxt, senhaTxt);
 
+			if(login.getId() != 0){
+				sessao.setLogin(login);
+				abrirSistema(event);
+			}else{
+				new Alert(AlertType.ERROR, "Usu√°rio ou Senha incorreto").show();
+			}
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 
 	}
 
-	public void gerarNovaCena(ActionEvent event) throws Exception {
-		FXMLLoader loader = null;
+	private void abrirSistema(ActionEvent event) throws Exception {
+		FXMLLoader loader;
+		Parent root;
+		Stage stage;
 		if (event.getSource() == btnLogar) {
 			stage = (Stage) btnLogar.getScene().getWindow();
 			loader = new FXMLLoader(getClass().getResource("/fxml/principal.fxml"));
-			root = (Parent) loader.load();
+			root = loader.load();
+
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+			stage.centerOnScreen();
+			stage.setTitle("Locadora Altas Horas - Usu√°rio: " + txtLogin.getText());
 		} else
-			throw new Exception("N„o foi possÌvel localizar a tela");
-		//a
-//		FrmPrincipal principal = loader.getController();
-//		principal.getPessoal().setNome_completo("Fulano de Tal");
-//		principal.getTeste().setText(principal.getPessoal().getNome_completo());
-		
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-		stage.centerOnScreen();
-		stage.setTitle("Locadora Altas Horas - Usu·rio: "+txtLogin.getText());
+			throw new Exception("N√£o foi poss√≠vel localizar a tela");
 	}
-	
-
-
 }
