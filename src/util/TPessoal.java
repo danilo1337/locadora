@@ -49,6 +49,7 @@ public class TPessoal {
 		for (Pessoal pessoal : new PPessoal().listar()) {
 			String saida = "";
 			saida+= "Nome: "+pessoal.getNome_completo();
+			saida+="End id:"+pessoal.getEndereco().getId();
 			saida+= "\nUF: "+pessoal.getEndereco().getUF();
 			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
 			System.out.println(saida);

@@ -35,13 +35,13 @@ public class FrmListarSocio implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+		gerarColunas();
 	}
 
     @FXML
     private void limpar(ActionEvent event) {
     	//Apaga as colunas da tabela
-    	tabela.getColumns().clear();
+    	tabela.getItems().clear();
     }
 	@FXML
 	private void consultar(ActionEvent event) {
@@ -56,14 +56,8 @@ public class FrmListarSocio implements Initializable {
 		}
 	}
 
-	private void imprimirNaTabela(Iterator dados) throws Exception {
+	private void imprimirNaTabela(Iterator<Pessoal> dados) throws Exception {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
-		gerarColunas();
-		
-//		for (Pessoal pessoal : new NPessoal().listar()) {
-//			lista.add(pessoal);
-//		}
-		
 		while (dados.hasNext()) {
 			Pessoal pessoal = (Pessoal) dados.next();
 			lista.add(pessoal);
@@ -75,24 +69,11 @@ public class FrmListarSocio implements Initializable {
 	private void gerarColunas() {
 		// adiocionando as colunas
 		String colunas[] = {"ID","NOME","SEXO","CPF","D.Nasc","TELEFONE","CELULAR","E-MAIL", "TIPO","LOCALIDADE"};
+		String nomeVariaveis[] = {"id","nome_completo","sexo","cpf","data_nascimento","telefone","celular","email","tipo","endereco"};
 		for (int i = 0; i < colunas.length; i++) {
 			tabela.getColumns().add(new TableColumn<>(colunas[i]));
+			tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
 		}
-		//colunas para Endereco
-		
-		/*Aqui você coloca o nome das variaves para pegar os valores, é necessario estar com get set na classe*/
-		tabela.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
-		tabela.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("nome_completo"));
-		tabela.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("sexo"));
-		tabela.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("cpf"));
-		tabela.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("data_nascimento"));
-		tabela.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("telefone"));
-		tabela.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("celular"));
-		tabela.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("email"));
-		tabela.getColumns().get(8).setCellValueFactory(new PropertyValueFactory<>("tipo"));
-		/*Vou descobri como colocar o objeto endereco*/
-		tabela.getColumns().get(9).setCellValueFactory(new PropertyValueFactory<>("endereco"));
-		
 	}
 
 

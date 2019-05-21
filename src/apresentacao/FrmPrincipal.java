@@ -4,19 +4,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.Main;
-import entidade.Pedido;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import util.NovaCena;
-
-import javax.swing.*;
 
 public class FrmPrincipal implements Initializable{
 	Stage stage;

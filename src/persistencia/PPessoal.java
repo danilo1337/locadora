@@ -149,8 +149,8 @@ public class PPessoal {
 			retorno.setTelefone(rs.getString("telefone"));
 			retorno.setCelular(rs.getString("celular"));
 			retorno.setEmail(rs.getString("email"));
-			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 			retorno.getEndereco().setId(rs.getInt("endereco_id"));
+			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 			lista.add(retorno);
 		}
 		rs.close();

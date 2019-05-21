@@ -23,7 +23,7 @@ public class Conexao {
     private static Connection conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost/locadora", "postgres", "aluno");
+            return DriverManager.getConnection("jdbc:postgresql://localhost/locadora", "postgres", "074185");
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);

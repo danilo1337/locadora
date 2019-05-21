@@ -2,7 +2,6 @@ package apresentacao;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -24,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.converter.LocalDateStringConverter;
 import negocio.NPessoal;
 import util.NovaCena;
 
@@ -51,10 +49,8 @@ public class FrmCadSocio implements Initializable {
 	private DatePicker dateNascimento;
 
 	@FXML
-	private TextField txtTelefone_1;
+	private TextField txtTelefone;
 
-	@FXML
-	private TextField txtTelefone_2;
 
 	@FXML
 	private TextField txtCelular;
@@ -103,6 +99,9 @@ public class FrmCadSocio implements Initializable {
 
 	@FXML
 	private Tab mnuDadosPessoais;
+	
+	@FXML
+	private ComboBox<String> cbTipo;
 //------Objetos-----
 	ObservableList<String> lista;
 	int id_endereco = 0;
@@ -158,7 +157,7 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setNome_completo(txtNome.getText());
 			RadioButton rb = (RadioButton) grupoSexo.getSelectedToggle();
 			pessoal.setSexo(rb.getText());
-			pessoal.setTelefone(txtTelefone_1.getText());
+			pessoal.setTelefone(txtTelefone.getText());
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setEndereco(endereco);
 
@@ -193,7 +192,7 @@ public class FrmCadSocio implements Initializable {
 			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
 			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
 			txtNome.setText(pessoal.getNome_completo());
-			txtTelefone_1.setText(pessoal.getTelefone());
+			txtTelefone.setText(pessoal.getTelefone());
 			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getData_nascimento()));
 			if (pessoal.getSexo().equals("Masculino"))
 				raSexo_M.setSelected(true);
@@ -250,8 +249,8 @@ public class FrmCadSocio implements Initializable {
 		txtLocalidade.setText("");
 		txtLogradouro.setText("");
 		txtNome.setText("");
-		txtTelefone_1.setText("");
-		txtTelefone_2.setText("");
+		txtTelefone.setText("");
+		
 		dateNascimento.setValue(null);
 		raSexo_F.setSelected(true);
 		id_endereco = 0;
