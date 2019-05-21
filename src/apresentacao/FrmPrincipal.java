@@ -3,11 +3,14 @@ package apresentacao;
 import java.net.URL;
 import java.util.ResourceBundle;
 import application.Main;
+import entidade.Login;
+import enums.PermissaoUsuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -23,6 +26,9 @@ public class FrmPrincipal implements Initializable{
     private StackPane paneInterno;
 
     @FXML
+    private Menu mnuCadastrar;
+
+    @FXML
     private MenuItem mnuTitulo;
     
     @FXML
@@ -30,7 +36,12 @@ public class FrmPrincipal implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-        new Alert(Alert.AlertType.INFORMATION, "Bem vindo " + sessao.getLogin().getLogin()).show(); //So coloquei para teste.
+        Login usuario = sessao.getLogin();
+        new Alert(Alert.AlertType.INFORMATION, "Bem vindo " + usuario.getUsuario()).show(); //So coloquei para teste.
+
+        if(usuario.getPermissao() == PermissaoUsuario.USUARIO.getDescricao()){
+            mnuCadastrar.setVisible(false);
+        }
 	}
 	
     @FXML

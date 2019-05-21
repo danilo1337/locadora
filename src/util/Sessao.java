@@ -21,8 +21,4 @@ public class Sessao {
     public Login getLogin() { return login; }
 
     public void setLogin(Login login) { Sessao.login = login; }
-
-    /*
-    Pode criar outros métodos que precise aqui.
-    */
 }

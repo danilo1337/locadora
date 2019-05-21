@@ -34,7 +34,7 @@ public class NLogin {
 	}
 
 	public Login consultarLogin(String login) throws Exception {
-		return per.consultarLogin(login);
+		return per.consultarUsuario(login);
 	}
 
 	public List<Login> listar() throws Exception {

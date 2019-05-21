@@ -14,12 +14,12 @@ import java.util.List;
 
 public class PLogin {
 
-	public Login login(String login, String senha) throws SQLException {
-		String sql = "SELECT id, pessoal_id, login, senha FROM login WHERE login = ? AND senha = ?";
+	public Login login(String usuario, String senha) throws SQLException {
+		String sql = "SELECT id, pessoal_id, usuario, senha, permissao, situacao FROM login WHERE usuario = ? AND senha = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
-		ps.setString(1, login);
+		ps.setString(1, usuario);
 		ps.setString(2, senha);
 		ResultSet rs = ps.executeQuery();
 		return setRetornoLogin(cnn, rs);
@@ -29,10 +29,10 @@ public class PLogin {
 		Connection cnn = util.Conexao.getConexao();
 		cnn.setAutoCommit(false);
 		try {
-			String sql = "INSERT INTO login(pessoal_id, login, senha) VALUES (?,?,?)";
+			String sql = "INSERT INTO login(pessoal_id, usuario, senha) VALUES (?,?,?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setInt(1, login.getPessoal_id());
-			ps.setString(2, login.getLogin());
+			ps.setString(2, login.getUsuario());
 			ps.setString(3, login.getSenha());
 			ps.execute();
 			cnn.commit();
@@ -69,7 +69,7 @@ public class PLogin {
 	}
 
 	public Login consultar(int id) throws SQLException {
-		String sql = "SELECT id, pessoal_id, login FROM login WHERE id = ?";
+		String sql = "SELECT id, pessoal_id, usuario, permissao, situacao FROM login WHERE id = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -79,7 +79,7 @@ public class PLogin {
 	}
 
 	public List<Login> listar() throws SQLException{
-		String sql = "SELECT id, pessoal_id, login FROM login";
+		String sql = "SELECT id, pessoal_id, usuario, permissao, situacao FROM login";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class PLogin {
 			Login retorno = new Login();
 			retorno.setId(rs.getInt("id"));
 			retorno.setPessoal_id(rs.getInt("pessoal_id"));
-			retorno.setLogin(rs.getString("login"));
+			retorno.setUsuario(rs.getString("usuario"));
 			lista.add(retorno);
 		}
 		rs.close();
@@ -98,8 +98,8 @@ public class PLogin {
 		return lista;
 	}
 
-	public Login consultarLogin(String login) throws SQLException {
-		String sql = "SELECT id, pessoal_id, login FROM login WHERE login = ?";
+	public Login consultarUsuario(String login) throws SQLException {
+		String sql = "SELECT id, pessoal_id, usuario, permissao, situacao FROM login WHERE usuario = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -113,7 +113,9 @@ public class PLogin {
 		if(rs.next()) {
 			retorno.setId(rs.getInt("id"));
 			retorno.setPessoal_id(rs.getInt("pessoal_id"));
-			retorno.setLogin(rs.getString("login"));
+			retorno.setUsuario(rs.getString("usuario"));
+			retorno.setPermissao(rs.getInt("permissao"));
+			retorno.setSituacao(rs.getInt("situacao"));
 		}
 		rs.close();
 		cnn.close();
