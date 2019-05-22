@@ -19,9 +19,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pp_iterator.PessoalIterator;
 import pp_template.OrdenarPorCpf;
+import pp_template.OrdenarPorData;
 import pp_template.OrdenarPorNome;
 import pp_template.OrdenarPorSexo;
-import pp_template.PessoalTemplate;
 
 public class FrmListarSocio implements Initializable {
 	@FXML
@@ -63,6 +63,9 @@ public class FrmListarSocio implements Initializable {
 				break;
 			case "Sexo":
 				imprimirNaTabela(new OrdenarPorSexo().listagem());
+				break;
+			case "Data":
+				imprimirNaTabela(new OrdenarPorData().listagem());
 				break;
 			case "Lista":
 				imprimirNaTabela(pessoalIterator.listagemComPilha());
@@ -108,7 +111,7 @@ public class FrmListarSocio implements Initializable {
 
 	public void gerarTipos() {
 		ObservableList<String> lista = FXCollections.observableArrayList();
-		String tipoListagem[] = { "Nome", "CPF", "Sexo", "Lista", "Pilha", "Fila" };
+		String tipoListagem[] = { "Nome", "CPF", "Sexo", "Data", "Lista", "Pilha", "Fila" };
 		for (int i = 0; i < tipoListagem.length; i++) {
 			lista.add(tipoListagem[i]);
 		}
