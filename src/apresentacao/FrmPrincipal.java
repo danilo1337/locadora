@@ -14,6 +14,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import negocio.TimeClockObserver;
+import util.TimerClockObservable;
 import util.NovaCena;
 import util.Sessao;
 
@@ -32,6 +34,12 @@ public class FrmPrincipal implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		//Teste
+		TimerClockObservable timerClockObservable = new TimerClockObservable();
+		new TimeClockObserver(timerClockObservable);
+		timerClockObservable.clock();
+
 		Login usuario = sessao.getLogin();
 		new Alert(Alert.AlertType.INFORMATION, "Bem vindo " + usuario.getUsuario()).show(); // So coloquei para teste.
 
