@@ -38,7 +38,7 @@ public class PPessoal {
 			new PEndereco().incluir(pessoal.getEndereco(), cnn);
 			ps.setInt(7, pessoal.getEndereco().getId());
 			ps.setString(8, pessoal.getEmail());
-			ps.setString(9, pessoal.getTipo()+"");
+			ps.setInt(9, pessoal.getTipo());
 			ps.execute();
 
 			// recuperar id gerado
@@ -65,10 +65,10 @@ public class PPessoal {
 		cnn.setAutoCommit(false);
 		try {
 			String sql = "UPDATE pessoal SET"
-					+ "nome_completo = ?, sexo = ?,"
+					+ " nome_completo = ?, sexo = ?,"
 					+ " cpf = ?, data_nascimento = ?,"
 					+ " telefone = ?, celular = ?,"
-					+ " endereco_id = ?, email = ? WHERE id = ?";
+					+ " endereco_id = ?, email = ?, tipo = ? WHERE id = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, pessoal.getNome_completo());
 			ps.setString(2, pessoal.getSexo());
@@ -79,7 +79,7 @@ public class PPessoal {
 			new PEndereco().incluir(pessoal.getEndereco(), cnn);
 			ps.setInt(7, pessoal.getEndereco().getId());
 			ps.setString(8, pessoal.getEmail());
-			ps.setString(9, pessoal.getTipo()+"");
+			ps.setInt(9, pessoal.getTipo());
 			ps.setInt(10, pessoal.getId());
 			ps.execute();
 
@@ -113,7 +113,7 @@ public class PPessoal {
 		if(rs.next()) {
 			retorno.setId(rs.getInt("id"));
 			retorno.setNome_completo(rs.getString("nome_completo"));
-			retorno.setTipo(rs.getString("tipo").charAt(0));
+			retorno.setTipo(rs.getInt("tipo"));
 			retorno.setSexo(rs.getString("sexo"));
 			retorno.setCpf(rs.getString("cpf"));
 			retorno.setData_nascimento(rs.getDate("data_nascimento"));
@@ -142,7 +142,7 @@ public class PPessoal {
 			Pessoal retorno = new Pessoal();
 			retorno.setId(rs.getInt("id"));
 			retorno.setNome_completo(rs.getString("nome_completo"));
-			retorno.setTipo(rs.getString("tipo").charAt(0));
+			retorno.setTipo(rs.getInt("tipo"));
 			retorno.setSexo(rs.getString("sexo"));
 			retorno.setCpf(rs.getString("cpf"));
 			retorno.setData_nascimento(rs.getDate("data_nascimento"));
@@ -170,7 +170,7 @@ public class PPessoal {
 		if(rs.next()) {
 			retorno.setId(rs.getInt("id"));
 			retorno.setNome_completo(rs.getString("nome_completo"));
-			retorno.setTipo(rs.getString("tipo").charAt(0));
+			retorno.setTipo(rs.getInt("tipo"));
 			retorno.setSexo(rs.getString("sexo"));
 			retorno.setCpf(rs.getString("cpf"));
 			retorno.setData_nascimento(rs.getDate("data_nascimento"));

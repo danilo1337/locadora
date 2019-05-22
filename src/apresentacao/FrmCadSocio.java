@@ -51,7 +51,6 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private TextField txtTelefone;
 
-
 	@FXML
 	private TextField txtCelular;
 
@@ -99,28 +98,21 @@ public class FrmCadSocio implements Initializable {
 
 	@FXML
 	private Tab mnuDadosPessoais;
-	
+
 	@FXML
 	private ComboBox<String> cbTipo;
 //------Objetos-----
-	ObservableList<String> lista;
+	ObservableList<String> listaUF;
+	ObservableList<String> listaTipo;
 	int id_endereco = 0;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			gerarUF();
 			txtID.setText("0");
-			btnNovo.setText("");
-			btnAlterar.setText("");
-			btnExcluir.setText("");
-			btnLimpar.setText("");
-			btnBuscar.setText("");
-			btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
-			btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
-			btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
-			btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
-			btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png", 26, 26, false, false)));
+			gerarUF();
+			gerarTipo();
+			imagemNosBotoes();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -155,14 +147,32 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setCpf(txtCpf.getText());
 			pessoal.setData_nascimento(dataSql);
 			pessoal.setNome_completo(txtNome.getText());
-			RadioButton rb = (RadioButton) grupoSexo.getSelectedToggle();
-			pessoal.setSexo(rb.getText());
 			pessoal.setTelefone(txtTelefone.getText());
 			pessoal.setCelular(txtCelular.getText());
+			pessoal.setEmail(txtEmail.getText());
 			pessoal.setEndereco(endereco);
+			RadioButton rb = (RadioButton) grupoSexo.getSelectedToggle();
+			pessoal.setSexo(rb.getText());
+			
+			String tipo = cbTipo.getSelectionModel().getSelectedItem();
+			switch (tipo) {
+			case "Gerente":
+				pessoal.setTipo(1);
+				break;
+			case "Usuário":
+				pessoal.setTipo(5);
+				break;
+			case "Atendente":
+				pessoal.setTipo(2);
+				break;
+				
+			default:
+				pessoal.setTipo(5);
+				break;
+			}
 
 			new NPessoal().salvar(pessoal);
-			new Alert(AlertType.ERROR, "Incluido com sucesso! N�" + pessoal.getId()).show();
+			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nº" + pessoal.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -187,7 +197,7 @@ public class FrmCadSocio implements Initializable {
 			txtCep.setText(pessoal.getEndereco().getCep());
 			txtComplemento.setText(pessoal.getEndereco().getComplemento());
 			txtCpf.setText(pessoal.getCpf());
-			txtEmail.setText("");// colocar e-mail no banco
+			txtEmail.setText(pessoal.getEmail());// colocar e-mail no banco
 			txtID.setText(pessoal.getId() + "");
 			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
 			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
@@ -201,13 +211,28 @@ public class FrmCadSocio implements Initializable {
 			id_endereco = pessoal.getEndereco().getId();
 
 			String uf = pessoal.getEndereco().getUF();
-			for (int i = 0; i < lista.size(); i++) {
-				if (lista.get(i).equals(uf)) {
+			for (int i = 0; i < listaUF.size(); i++) {
+				if (listaUF.get(i).equals(uf)) {
 					cbUF.getSelectionModel().select(i);
 					break;
 				}
 			}
-
+			//Pega o tipo descobre a descrição
+			int tipo = pessoal.getTipo();
+			String tipo_Descricao = "";
+			if(tipo == 1)
+				tipo_Descricao = "Gerente";
+			else if (tipo == 2)
+				tipo_Descricao = "Atendente";
+			else if (tipo == 5)
+				tipo_Descricao = "Usuário";
+			//Seleciona o tipo segundo a descrição
+			for (int i = 0; i < listaTipo.size(); i++) {
+				if(listaTipo.get(i).equals(tipo_Descricao)) {
+					cbTipo.getSelectionModel().select(i);
+				}
+			}
+			
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 			e.printStackTrace();
@@ -219,10 +244,10 @@ public class FrmCadSocio implements Initializable {
 		try {
 			Pessoal pessoal = new Pessoal();
 			pessoal.setId(Integer.parseInt(txtID.getText()));
-			
+
 			new NPessoal().excluir(pessoal);
 			limparTudo();
-			
+
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -238,6 +263,7 @@ public class FrmCadSocio implements Initializable {
 		}
 	}
 
+//---------------------Limpar Tela---------------------
 	private void limparTudo() {
 		txtBairro.setText("");
 		txtCelular.setText("");
@@ -250,46 +276,48 @@ public class FrmCadSocio implements Initializable {
 		txtLogradouro.setText("");
 		txtNome.setText("");
 		txtTelefone.setText("");
-		
+
 		dateNascimento.setValue(null);
 		raSexo_F.setSelected(true);
 		id_endereco = 0;
 		gerarUF();
+		gerarTipo();
 		cbUF.getSelectionModel().select(0);
+		cbTipo.getSelectionModel().select(0);
 	}
 
 //--------------------------Combobox--------------------------
 	private void gerarUF() {
-		lista = FXCollections.observableArrayList();
-		lista.add("AC");
-		lista.add("AL");
-		lista.add("AM");
-		lista.add("AP");
-		lista.add("BA");
-		lista.add("CE");
-		lista.add("DF");
-		lista.add("ES");
-		lista.add("GO");
-		lista.add("MA");
-		lista.add("MG");
-		lista.add("MS");
-		lista.add("MT");
-		lista.add("PA");
-		lista.add("PB");
-		lista.add("PE");
-		lista.add("PI");
-		lista.add("PR");
-		lista.add("RJ");
-		lista.add("RN");
-		lista.add("RO");
-		lista.add("RR");
-		lista.add("RS");
-		lista.add("SC");
-		lista.add("SE");
-		lista.add("SP");
-		lista.add("TO");
-		cbUF.setItems(lista);
+		listaUF = FXCollections.observableArrayList();
+		String estados[] = { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB",
+				"PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" };
+		for (int i = 0; i < estados.length; i++) {
+			listaUF.add(estados[i]);
+		}
+		cbUF.setItems(listaUF);
+	}
 
+	private void gerarTipo() {
+		listaTipo = FXCollections.observableArrayList();
+		String tipos[] = { "Usuário", "Atendente", "Gerente" };
+		for (int i = 0; i < tipos.length; i++) {
+			listaTipo.add(tipos[i]);
+		}
+		cbTipo.setItems(listaTipo);
+	}
+
+//-------------------Imagem nos botões----------------------------
+	private void imagemNosBotoes() {
+		btnNovo.setText("");
+		btnAlterar.setText("");
+		btnExcluir.setText("");
+		btnLimpar.setText("");
+		btnBuscar.setText("");
+		btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
+		btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
+		btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
+		btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
+		btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png", 26, 26, false, false)));
 	}
 
 }
