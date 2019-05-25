@@ -9,13 +9,13 @@ public class Filmes {
 
 	private int id = 0;
 	private String anoLancamento = "";
-	private int faixaEtaria = 0;
+	private String faixaEtaria = "";
 	private String titulo = "";
-	private String observacao = "";
-	private Genero genero = null;
+	private String sinopse = "";
+	private String genero = "";
 
 	public Filmes() {
-		genero = new Genero();
+		
 	}
 
 	public int getId() {
@@ -34,11 +34,11 @@ public class Filmes {
 		this.anoLancamento = anoLancamento;
 	}
 
-	public int getFaixaEtaria() {
+	public String getFaixaEtaria() {
 		return faixaEtaria;
 	}
 
-	public void setFaixaEtaria(int faixaEtaria) {
+	public void setFaixaEtaria(String faixaEtaria) {
 		this.faixaEtaria = faixaEtaria;
 	}
 
@@ -50,19 +50,19 @@ public class Filmes {
 		this.titulo = titulo;
 	}
 
-	public String getObservacao() {
-		return observacao;
+	public String getSinopse() {
+		return sinopse;
 	}
 
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public void setSinopse(String sinopse) {
+		this.sinopse = sinopse;
 	}
 
-	public Genero getGenero() {
+	public String getGenero() {
 		return genero;
 	}
 
-	public void setGenero(Genero genero) {
+	public void setGenero(String genero) {
 		this.genero = genero;
 	}
 }
