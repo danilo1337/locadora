@@ -5,12 +5,12 @@ public class ItemPedido {
     private int id;
     private double quantidade;
     private double valor;
-    private Pedido pedido;
+    private Locacao pedido;
 //    private Titulo titulo;
     //ItemPedido
 
     public ItemPedido() {
-        pedido = new Pedido();
+        pedido = new Locacao();
 //        titulo = new Titulo();
     }
 
@@ -38,11 +38,11 @@ public class ItemPedido {
         this.valor = valor;
     }
 
-    public Pedido getPedido() {
+    public Locacao getPedido() {
         return pedido;
     }
 
-    public void setPedido(Pedido pedido) {
+    public void setPedido(Locacao pedido) {
         this.pedido = pedido;
     }
 

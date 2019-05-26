@@ -1,13 +1,13 @@
 package persistencia;
 
-import entidade.ItemPedido;
-import entidade.Pedido;
+import entidade.Locacao_item;
+import entidade.Locacao;
 
 import java.sql.*;
 
 public class PPedido {
 
-    public void incluir(Pedido pedido) throws SQLException {
+    public void incluir(Locacao pedido) throws SQLException {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
@@ -37,7 +37,7 @@ public class PPedido {
             //Percorrer a lista de itens
             //inserindo-as
             PItemPedido pItem = new PItemPedido();
-            for (ItemPedido item : pedido.getListaItens()) {
+            for (Locacao_item item : pedido.getListaItens()) {
                 item.getPedido().setId(pedido.getId());
                 //Gravo o item (filho)
                 pItem.incluir(item, cnn);
@@ -53,7 +53,7 @@ public class PPedido {
 
 
     //testar alterar após dar o pull com entidades de filmes / copias
-    public void alterar(Pedido pedido) throws SQLException {
+    public void alterar(Locacao pedido) throws SQLException {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
         try {
@@ -73,7 +73,7 @@ public class PPedido {
             pItem.excluirPorPedido(pedido.getId(), cnn);
 
             //Passo 3 - Incluir todos os itens do pedido
-            for (ItemPedido item : pedido.getListaItens()) {
+            for (Locacao_item item : pedido.getListaItens()) {
                 item.getPedido().setId(pedido.getId());
                 pItem.incluir(item, cnn);
             }
@@ -88,7 +88,7 @@ public class PPedido {
     }
 
     //testar após da o pull com entidades de filme / copia
-    public void excluir(Pedido pedido) throws SQLException {
+    public void excluir(Locacao pedido) throws SQLException {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
         try {

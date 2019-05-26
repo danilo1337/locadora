@@ -1,6 +1,6 @@
 package persistencia;
 
-import entidade.ItemPedido;
+import entidade.Locacao_item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class PItemPedido {
 
 
-    public void incluir(ItemPedido item, Connection cnn) throws SQLException {
+    public void incluir(Locacao_item item, Connection cnn) throws SQLException {
 
         String sql = "INSERT INTO item_pedido(quantidade, valor, id_pedido"
                 + ", id_copias) VALUES (?,?,?,?)";
