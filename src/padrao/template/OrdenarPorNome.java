@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pp_template;
+package padrao.template;
 
 import entidade.Pessoal;
 

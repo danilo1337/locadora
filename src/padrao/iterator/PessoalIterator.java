@@ -1,4 +1,4 @@
-package pp_iterator;
+package padrao.iterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;

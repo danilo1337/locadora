@@ -8,14 +8,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1024.0" style="-fx-background-color: #3D4857;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apresentacao.FrmListarSocio">
    <children>
+      <Button fx:id="btnConsultar" layoutX="679.0" layoutY="22.0" mnemonicParsing="false" onAction="#consultar" prefHeight="25.0" prefWidth="150.0" text="Consultar" />
+      <ComboBox fx:id="cbTipos" layoutX="127.0" layoutY="22.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="19.0" layoutY="26.0" text="Tipo de Listagem" textFill="WHITE" />
+      <Button fx:id="btnLimpar" layoutX="860.0" layoutY="22.0" mnemonicParsing="false" onAction="#limpar" prefHeight="25.0" prefWidth="150.0" text="Limpar" />
       <TableView fx:id="tabela" editable="true" layoutY="65.0" prefHeight="625.0" prefWidth="1024.0" tableMenuButtonVisible="true">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnConsultar" layoutX="603.0" layoutY="22.0" mnemonicParsing="false" onAction="#consultar" prefHeight="25.0" prefWidth="179.0" text="Consultar" />
-      <ComboBox fx:id="cbTipos" layoutX="136.0" layoutY="22.0" prefHeight="25.0" prefWidth="280.0" />
-      <Label layoutX="28.0" layoutY="26.0" text="Tipo de Listagem" textFill="WHITE" />
-      <Button fx:id="btnLimpar" layoutX="810.0" layoutY="22.0" mnemonicParsing="false" onAction="#limpar" prefHeight="25.0" prefWidth="179.0" text="Limpar" />
    </children>
 </AnchorPane>
