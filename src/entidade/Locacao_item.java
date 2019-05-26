@@ -1,17 +1,16 @@
 package entidade;
 
-public class ItemPedido {
+public class Locacao_item {
 
     private int id;
-    private double quantidade;
     private double valor;
-    private Locacao pedido;
-//    private Titulo titulo;
-    //ItemPedido
 
-    public ItemPedido() {
-        pedido = new Locacao();
-//        titulo = new Titulo();
+    private Locacao locacao;
+    private Filmes filmes;
+
+    public Locacao_item() {
+        locacao = new Locacao();
+        filmes = new Filmes();
     }
 
     public int getId() {
@@ -22,14 +21,6 @@ public class ItemPedido {
         this.id = id;
     }
 
-    public double getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(double quantidade) {
-        this.quantidade = quantidade;
-    }
-
     public double getValor() {
         return valor;
     }
@@ -38,14 +29,19 @@ public class ItemPedido {
         this.valor = valor;
     }
 
-    public Locacao getPedido() {
-        return pedido;
+    public Locacao getLocacao() {
+        return locacao;
     }
 
-    public void setPedido(Locacao pedido) {
-        this.pedido = pedido;
+    public void setLocacao(Locacao locacao) {
+        this.locacao = locacao;
     }
 
+    public Filmes getFilmes() {
+        return filmes;
+    }
 
-
+    public void setFilmes(Filmes filmes) {
+        this.filmes = filmes;
+    }
 }
