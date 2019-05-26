@@ -4,8 +4,6 @@ package apresentacao;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import entidade.Filmes;
 import entidade.Genero;
 import entidade.Pessoal;
@@ -15,12 +13,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import negocio.NFilme;
@@ -110,7 +108,7 @@ public class FrmCadFilme implements Initializable {
 			filme.setSinopse(txaSinopse.getText());;
 
 			new NFilme().salvar(filme);
-			new Alert(AlertType.ERROR, "Incluido com sucesso! Nº" + filme.getId()).show();
+			new Alert(AlertType.ERROR, "Incluido com sucesso! Nï¿½" + filme.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -211,7 +209,7 @@ public class FrmCadFilme implements Initializable {
     			Cb_Genero.setItems(listaGen);
     		}
     	}catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+    		new Alert(AlertType.ERROR,e.getMessage()).show();
         }
 	
     }
