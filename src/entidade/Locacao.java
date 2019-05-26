@@ -115,4 +115,7 @@ public class Locacao {
     public void setListaItens(List<Locacao_item> listaItens) {
         this.listaItens = listaItens;
     }
+
+    //modified
+
 }
