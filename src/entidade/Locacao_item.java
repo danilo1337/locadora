@@ -44,4 +44,6 @@ public class Locacao_item {
     public void setFilmes(Filmes filmes) {
         this.filmes = filmes;
     }
+
+    //modified
 }
