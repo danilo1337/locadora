@@ -36,7 +36,7 @@ public class PLocacao_item {
 
     }
 
-    public List<Locacao_item> listar() throws SQLException, Exception {
+    public List<Locacao_item> listar() throws Exception {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
@@ -76,7 +76,7 @@ public class PLocacao_item {
         return lista;
     }
 
-    public List<Locacao_item> consultar(Locacao locacao) throws SQLException, Exception {
+    public List<Locacao_item> consultar(Locacao locacao) throws Exception {
 
         Connection cnn = Conexao.getConexao();
         String sql = "SELECT LocItem.copia_id, LocItem.locacao_id, LocItem.valor, Copias.id, Copias.disponivel,"
@@ -116,6 +116,6 @@ public class PLocacao_item {
     }
 
 
-
+//modified
 
 }
