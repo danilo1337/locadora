@@ -193,7 +193,7 @@ public class PLocacao {
         return locacao;
     }
 
-    public List<Locacao> listar() throws SQLException, Exception {
+    public List<Locacao> listar() throws Exception {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
@@ -232,5 +232,5 @@ public class PLocacao {
 
 
 
-
+//modified
 }
