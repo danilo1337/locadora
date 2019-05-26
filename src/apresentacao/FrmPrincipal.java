@@ -14,10 +14,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import negocio.TimeClockObserver;
-import util.TimerClockObservable;
+import negocio.NReservaTimer;
 import util.NovaCena;
 import util.Sessao;
+import util.TimerClockObservable;
 
 public class FrmPrincipal implements Initializable {
 	Sessao sessao = Sessao.getInstance();
@@ -37,7 +37,8 @@ public class FrmPrincipal implements Initializable {
 
 		//Teste
 		TimerClockObservable timerClockObservable = new TimerClockObservable();
-		new TimeClockObserver(timerClockObservable);
+//		new TimeClockObserver(timerClockObservable);
+		new NReservaTimer(timerClockObservable);
 		timerClockObservable.clock();
 
 		Login usuario = sessao.getLogin();
