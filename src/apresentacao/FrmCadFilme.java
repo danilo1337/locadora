@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import entidade.Filmes;
 import entidade.Genero;
 import entidade.Pessoal;
+import entidade.TipoFilme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +27,7 @@ import javafx.scene.image.ImageView;
 import negocio.NFilme;
 import negocio.NGenero;
 import negocio.NPessoal;
+import negocio.NTipoFilme;
 
 public class FrmCadFilme implements Initializable {
 
@@ -45,7 +47,7 @@ public class FrmCadFilme implements Initializable {
     private TextField txtAnoLancamento;
 
     @FXML
-    private ComboBox<String> Cb_Tipo;
+    private ComboBox<TipoFilme> Cb_Tipo;
 
     @FXML
     private ComboBox<Genero> Cb_Genero;
@@ -73,12 +75,13 @@ public class FrmCadFilme implements Initializable {
     
     ObservableList<String> lista;
     ObservableList<Genero> listaGen;
-    ObservableList<String> listaTipo;
+    ObservableList<TipoFilme> listaTipo;
 
     public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			GerarFaixaEtaria();
 			GerarGenero();
+			GerarTipo();
 			txtID.setText("0");
 			btnNovo.setText("");
 			btnAlterar.setText("");
@@ -197,10 +200,20 @@ public class FrmCadFilme implements Initializable {
 		
 	}
 
-//    private void GerarTipo() {
-//    	
-//	
-//    }
+    private void GerarTipo() {
+    	try {
+    			listaTipo = FXCollections.observableArrayList();
+    		
+	    		for(TipoFilme obj : new NTipoFilme().listarTipoFilme()) {
+	    			listaTipo.add(obj);
+	    			Cb_Tipo.setItems(listaTipo);
+	    		}
+    		
+    		}catch(Exception e) {
+    		JOptionPane.showMessageDialog(null, e.getMessage());
+    	}
+	
+    }
 
     private void GerarGenero() {
     	try {
