@@ -14,8 +14,11 @@ public class Filmes {
 	private String sinopse = "";
 	private String genero = "";
 
+
+	private TipoFilme tipo_id = null;
+	
 	public Filmes() {
-		
+		tipo_id = new TipoFilme();
 	}
 
 	public int getId() {
@@ -65,4 +68,14 @@ public class Filmes {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
+
+	public TipoFilme getTipo_id() {
+		return tipo_id;
+	}
+
+	public void setTipo_id(TipoFilme tipo_id) {
+		this.tipo_id = tipo_id;
+	}
+	
+	
 }

@@ -10,7 +10,7 @@
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1024.0" style="-fx-border-color: #0A6DB0; -fx-border-radius: 20;">
         <menus>
-            <Menu mnemonicParsing="false" text="Cadastrar">
+            <Menu fx:id="mnuCadastrar" mnemonicParsing="false" text="Cadastrar">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#cadastrarCliente" text="Sócio" />
                   <MenuItem fx:id="mnuTitulo" mnemonicParsing="false" onAction="#cadastrarTitulo" text="Título" />
@@ -42,8 +42,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Sair">
             <items>
-                  <MenuItem fx:id="mnuTelaLogin" mnemonicParsing="false" onAction="#telaLogin" text="Tela de login" />
-              <MenuItem mnemonicParsing="false" onAction="#telaSair" text="Sair" />
+                <MenuItem mnemonicParsing="false" onAction="#logout" text="Deslogar" />
+                <MenuItem mnemonicParsing="false" onAction="#sair" text="Sair" />
             </items>
           </Menu>
         </menus>

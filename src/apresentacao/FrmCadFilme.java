@@ -103,14 +103,20 @@ public class FrmCadFilme implements Initializable {
 	private void salvar(ActionEvent event) {
 		try {
 			Filmes filme = new Filmes();
+			TipoFilme tipo = new TipoFilme();
 			
+			tipo.setId(tipo.getId());
+			tipo.setPreco(tipo.getPreco());
+			tipo.setTipo(tipo.getTipo());
 			
 
 			filme.setId(Integer.parseInt(txtID.getText()));
+			filme.setTitulo(txtTituloFilme.getText());
 			filme.setFaixaEtaria(Cb_FaixaEtaria.getSelectionModel().getSelectedItem());
 			filme.setAnoLancamento(txtAnoLancamento.getText());
 			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
 			filme.setSinopse(txaSinopse.getText());;
+			filme.setTipo_id(Cb_Tipo.getValue());
 
 			new NFilme().salvar(filme);
 			new Alert(AlertType.ERROR, "Incluido com sucesso! Nº" + filme.getId()).show();
@@ -132,16 +138,35 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void buscar(ActionEvent event) {
 		try {
-			Filmes filme = new NFilme().consultar(txtTitulo_consulta.getText());
+			Filmes filme = new NFilme().consultar(txtTituloFilme.getText());
+			txtID.setText(String.valueOf(filme.getId()));
 			txtTituloFilme.setText(filme.getTitulo());
 			txtAnoLancamento.setText(filme.getAnoLancamento());
-			txtID.setText(filme.getId() + "");
+			txaSinopse.setText(filme.getSinopse());
+			
+//			txtID.setText(filme.getId() + "");
 //			id_endereco = pessoal.getEndereco().getId();
 
 			String FaixaEtaria = filme.getFaixaEtaria();
 			for (int i = 0; i < lista.size(); i++) {
 				if (lista.get(i).equals(FaixaEtaria)) {
 					Cb_FaixaEtaria.getSelectionModel().select(i);
+					break;
+				}
+			}
+			
+			String TipoFilme = filme.getTitulo();
+			for (int i = 0; i < lista.size(); i++) {
+				if (lista.get(i).equals(TipoFilme)) {
+					Cb_Tipo.getSelectionModel().select(i);
+					break;
+				}
+			}
+			
+			String Genero = filme.getGenero();
+			for (int i = 0; i < lista.size(); i++) {
+				if (lista.get(i).equals(Genero)) {
+					Cb_Genero.getSelectionModel().select(i);
 					break;
 				}
 			}
@@ -155,10 +180,10 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void excluir(ActionEvent event) {
 		try {
-			Pessoal pessoal = new Pessoal();
-			pessoal.setId(Integer.parseInt(txtID.getText()));
+			Filmes filme = new Filmes();
+			filme.setId(Integer.parseInt(txtID.getText()));
 			
-			new NPessoal().excluir(pessoal);
+			new NFilme().excluir(filme);
 			limparTudo();
 			
 		} catch (Exception e) {
@@ -181,9 +206,9 @@ public class FrmCadFilme implements Initializable {
 		txtAnoLancamento.setText("");
 		txaSinopse.setText("");
 		txtID.setText("0");
-		
-		GerarFaixaEtaria();
 		Cb_FaixaEtaria.getSelectionModel().select(-1);
+		Cb_Genero.getSelectionModel().select(-1);
+		Cb_Tipo.getSelectionModel().select(-1);
 	}
     
     

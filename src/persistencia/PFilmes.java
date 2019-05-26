@@ -20,11 +20,12 @@ public class PFilmes {
 
     public void incluir(Filmes filme) throws SQLException {
         String sql = "INSERT INTO filmes("
-                + "	ano_lancamento,"
-                + " faixa_etaria, titulo,"
-                + " observacoes, genero)"
-                + " VALUES ("
-                + "?,?,?,?,?)";
+	        		+ " ano_lancamento,"
+	                + " faixa_etaria, titulo,"
+	                + "sinopse, genero,"
+	                + "tipo_id)"
+	                + " VALUES ("
+	                + "?,?,?,?,?,?)";
 
         Connection cnn = Conexao.getConexao();
         PreparedStatement ps = cnn.prepareStatement(sql);
@@ -33,6 +34,8 @@ public class PFilmes {
         ps.setString(3, filme.getTitulo());
         ps.setString(4, filme.getSinopse());
         ps.setString(5, filme.getGenero());
+        new PTipoFilme().consultar(filme.getTipo_id());
+        ps.setInt(6, filme.getTipo_id().getId());
 
         ps.execute();
 

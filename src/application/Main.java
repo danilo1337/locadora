@@ -16,8 +16,9 @@ public class Main extends Application {
 			Scene scene = new Scene(root,600,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Gerenciador de Locação - Altas Horas");
+			primaryStage.setTitle("Gerenciador de LocaÃ§Ã£o - Altas Horas");
 			primaryStage.getIcons().add(new Image("/icones/flm_happy.png"));
+			primaryStage.centerOnScreen();
 			primaryStage.show();
 			
 		} catch(Exception e) {

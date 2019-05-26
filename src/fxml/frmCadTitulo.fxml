@@ -20,7 +20,7 @@
                         <TextField fx:id="txtID" disable="true" layoutX="304.0" layoutY="79.0" prefHeight="25.0" prefWidth="200.0" />
                         <TextField fx:id="txtTituloFilme" layoutX="304.0" layoutY="121.0" prefHeight="25.0" prefWidth="432.0" />
                         <TextField fx:id="txtAnoLancamento" layoutX="584.0" layoutY="163.0" prefHeight="25.0" prefWidth="149.0" />
-                        <ComboBox fx:id="Cb_Tipo" layoutX="305.0" layoutY="209.0" prefWidth="150.0" promptText="Selecione" />
+                        <ComboBox fx:id="Cb_Tipo" layoutX="305.0" layoutY="209.0" prefHeight="25.0" prefWidth="214.0" promptText="Selecione" />
                         <Label layoutX="282.0" layoutY="83.0" text="ID" />
                         <Label layoutX="264.0" layoutY="125.0" text="Título" />
                         <Label layoutX="235.0" layoutY="167.0" text="Faixa Etária" />

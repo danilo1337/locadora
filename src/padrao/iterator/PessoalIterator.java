@@ -15,7 +15,7 @@ public class PessoalIterator {
 
 	}
 
-	public Iterator<?> listagemComLista() throws Exception {
+	public Iterator<Pessoal> listagemComLista() throws Exception {
 		return new PPessoal().listar().iterator();
 	}
 	public Iterator<Pessoal> listagemComArrayList() throws Exception {

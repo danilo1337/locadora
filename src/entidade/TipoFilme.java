@@ -26,7 +26,7 @@ public class TipoFilme {
 	}
 	
 	 public String toString() {
-	        return String.format("%s", getTipo());
+	        return String.format("%s - R$ %.2f", getTipo(), getPreco());
 	    }
 	
 	
