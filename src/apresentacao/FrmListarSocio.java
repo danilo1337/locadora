@@ -17,13 +17,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import padrao.factory.Abreviatura;
-import padrao.factory.AbreviaturaFactory;
-import padrao.iterator.PessoalIterator;
-import padrao.template.OrdenarPorCpf;
-import padrao.template.OrdenarPorData;
-import padrao.template.OrdenarPorNome;
-import padrao.template.OrdenarPorSexo;
+import pp_iterator.PessoalIterator;
+import pp_template.OrdenarPorCpf;
+import pp_template.OrdenarPorData;
+import pp_template.OrdenarPorNome;
+import pp_template.OrdenarPorSexo;
 
 public class FrmListarSocio implements Initializable {
 	@FXML
@@ -109,20 +107,6 @@ public class FrmListarSocio implements Initializable {
 			tabela.getColumns().add(new TableColumn<>(colunas[i]));
 			tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
 		}
-		tabela.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> selecionarItemTabela(newValue));
-	}
-
-	private Object selecionarItemTabela(Object newValue) {
-		if(newValue != null) {
-			Pessoal pessoal = (Pessoal) newValue;
-			Abreviatura abr = AbreviaturaFactory.criarAbreviatura(pessoal.getSexo());
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setHeaderText("Padrão de projeto Factory");
-			a.setContentText(abr.getAbreviatura()+" "+pessoal.getNome_completo());
-			a.show();
-		}
-		return null;
 	}
 
 	public void gerarTipos() {
@@ -133,5 +117,5 @@ public class FrmListarSocio implements Initializable {
 		}
 		cbTipos.setItems(lista);
 	}
-	
+
 }

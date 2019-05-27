@@ -1,4 +1,4 @@
-package padrao.template;
+package pp_template;
 
 import java.util.Iterator;
 import java.util.List;

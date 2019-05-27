@@ -6,6 +6,7 @@ public class Locacao_item {
     private double valor;
 
     private Locacao locacao;
+    private Copias copias;
     private Filmes filmes;
 
     public Locacao_item() {
@@ -45,5 +46,16 @@ public class Locacao_item {
         this.filmes = filmes;
     }
 
-    //modified
+    public Copias getCopias() {
+        return copias;
+    }
+
+    public void setCopias(Copias copias) {
+        this.copias = copias;
+    }
+
+
+
+
+
 }

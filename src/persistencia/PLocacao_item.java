@@ -10,24 +10,21 @@ import java.util.List;
 
 public class PLocacao_item {
 
-
     public void incluir(Locacao_item item, Connection cnn) throws SQLException {
 
-        String sql = "INSERT INTO locacao_pedido(locacao_id, copia_id, valor"
+        String sql = "INSERT INTO locacao_item (locacao_id, copia_id, valor"
         + " VALUES (?,?,?,?)";
 
         PreparedStatement prd = cnn.prepareStatement(sql);
         prd.setInt(1, item.getLocacao().getId());
-        //Descomentar ao existir Entidade Copia
-        //prd.setInt(2, item,getCopia().getId());
+        prd.setInt(2, item.getCopias().getId());
         prd.setDouble(3, item.getValor());
-        prd.setInt(4, item.getFilmes().getId());
         prd.execute();
 
     }
 
     public void excluirPorPedido(int idLocacao, Connection cnn) throws SQLException{
-        String sql = "DELETE FROM locacao_pedido WHERE locacao_id = ?";
+        String sql = "DELETE FROM locacao_item WHERE locacao_id = ?";
 
         PreparedStatement prd = cnn.prepareStatement(sql);
         prd.setInt(1, idLocacao);
@@ -96,17 +93,16 @@ public class PLocacao_item {
 
         while (rs.next()) {
             Locacao_item item = new Locacao_item();
+
             item.setId(rs.getInt("LocItem.copia_id"));
             item.setValor(rs.getDouble("LocItem.valor"));
-            //Lista de coments para ser descomentado quando tiver a entidade Copias
-            //Descomentar ao existir Entidade Copia
-            //item.setCopias(rs.getInt("Copias.id"));
-            //item.setCopias(rs.getBoolean("Copias.disponivel"));
-            //item.setCopias(rs.getBoolean("Copias.reservada));
-            //item.setCopias(rs.getBoolean("Copias.disponivel_venda));
-            //item.setCopias(rs.getDate("Copias.data_reserva));
-            //item.setCopias(rs.getDate("Copias.data_compra));
-            //item.setCopias(rs.getDate("Copias.data_venda));
+            item.getCopias().setId(rs.getInt("Copias.id"));
+            item.getCopias().setDisponivel(rs.getBoolean("Copias.disponivel"));
+            item.getCopias().setReserva(rs.getBoolean("Copias.reservada"));
+            item.getCopias().setDisponivelVenda(rs.getBoolean("Copias.disponivel_venda"));
+            item.getCopias().setDataReserva(rs.getDate("Copias.data_reserva"));
+            item.getCopias().setDataCompra(rs.getDate("Copias.data_compra"));
+            item.getCopias().setDataVenda(rs.getDate("Copias.data_venda"));
             item.getLocacao().setId(rs.getInt("Locacao.id"));
             item.getLocacao().setValor_total(rs.getDouble("ValorTotal"));
             listar.add(item);
@@ -115,7 +111,5 @@ public class PLocacao_item {
         return listar;
     }
 
-
-//modified
-
+    //submit again
 }

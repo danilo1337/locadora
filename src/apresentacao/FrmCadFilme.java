@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import entidade.Filmes;
 import entidade.Genero;
 import entidade.Pessoal;
+import entidade.TipoFilme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +25,7 @@ import javafx.scene.image.ImageView;
 import negocio.NFilme;
 import negocio.NGenero;
 import negocio.NPessoal;
+import negocio.NTipoFilme;
 
 public class FrmCadFilme implements Initializable {
 
@@ -43,7 +45,7 @@ public class FrmCadFilme implements Initializable {
     private TextField txtAnoLancamento;
 
     @FXML
-    private ComboBox<String> Cb_Tipo;
+    private ComboBox<TipoFilme> Cb_Tipo;
 
     @FXML
     private ComboBox<Genero> Cb_Genero;
@@ -71,12 +73,13 @@ public class FrmCadFilme implements Initializable {
     
     ObservableList<String> lista;
     ObservableList<Genero> listaGen;
-    ObservableList<String> listaTipo;
+    ObservableList<TipoFilme> listaTipo;
 
     public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			GerarFaixaEtaria();
 			GerarGenero();
+			GerarTipo();
 			txtID.setText("0");
 			btnNovo.setText("");
 			btnAlterar.setText("");
@@ -98,14 +101,20 @@ public class FrmCadFilme implements Initializable {
 	private void salvar(ActionEvent event) {
 		try {
 			Filmes filme = new Filmes();
+			TipoFilme tipo = new TipoFilme();
 			
+			tipo.setId(tipo.getId());
+			tipo.setPreco(tipo.getPreco());
+			tipo.setTipo(tipo.getTipo());
 			
 
 			filme.setId(Integer.parseInt(txtID.getText()));
+			filme.setTitulo(txtTituloFilme.getText());
 			filme.setFaixaEtaria(Cb_FaixaEtaria.getSelectionModel().getSelectedItem());
 			filme.setAnoLancamento(txtAnoLancamento.getText());
 			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
 			filme.setSinopse(txaSinopse.getText());;
+			filme.setTipo_id(Cb_Tipo.getValue());
 
 			new NFilme().salvar(filme);
 			new Alert(AlertType.ERROR, "Incluido com sucesso! N�" + filme.getId()).show();
@@ -127,16 +136,35 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void buscar(ActionEvent event) {
 		try {
-			Filmes filme = new NFilme().consultar(txtTitulo_consulta.getText());
+			Filmes filme = new NFilme().consultar(txtTituloFilme.getText());
+			txtID.setText(String.valueOf(filme.getId()));
 			txtTituloFilme.setText(filme.getTitulo());
 			txtAnoLancamento.setText(filme.getAnoLancamento());
-			txtID.setText(filme.getId() + "");
+			txaSinopse.setText(filme.getSinopse());
+			
+//			txtID.setText(filme.getId() + "");
 //			id_endereco = pessoal.getEndereco().getId();
 
 			String FaixaEtaria = filme.getFaixaEtaria();
 			for (int i = 0; i < lista.size(); i++) {
 				if (lista.get(i).equals(FaixaEtaria)) {
 					Cb_FaixaEtaria.getSelectionModel().select(i);
+					break;
+				}
+			}
+			
+			String TipoFilme = filme.getTitulo();
+			for (int i = 0; i < lista.size(); i++) {
+				if (lista.get(i).equals(TipoFilme)) {
+					Cb_Tipo.getSelectionModel().select(i);
+					break;
+				}
+			}
+			
+			String Genero = filme.getGenero();
+			for (int i = 0; i < lista.size(); i++) {
+				if (lista.get(i).equals(Genero)) {
+					Cb_Genero.getSelectionModel().select(i);
 					break;
 				}
 			}
@@ -150,10 +178,10 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void excluir(ActionEvent event) {
 		try {
-			Pessoal pessoal = new Pessoal();
-			pessoal.setId(Integer.parseInt(txtID.getText()));
+			Filmes filme = new Filmes();
+			filme.setId(Integer.parseInt(txtID.getText()));
 			
-			new NPessoal().excluir(pessoal);
+			new NFilme().excluir(filme);
 			limparTudo();
 			
 		} catch (Exception e) {
@@ -176,9 +204,9 @@ public class FrmCadFilme implements Initializable {
 		txtAnoLancamento.setText("");
 		txaSinopse.setText("");
 		txtID.setText("0");
-		
-		GerarFaixaEtaria();
 		Cb_FaixaEtaria.getSelectionModel().select(-1);
+		Cb_Genero.getSelectionModel().select(-1);
+		Cb_Tipo.getSelectionModel().select(-1);
 	}
     
     
@@ -195,10 +223,20 @@ public class FrmCadFilme implements Initializable {
 		
 	}
 
-//    private void GerarTipo() {
-//    	
-//	
-//    }
+    private void GerarTipo() {
+    	try {
+    			listaTipo = FXCollections.observableArrayList();
+    		
+	    		for(TipoFilme obj : new NTipoFilme().listarTipoFilme()) {
+	    			listaTipo.add(obj);
+	    			Cb_Tipo.setItems(listaTipo);
+	    		}
+    		
+    		}catch(Exception e) {
+    		JOptionPane.showMessageDialog(null, e.getMessage());
+    	}
+	
+    }
 
     private void GerarGenero() {
     	try {
