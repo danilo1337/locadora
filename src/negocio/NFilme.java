@@ -30,7 +30,7 @@ public class NFilme {
 		return per.consultar(filme);
 	}
 	
-	public List<Filmes> Listar() throws SQLException{
-		return per.listar();	
+	public List<Filmes> Listar(Filmes param) throws SQLException{
+		return per.listar(param);
 	}
 }

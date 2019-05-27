@@ -115,7 +115,7 @@ public class PFilmes {
         return retorno;
     }
     
-    public List<Filmes> listar() throws SQLException {
+    public List<Filmes> listar(Filmes param) throws SQLException {
         String sql = "SELECT * FROM filme";
         
         Statement stm = cnn.createStatement();

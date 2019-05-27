@@ -76,6 +76,10 @@ public class Filmes {
 	public void setTipo_id(TipoFilme tipo_id) {
 		this.tipo_id = tipo_id;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return this.titulo;
+	}
+
 }
