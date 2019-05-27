@@ -15,10 +15,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import negocio.NReservaTimer;
-import negocio.TimeClockObserver;
-import util.TimerClockObservable;
 import util.NovaCena;
 import util.Sessao;
+import util.TimerClockObservable;
 
 public class FrmPrincipal implements Initializable {
 	Sessao sessao = Sessao.getInstance();
