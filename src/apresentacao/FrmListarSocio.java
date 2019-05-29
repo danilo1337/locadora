@@ -1,6 +1,7 @@
 package apresentacao;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -17,11 +18,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import pp_iterator.PessoalIterator;
-import pp_template.OrdenarPorCpf;
-import pp_template.OrdenarPorData;
-import pp_template.OrdenarPorNome;
-import pp_template.OrdenarPorSexo;
+import padrao.iterator.PessoalIterator;
+import padrao.template.OrdenarPorCpf;
+import padrao.template.OrdenarPorData;
+import padrao.template.OrdenarPorNome;
+import padrao.template.OrdenarPorSexo;
 
 public class FrmListarSocio implements Initializable {
 	@FXML
@@ -53,7 +54,7 @@ public class FrmListarSocio implements Initializable {
 		try {
 			PessoalIterator pessoalIterator = new PessoalIterator();
 			
-			String itemLista = (String) cbTipos.getSelectionModel().getSelectedItem();
+			String itemLista = cbTipos.getSelectionModel().getSelectedItem();
 			switch (itemLista) {
 			case "Nome":
 				imprimirNaTabela(new OrdenarPorNome().listagem());
@@ -90,7 +91,7 @@ public class FrmListarSocio implements Initializable {
 	private void imprimirNaTabela(Iterator<Pessoal> dados) throws Exception {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
 		while (dados.hasNext()) {
-			Pessoal pessoal = (Pessoal) dados.next();
+			Pessoal pessoal = dados.next();
 			lista.add(pessoal);
 		}
 
@@ -112,9 +113,7 @@ public class FrmListarSocio implements Initializable {
 	public void gerarTipos() {
 		ObservableList<String> lista = FXCollections.observableArrayList();
 		String tipoListagem[] = { "Nome", "CPF", "Sexo", "Data", "Lista", "Pilha", "Fila" };
-		for (int i = 0; i < tipoListagem.length; i++) {
-			lista.add(tipoListagem[i]);
-		}
+        lista.addAll(Arrays.asList(tipoListagem));
 		cbTipos.setItems(lista);
 	}
 

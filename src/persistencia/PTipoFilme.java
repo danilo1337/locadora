@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entidade.Endereco;
-import entidade.Filmes;
 import entidade.TipoFilme;
 import util.Conexao;
 

@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import entidade.Filmes;
 import entidade.Genero;
-import entidade.Pessoal;
 import entidade.TipoFilme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import negocio.NFilme;
 import negocio.NGenero;
-import negocio.NPessoal;
 import negocio.NTipoFilme;
 
 public class FrmCadFilme implements Initializable {
@@ -67,188 +65,189 @@ public class FrmCadFilme implements Initializable {
 
     @FXML
     private Button btnBuscar;
-    
+
     @FXML
     private TextArea txaSinopse;
-    
+
     ObservableList<String> lista;
     ObservableList<Genero> listaGen;
     ObservableList<TipoFilme> listaTipo;
 
     public void initialize(URL arg0, ResourceBundle arg1) {
-		try {
-			GerarFaixaEtaria();
-			GerarGenero();
-			GerarTipo();
-			txtID.setText("0");
-			btnNovo.setText("");
-			btnAlterar.setText("");
-			btnExcluir.setText("");
-			btnLimpar.setText("");
-			btnBuscar.setText("");
-			btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
-			btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
-			btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
-			btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
-			btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png", 26, 26, false, false)));
-		} catch (Exception e) {
-			new Alert(AlertType.ERROR, e.getMessage()).show();
-		}
+        try {
+            GerarFaixaEtaria();
+            GerarGenero();
+            GerarTipo();
+            txtID.setText("0");
+            btnNovo.setText("");
+            btnAlterar.setText("");
+            btnExcluir.setText("");
+            btnLimpar.setText("");
+            btnBuscar.setText("");
+            btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
+            btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
+            btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
+            btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
+            btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png", 26, 26, false, false)));
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+        }
 
-	}
-    
+    }
+
     @FXML
-	private void salvar(ActionEvent event) {
-		try {
-			Filmes filme = new Filmes();
-			TipoFilme tipo = new TipoFilme();
-			
-			tipo.setId(tipo.getId());
-			tipo.setPreco(tipo.getPreco());
-			tipo.setTipo(tipo.getTipo());
-			
+    private void salvar(ActionEvent event) {
+        try {
+            Filmes filme = new Filmes();
+            TipoFilme tipo = new TipoFilme();
 
-			filme.setId(Integer.parseInt(txtID.getText()));
-			filme.setTitulo(txtTituloFilme.getText());
-			filme.setFaixaEtaria(Cb_FaixaEtaria.getSelectionModel().getSelectedItem());
-			filme.setAnoLancamento(txtAnoLancamento.getText());
-			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
-			filme.setSinopse(txaSinopse.getText());;
-			filme.setTipo_id(Cb_Tipo.getValue());
+            tipo.setId(tipo.getId());
+            tipo.setPreco(tipo.getPreco());
+            tipo.setTipo(tipo.getTipo());
 
-			new NFilme().salvar(filme);
-			new Alert(AlertType.ERROR, "Incluido com sucesso! N�" + filme.getId()).show();
-			limparTudo();
-		} catch (Exception e) {
-			new Alert(AlertType.ERROR, e.getMessage()).show();
-		}
-	}
 
-	@FXML
-	private void alterar(ActionEvent event) {
-		try {
-			limparTudo();
-		} catch (Exception e) {
-			new Alert(AlertType.ERROR, e.getMessage()).show();
-		}
-	}
+            filme.setId(Integer.parseInt(txtID.getText()));
+            filme.setTitulo(txtTituloFilme.getText());
+            filme.setFaixaEtaria(Cb_FaixaEtaria.getSelectionModel().getSelectedItem());
+            filme.setAnoLancamento(txtAnoLancamento.getText());
+            filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
+            filme.setSinopse(txaSinopse.getText());
+            ;
+            filme.setTipo_id(Cb_Tipo.getValue());
 
-	@FXML
-	private void buscar(ActionEvent event) {
-		try {
-			Filmes filme = new NFilme().consultar(txtTituloFilme.getText());
-			txtID.setText(String.valueOf(filme.getId()));
-			txtTituloFilme.setText(filme.getTitulo());
-			txtAnoLancamento.setText(filme.getAnoLancamento());
-			txaSinopse.setText(filme.getSinopse());
-			
+            new NFilme().salvar(filme);
+            new Alert(AlertType.ERROR, "Incluido com sucesso! N�" + filme.getId()).show();
+            limparTudo();
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    private void alterar(ActionEvent event) {
+        try {
+            limparTudo();
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    private void buscar(ActionEvent event) {
+        try {
+            Filmes filme = new NFilme().consultar(txtTituloFilme.getText());
+            txtID.setText(String.valueOf(filme.getId()));
+            txtTituloFilme.setText(filme.getTitulo());
+            txtAnoLancamento.setText(filme.getAnoLancamento());
+            txaSinopse.setText(filme.getSinopse());
+
 //			txtID.setText(filme.getId() + "");
 //			id_endereco = pessoal.getEndereco().getId();
 
-			String FaixaEtaria = filme.getFaixaEtaria();
-			for (int i = 0; i < lista.size(); i++) {
-				if (lista.get(i).equals(FaixaEtaria)) {
-					Cb_FaixaEtaria.getSelectionModel().select(i);
-					break;
-				}
-			}
-			
-			String TipoFilme = filme.getTitulo();
-			for (int i = 0; i < lista.size(); i++) {
-				if (lista.get(i).equals(TipoFilme)) {
-					Cb_Tipo.getSelectionModel().select(i);
-					break;
-				}
-			}
-			
-			String Genero = filme.getGenero();
-			for (int i = 0; i < lista.size(); i++) {
-				if (lista.get(i).equals(Genero)) {
-					Cb_Genero.getSelectionModel().select(i);
-					break;
-				}
-			}
+            String FaixaEtaria = filme.getFaixaEtaria();
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).equals(FaixaEtaria)) {
+                    Cb_FaixaEtaria.getSelectionModel().select(i);
+                    break;
+                }
+            }
 
-		} catch (Exception e) {
-			new Alert(AlertType.ERROR, e.getMessage()).show();
-			e.printStackTrace();
-		}
-	}
+            String TipoFilme = filme.getTitulo();
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).equals(TipoFilme)) {
+                    Cb_Tipo.getSelectionModel().select(i);
+                    break;
+                }
+            }
 
-	@FXML
-	private void excluir(ActionEvent event) {
-		try {
-			Filmes filme = new Filmes();
-			filme.setId(Integer.parseInt(txtID.getText()));
-			
-			new NFilme().excluir(filme);
-			limparTudo();
-			
-		} catch (Exception e) {
-			new Alert(AlertType.ERROR, e.getMessage()).show();
-		}
-	}
-    
+            String Genero = filme.getGenero();
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).equals(Genero)) {
+                    Cb_Genero.getSelectionModel().select(i);
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+            e.printStackTrace();
+        }
+    }
+
     @FXML
-	private void limpar(ActionEvent event) {
-		try {
-			limparTudo();
+    private void excluir(ActionEvent event) {
+        try {
+            Filmes filme = new Filmes();
+            filme.setId(Integer.parseInt(txtID.getText()));
 
-		} catch (Exception e) {
-			new Alert(AlertType.ERROR, e.getMessage()).show();
-		}
-	}
-    
+            new NFilme().excluir(filme);
+            limparTudo();
+
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    private void limpar(ActionEvent event) {
+        try {
+            limparTudo();
+
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
     private void limparTudo() {
-		txtTituloFilme.setText("");
-		txtAnoLancamento.setText("");
-		txaSinopse.setText("");
-		txtID.setText("0");
-		Cb_FaixaEtaria.getSelectionModel().select(-1);
-		Cb_Genero.getSelectionModel().select(-1);
-		Cb_Tipo.getSelectionModel().select(-1);
-	}
-    
-    
+        txtTituloFilme.setText("");
+        txtAnoLancamento.setText("");
+        txaSinopse.setText("");
+        txtID.setText("0");
+        Cb_FaixaEtaria.getSelectionModel().select(-1);
+        Cb_Genero.getSelectionModel().select(-1);
+        Cb_Tipo.getSelectionModel().select(-1);
+    }
+
+
     private void GerarFaixaEtaria() {
-		
-		lista = FXCollections.observableArrayList();
-		lista.add("L");
-		lista.add("10");
-		lista.add("12");
-		lista.add("14");
-		lista.add("16");
-		lista.add("18");
-		Cb_FaixaEtaria.setItems(lista);
-		
-	}
+
+        lista = FXCollections.observableArrayList();
+        lista.add("L");
+        lista.add("10");
+        lista.add("12");
+        lista.add("14");
+        lista.add("16");
+        lista.add("18");
+        Cb_FaixaEtaria.setItems(lista);
+
+    }
 
     private void GerarTipo() {
-    	try {
-    			listaTipo = FXCollections.observableArrayList();
-    		
-	    		for(TipoFilme obj : new NTipoFilme().listarTipoFilme()) {
-	    			listaTipo.add(obj);
-	    			Cb_Tipo.setItems(listaTipo);
-	    		}
-    		
-    		}catch(Exception e) {
-    		JOptionPane.showMessageDialog(null, e.getMessage());
-    	}
-	
+        try {
+            listaTipo = FXCollections.observableArrayList();
+
+            for (TipoFilme obj : new NTipoFilme().listarTipoFilme()) {
+                listaTipo.add(obj);
+                Cb_Tipo.setItems(listaTipo);
+            }
+
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
+        }
+
     }
 
     private void GerarGenero() {
-    	try {
-    		listaGen = FXCollections.observableArrayList();
-    		for	(Genero obj : new NGenero().listarGenero()) {
-    			
-    			listaGen.add(obj);
-    			Cb_Genero.setItems(listaGen);
-    		}
-    	}catch (Exception e) {
-    		new Alert(AlertType.ERROR,e.getMessage()).show();
+        try {
+            listaGen = FXCollections.observableArrayList();
+            for (Genero obj : new NGenero().listarGenero()) {
+
+                listaGen.add(obj);
+                Cb_Genero.setItems(listaGen);
+            }
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, e.getMessage()).show();
         }
-	
+
     }
 }	

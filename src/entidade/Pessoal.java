@@ -14,12 +14,12 @@ public class Pessoal {
 	private String nome_completo = "";
 	private String sexo = "";
 	private String cpf = "";
-	private java.sql.Date data_nascimento = null;
+	private java.sql.Date data_nascimento;
 	private String telefone = "";
 	private String celular = "";
 	private String email = "";
 	private int tipo = 5;
-	private Endereco endereco = null;
+	private Endereco endereco;
 
 	public Pessoal() {
 		data_nascimento = new Date(new java.util.Date().getTime());

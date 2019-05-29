@@ -3,6 +3,7 @@ package apresentacao;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import entidade.Endereco;
@@ -123,8 +124,8 @@ public class FrmCadSocio implements Initializable {
 	private void novo(ActionEvent event) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			java.sql.Date dataSql = null;
-			java.util.Date dataUtil = null;
+			java.sql.Date dataSql;
+			java.util.Date dataUtil;
 			Pessoal pessoal = new Pessoal();
 			Endereco endereco = new Endereco();
 			if (dateNascimento.getValue() == null) {
@@ -291,18 +292,14 @@ public class FrmCadSocio implements Initializable {
 		listaUF = FXCollections.observableArrayList();
 		String estados[] = { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB",
 				"PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" };
-		for (int i = 0; i < estados.length; i++) {
-			listaUF.add(estados[i]);
-		}
+		listaUF.addAll(Arrays.asList(estados));
 		cbUF.setItems(listaUF);
 	}
 
 	private void gerarTipo() {
 		listaTipo = FXCollections.observableArrayList();
 		String tipos[] = { "Usuário", "Atendente", "Gerente" };
-		for (int i = 0; i < tipos.length; i++) {
-			listaTipo.add(tipos[i]);
-		}
+		listaTipo.addAll(Arrays.asList(tipos));
 		cbTipo.setItems(listaTipo);
 	}
 
