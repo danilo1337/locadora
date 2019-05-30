@@ -17,11 +17,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import pp_iterator.PessoalIterator;
-import pp_template.OrdenarPorCpf;
-import pp_template.OrdenarPorData;
-import pp_template.OrdenarPorNome;
-import pp_template.OrdenarPorSexo;
+import padrao.factory.Abreviatura;
+import padrao.factory.AbreviaturaFactory;
+import padrao.iterator.PessoalIterator;
+import padrao.template.OrdenarPorCpf;
+import padrao.template.OrdenarPorData;
+import padrao.template.OrdenarPorNome;
+import padrao.template.OrdenarPorSexo;
 
 public class FrmListarSocio implements Initializable {
 	@FXML
@@ -52,7 +54,7 @@ public class FrmListarSocio implements Initializable {
 	private void consultar(ActionEvent event) {
 		try {
 			PessoalIterator pessoalIterator = new PessoalIterator();
-			
+
 			String itemLista = (String) cbTipos.getSelectionModel().getSelectedItem();
 			switch (itemLista) {
 			case "Nome":
@@ -107,6 +109,18 @@ public class FrmListarSocio implements Initializable {
 			tabela.getColumns().add(new TableColumn<>(colunas[i]));
 			tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
 		}
+		tabela.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> listnerTabela(newValue));
+	}
+
+	private Object listnerTabela(Object newValue) {
+		Pessoal pessoal = null;
+		if(newValue != null) {
+			pessoal = (Pessoal) newValue;
+			Abreviatura abr = AbreviaturaFactory.criarAbreviatura(pessoal.getSexo());
+			new Alert(AlertType.INFORMATION,abr.getAbreviatura()+" "+pessoal.getNome_completo()).show();;
+			
+		}
+		return pessoal;
 	}
 
 	public void gerarTipos() {

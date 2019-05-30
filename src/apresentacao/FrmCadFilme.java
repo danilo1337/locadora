@@ -1,12 +1,12 @@
 package apresentacao;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import entidade.Filmes;
 import entidade.Genero;
-import entidade.Pessoal;
 import entidade.TipoFilme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,58 +24,57 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import negocio.NFilme;
 import negocio.NGenero;
-import negocio.NPessoal;
 import negocio.NTipoFilme;
 
 public class FrmCadFilme implements Initializable {
 
-    @FXML
-    private Tab mnuDadosPessoais;
+	@FXML
+	private Tab mnuDadosPessoais;
 
-    @FXML
-    private ComboBox<String> Cb_FaixaEtaria;
+	@FXML
+	private ComboBox<String> Cb_FaixaEtaria;
 
-    @FXML
-    private TextField txtID;
+	@FXML
+	private TextField txtID;
 
-    @FXML
-    private TextField txtTituloFilme;
+	@FXML
+	private TextField txtTituloFilme;
 
-    @FXML
-    private TextField txtAnoLancamento;
+	@FXML
+	private TextField txtAnoLancamento;
 
-    @FXML
-    private ComboBox<TipoFilme> Cb_Tipo;
+	@FXML
+	private ComboBox<TipoFilme> Cb_Tipo;
 
-    @FXML
-    private ComboBox<Genero> Cb_Genero;
+	@FXML
+	private ComboBox<Genero> Cb_Genero;
 
-    @FXML
-    private Button btnNovo;
+	@FXML
+	private Button btnNovo;
 
-    @FXML
-    private Button btnAlterar;
+	@FXML
+	private Button btnAlterar;
 
-    @FXML
-    private Button btnExcluir;
+	@FXML
+	private Button btnExcluir;
 
-    @FXML
-    private Button btnLimpar;
+	@FXML
+	private Button btnLimpar;
 
-    @FXML
-    private TextField txtTitulo_consulta;
+	@FXML
+	private TextField txtTitulo_consulta;
 
-    @FXML
-    private Button btnBuscar;
-    
-    @FXML
-    private TextArea txaSinopse;
-    
-    ObservableList<String> lista;
-    ObservableList<Genero> listaGen;
-    ObservableList<TipoFilme> listaTipo;
+	@FXML
+	private Button btnBuscar;
 
-    public void initialize(URL arg0, ResourceBundle arg1) {
+	@FXML
+	private TextArea txaSinopse;
+
+	ObservableList<String> lista;
+	ObservableList<Genero> listaGen;
+	ObservableList<TipoFilme> listaTipo;
+
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			GerarFaixaEtaria();
 			GerarGenero();
@@ -96,24 +95,24 @@ public class FrmCadFilme implements Initializable {
 		}
 
 	}
-    
-    @FXML
+
+	@FXML
 	private void salvar(ActionEvent event) {
 		try {
 			Filmes filme = new Filmes();
 			TipoFilme tipo = new TipoFilme();
-			
+
 			tipo.setId(tipo.getId());
 			tipo.setPreco(tipo.getPreco());
 			tipo.setTipo(tipo.getTipo());
-			
 
 			filme.setId(Integer.parseInt(txtID.getText()));
 			filme.setTitulo(txtTituloFilme.getText());
 			filme.setFaixaEtaria(Cb_FaixaEtaria.getSelectionModel().getSelectedItem());
 			filme.setAnoLancamento(txtAnoLancamento.getText());
 			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
-			filme.setSinopse(txaSinopse.getText());;
+			filme.setSinopse(txaSinopse.getText());
+			;
 			filme.setTipo_id(Cb_Tipo.getValue());
 
 			new NFilme().salvar(filme);
@@ -141,7 +140,7 @@ public class FrmCadFilme implements Initializable {
 			txtTituloFilme.setText(filme.getTitulo());
 			txtAnoLancamento.setText(filme.getAnoLancamento());
 			txaSinopse.setText(filme.getSinopse());
-			
+
 //			txtID.setText(filme.getId() + "");
 //			id_endereco = pessoal.getEndereco().getId();
 
@@ -152,7 +151,7 @@ public class FrmCadFilme implements Initializable {
 					break;
 				}
 			}
-			
+
 			String TipoFilme = filme.getTitulo();
 			for (int i = 0; i < lista.size(); i++) {
 				if (lista.get(i).equals(TipoFilme)) {
@@ -160,7 +159,7 @@ public class FrmCadFilme implements Initializable {
 					break;
 				}
 			}
-			
+
 			String Genero = filme.getGenero();
 			for (int i = 0; i < lista.size(); i++) {
 				if (lista.get(i).equals(Genero)) {
@@ -180,16 +179,16 @@ public class FrmCadFilme implements Initializable {
 		try {
 			Filmes filme = new Filmes();
 			filme.setId(Integer.parseInt(txtID.getText()));
-			
+
 			new NFilme().excluir(filme);
 			limparTudo();
-			
+
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 	}
-    
-    @FXML
+
+	@FXML
 	private void limpar(ActionEvent event) {
 		try {
 			limparTudo();
@@ -198,8 +197,8 @@ public class FrmCadFilme implements Initializable {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
 	}
-    
-    private void limparTudo() {
+
+	private void limparTudo() {
 		txtTituloFilme.setText("");
 		txtAnoLancamento.setText("");
 		txaSinopse.setText("");
@@ -208,10 +207,9 @@ public class FrmCadFilme implements Initializable {
 		Cb_Genero.getSelectionModel().select(-1);
 		Cb_Tipo.getSelectionModel().select(-1);
 	}
-    
-    
-    private void GerarFaixaEtaria() {
-		
+
+	private void GerarFaixaEtaria() {
+
 		lista = FXCollections.observableArrayList();
 		lista.add("L");
 		lista.add("10");
@@ -220,35 +218,35 @@ public class FrmCadFilme implements Initializable {
 		lista.add("16");
 		lista.add("18");
 		Cb_FaixaEtaria.setItems(lista);
-		
+
 	}
 
-    private void GerarTipo() {
-    	try {
-    			listaTipo = FXCollections.observableArrayList();
-    		
-	    		for(TipoFilme obj : new NTipoFilme().listarTipoFilme()) {
-	    			listaTipo.add(obj);
-	    			Cb_Tipo.setItems(listaTipo);
-	    		}
-    		
-    		}catch(Exception e) {
-    		JOptionPane.showMessageDialog(null, e.getMessage());
-    	}
-	
-    }
+	private void GerarTipo() {
+		try {
+			listaTipo = FXCollections.observableArrayList();
 
-    private void GerarGenero() {
-    	try {
-    		listaGen = FXCollections.observableArrayList();
-    		for	(Genero obj : new NGenero().listarGenero()) {
-    			
-    			listaGen.add(obj);
-    			Cb_Genero.setItems(listaGen);
-    		}
-    	}catch (Exception e) {
-    		new Alert(AlertType.ERROR,e.getMessage()).show();
-        }
-	
-    }
-}	
+			for (TipoFilme obj : new NTipoFilme().listarTipoFilme()) {
+				listaTipo.add(obj);
+				Cb_Tipo.setItems(listaTipo);
+			}
+
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR, e.getMessage()).show();
+		}
+
+	}
+
+	private void GerarGenero() {
+		try {
+			listaGen = FXCollections.observableArrayList();
+			for (Genero obj : new NGenero().listarGenero()) {
+
+				listaGen.add(obj);
+				Cb_Genero.setItems(listaGen);
+			}
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR, e.getMessage()).show();
+		}
+
+	}
+}

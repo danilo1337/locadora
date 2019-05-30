@@ -14,7 +14,7 @@ class Mulher implements Abreviatura{
 
 	@Override
 	public String getAbreviatura() {
-		return "Sr.Âª";
+		return "Sr.ª";
 	}
 	
 }

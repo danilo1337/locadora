@@ -101,7 +101,7 @@ public class FrmCadSocio implements Initializable {
 
 	@FXML
 	private ComboBox<String> cbTipo;
-//------Objetos-----
+	//------Objetos-----
 	ObservableList<String> listaUF;
 	ObservableList<String> listaTipo;
 	int id_endereco = 0;
@@ -153,7 +153,7 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setEndereco(endereco);
 			RadioButton rb = (RadioButton) grupoSexo.getSelectedToggle();
 			pessoal.setSexo(rb.getText());
-			
+
 			String tipo = cbTipo.getSelectionModel().getSelectedItem();
 			switch (tipo) {
 			case "Gerente":
@@ -165,7 +165,7 @@ public class FrmCadSocio implements Initializable {
 			case "Atendente":
 				pessoal.setTipo(2);
 				break;
-				
+
 			default:
 				pessoal.setTipo(5);
 				break;
@@ -217,22 +217,22 @@ public class FrmCadSocio implements Initializable {
 					break;
 				}
 			}
-			//Pega o tipo descobre a descrição
+			// Pega o tipo descobre a descrição
 			int tipo = pessoal.getTipo();
 			String tipo_Descricao = "";
-			if(tipo == 1)
+			if (tipo == 1)
 				tipo_Descricao = "Gerente";
 			else if (tipo == 2)
 				tipo_Descricao = "Atendente";
 			else if (tipo == 5)
 				tipo_Descricao = "Usuário";
-			//Seleciona o tipo segundo a descrição
+			// Seleciona o tipo segundo a descrição
 			for (int i = 0; i < listaTipo.size(); i++) {
-				if(listaTipo.get(i).equals(tipo_Descricao)) {
+				if (listaTipo.get(i).equals(tipo_Descricao)) {
 					cbTipo.getSelectionModel().select(i);
 				}
 			}
-			
+
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 			e.printStackTrace();
@@ -263,7 +263,7 @@ public class FrmCadSocio implements Initializable {
 		}
 	}
 
-//---------------------Limpar Tela---------------------
+	//---------------------Limpar Tela---------------------
 	private void limparTudo() {
 		txtBairro.setText("");
 		txtCelular.setText("");
@@ -286,7 +286,7 @@ public class FrmCadSocio implements Initializable {
 		cbTipo.getSelectionModel().select(0);
 	}
 
-//--------------------------Combobox--------------------------
+	//--------------------------Combobox--------------------------
 	private void gerarUF() {
 		listaUF = FXCollections.observableArrayList();
 		String estados[] = { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB",
@@ -306,7 +306,7 @@ public class FrmCadSocio implements Initializable {
 		cbTipo.setItems(listaTipo);
 	}
 
-//-------------------Imagem nos botões----------------------------
+	//-------------------Imagem nos botões----------------------------
 	private void imagemNosBotoes() {
 		btnNovo.setText("");
 		btnAlterar.setText("");

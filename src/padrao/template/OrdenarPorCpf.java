@@ -1,11 +1,12 @@
-package pp_template;
+package padrao.template;
 
 import entidade.Pessoal;
+
 /**
  * @author Danilo
  *
  */
-public class OrdenarPorCpf extends PessoalTemplate{
+public class OrdenarPorCpf extends PessoalTemplate {
 
 	public OrdenarPorCpf() {
 		super();

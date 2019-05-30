@@ -1,15 +1,19 @@
 package persistencia;
 
-import entidade.Locacao_item;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import entidade.Locacao;
+import entidade.Locacao_item;
 import entidade.Pessoal;
 import negocio.NLocacao_item;
 import negocio.NPessoal;
 import util.Conexao;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PLocacao {
 
