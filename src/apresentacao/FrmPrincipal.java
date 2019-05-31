@@ -16,9 +16,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import negocio.NReservaTimer;
 import negocio.TimeClockObserver;
+import padrao.singleton.Sessao;
 import util.TimerClockObservable;
 import util.NovaCena;
-import util.Sessao;
 
 public class FrmPrincipal implements Initializable {
 	Sessao sessao = Sessao.getInstance();
@@ -40,7 +40,7 @@ public class FrmPrincipal implements Initializable {
 		TimerClockObservable timerClockObservable = new TimerClockObservable();
 //		new TimeClockObserver(timerClockObservable);
 		new NReservaTimer(timerClockObservable);
-		timerClockObservable.clock();
+//		timerClockObservable.clock();
 
 		Login usuario = sessao.getLogin();
 		new Alert(Alert.AlertType.INFORMATION, "Bem vindo " + usuario.getUsuario()).show(); // So coloquei para teste.

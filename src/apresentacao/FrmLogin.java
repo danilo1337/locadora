@@ -1,5 +1,8 @@
 package apresentacao;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import entidade.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,10 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import negocio.NLogin;
-import util.Sessao;
-
-import java.net.URL;
-import java.util.ResourceBundle;
+import padrao.singleton.Sessao;
 
 public class FrmLogin implements Initializable {
 	Sessao sessao = Sessao.getInstance();
@@ -32,17 +32,12 @@ public class FrmLogin implements Initializable {
 	@FXML
 	private PasswordField txtSenha;
 
-	@FXML
-	private Button btnCadastrar;
 
 	@FXML
 	private Button btnLogar;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) { }
-
-	@FXML
-	private void cadastrar(ActionEvent event) { }
 
 	@FXML
 	private void logar(ActionEvent event) {
