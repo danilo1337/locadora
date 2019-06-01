@@ -101,10 +101,8 @@ public class FrmListarSocio implements Initializable {
 
 	private void gerarColunas() {
 		// adiocionando as colunas
-		String colunas[] = { "ID", "NOME", "SEXO", "CPF", "D.Nasc", "TELEFONE", "CELULAR", "E-MAIL", "TIPO",
-				"LOCALIDADE" };
-		String nomeVariaveis[] = { "id", "nome_completo", "sexo", "cpf", "data_nascimento", "telefone", "celular",
-				"email", "tipo", "endereco" };
+		String colunas[] = new Pessoal().getColunas();
+		String nomeVariaveis[] = new Pessoal().getVariaveis();
 		for (int i = 0; i < colunas.length; i++) {
 			tabela.getColumns().add(new TableColumn<>(colunas[i]));
 			tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));

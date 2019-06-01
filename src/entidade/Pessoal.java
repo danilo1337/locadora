@@ -46,5 +46,13 @@ public class Pessoal {
 	public void setEmail(String email) {this.email = email;}
 	public int getTipo() {return tipo;}
 	public void setTipo(int tipo) {this.tipo = tipo;}
+	
+	public String[] getColunas() {
+		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc", "TELEFONE", "CELULAR", "E-MAIL", "TIPO" };
+	}
+	public String[] getVariaveis() {
+		return new String[]{ "id", "nome_completo", "sexo", "cpf", "data_nascimento", "telefone",
+				"celular", "email", "tipo", "endereco" };
+	}
 
 }

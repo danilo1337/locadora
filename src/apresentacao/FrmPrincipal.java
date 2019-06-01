@@ -15,10 +15,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import negocio.NReservaTimer;
-import negocio.TimeClockObserver;
 import padrao.singleton.Sessao;
-import util.TimerClockObservable;
 import util.NovaCena;
+import util.TimerClockObservable;
 
 public class FrmPrincipal implements Initializable {
 	Sessao sessao = Sessao.getInstance();
@@ -74,6 +73,11 @@ public class FrmPrincipal implements Initializable {
 		paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmPedidos.fxml"));
 	}
 
+    @FXML
+    void relatorioGeral(ActionEvent event) {
+    	paneInterno.getChildren().clear();
+		paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmRelatorio.fxml"));
+    }
 	@FXML
 	void logout(ActionEvent event) {
 		sessao.setLogin(null);
