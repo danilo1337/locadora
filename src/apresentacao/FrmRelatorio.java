@@ -1,7 +1,8 @@
 package apresentacao;
 
 import java.net.URL;
-import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -22,7 +23,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import negocio.NPessoal;
 import persistencia.PPessoal;
+import util.pdf.PdfPessoal;
 
 public class FrmRelatorio implements Initializable {
 
@@ -68,7 +71,29 @@ public class FrmRelatorio implements Initializable {
 
 	@FXML
 	void gerarPdf(ActionEvent event) {
-
+		try {
+			String selecionado = (String) cbTipos.getSelectionModel().getSelectedItem();
+			if(selecionado.isEmpty() || selecionado == null)
+				throw new Exception("Escolha um tipo de relatório");
+			
+			Date date = new Date(new Date().getTime());
+			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyhhmmss");
+			String nomeDoPdf = ""+sdf.format(date);
+			switch (selecionado) {
+			case "Pessoas":
+				PdfPessoal pdf = new PdfPessoal(nomeDoPdf, new Pessoal().getColunas(), new NPessoal().listar());
+				pdf.gerarPersonalizado("Relatório de Sócios", "Relatório de todos os Sócios:");	
+				break;
+			case "Pedidos":
+				
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR, e.getMessage()).show();
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -126,6 +151,7 @@ public class FrmRelatorio implements Initializable {
 		tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tabela.setPrefWidth(paneDaTabela.getPrefWidth());
 		tabela.setPrefHeight(paneDaTabela.getPrefHeight());
+		tabela.setTableMenuButtonVisible(true);
 		paneDaTabela.getChildren().add(tabela);
 	}
 
