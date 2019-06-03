@@ -32,17 +32,12 @@ public class FrmLogin implements Initializable {
 	@FXML
 	private PasswordField txtSenha;
 
-	@FXML
-	private Button btnCadastrar;
 
 	@FXML
 	private Button btnLogar;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) { }
-
-	@FXML
-	private void cadastrar(ActionEvent event) { }
 
 	@FXML
 	private void logar(ActionEvent event) {
