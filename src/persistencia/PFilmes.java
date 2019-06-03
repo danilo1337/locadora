@@ -51,6 +51,7 @@ public class PFilmes {
         rs.close();
         cnn.close();
     }
+    
 
     public void alterar(Filmes filme) throws SQLException {
         String sql = "UPDATE filme SET"

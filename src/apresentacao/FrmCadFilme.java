@@ -116,7 +116,7 @@ public class FrmCadFilme implements Initializable {
             filme.setTipo_id(Cb_Tipo.getValue());
 
             new NFilme().salvar(filme);
-            new Alert(AlertType.ERROR, "Incluido com sucesso! N�" + filme.getId()).show();
+            new Alert(AlertType.ERROR, "Incluido com sucesso! N" + filme.getId()).show();
             limparTudo();
         } catch (Exception e) {
             new Alert(AlertType.ERROR, e.getMessage()).show();
