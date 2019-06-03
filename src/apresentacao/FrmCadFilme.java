@@ -79,7 +79,7 @@ public class FrmCadFilme implements Initializable {
 			GerarFaixaEtaria();
 			GerarGenero();
 			GerarTipo();
-			txtID.setText("0");
+			txtID.setText("");
 			btnNovo.setText("");
 			btnAlterar.setText("");
 			btnExcluir.setText("");
@@ -112,11 +112,10 @@ public class FrmCadFilme implements Initializable {
 			filme.setAnoLancamento(txtAnoLancamento.getText());
 			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
 			filme.setSinopse(txaSinopse.getText());
-			;
 			filme.setTipo_id(Cb_Tipo.getValue());
 
 			new NFilme().salvar(filme);
-			new Alert(AlertType.ERROR, "Incluido com sucesso! N�" + filme.getId()).show();
+			new Alert(AlertType.INFORMATION, "Incluido com sucesso! N " + filme.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -135,7 +134,7 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void buscar(ActionEvent event) {
 		try {
-			Filmes filme = new NFilme().consultar(txtTituloFilme.getText());
+			Filmes filme = new NFilme().consultar(txtTitulo_consulta.getText());
 			txtID.setText(String.valueOf(filme.getId()));
 			txtTituloFilme.setText(filme.getTitulo());
 			txtAnoLancamento.setText(filme.getAnoLancamento());

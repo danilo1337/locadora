@@ -19,15 +19,10 @@ public class PFilmes {
 	}
 
     public void incluir(Filmes filme) throws SQLException {
-        String sql = "INSERT INTO filmes("
-	        		+ " ano_lancamento,"
-	                + " faixa_etaria, titulo,"
-	                + "sinopse, genero,"
-	                + "tipo_id)"
-	                + " VALUES ("
-	                + "?,?,?,?,?,?)";
+    	try {
+        String sql = "INSERT INTO filme(ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id)"
+        			+ "VALUES (?,?,?,?,?,?);";
 
-        Connection cnn = Conexao.getConexao();
         PreparedStatement ps = cnn.prepareStatement(sql);
         ps.setString(1, filme.getAnoLancamento());
         ps.setString(2, filme.getFaixaEtaria());
@@ -50,6 +45,11 @@ public class PFilmes {
         }
         rs.close();
         cnn.close();
+        
+    	}catch(Exception e) {
+    		cnn.rollback();
+    		e.printStackTrace();
+    	}
     }
 
     public void alterar(Filmes filme) throws SQLException {
@@ -94,7 +94,7 @@ public class PFilmes {
     }
 
     public Filmes consultar(String filme) throws SQLException {
-        String sql = "SELECT * FROM filme WHERE id = ?";
+        String sql = "SELECT * FROM filme WHERE titulo = ?";
         Connection cnn = Conexao.getConexao();
         PreparedStatement ps = cnn.prepareStatement(sql);
 
