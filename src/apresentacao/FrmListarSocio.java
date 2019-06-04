@@ -1,9 +1,9 @@
 package apresentacao;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ResourceBundle;
-
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,6 +56,7 @@ public class FrmListarSocio implements Initializable {
 			PessoalIterator pessoalIterator = new PessoalIterator();
 
 			String itemLista = (String) cbTipos.getSelectionModel().getSelectedItem();
+			
 			switch (itemLista) {
 			case "Nome":
 				imprimirNaTabela(new OrdenarPorNome().listagem());
@@ -124,9 +125,7 @@ public class FrmListarSocio implements Initializable {
 	public void gerarTipos() {
 		ObservableList<String> lista = FXCollections.observableArrayList();
 		String tipoListagem[] = { "Nome", "CPF", "Sexo", "Data", "Lista", "Pilha", "Fila" };
-		for (int i = 0; i < tipoListagem.length; i++) {
-			lista.add(tipoListagem[i]);
-		}
+        lista.addAll(Arrays.asList(tipoListagem));
 		cbTipos.setItems(lista);
 	}
 

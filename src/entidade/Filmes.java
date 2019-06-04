@@ -15,7 +15,7 @@ public class Filmes {
 	private String genero = "";
 
 
-	private TipoFilme tipo_id = null;
+	private TipoFilme tipo_id;
 	
 	public Filmes() {
 		tipo_id = new TipoFilme();

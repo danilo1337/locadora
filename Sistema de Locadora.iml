@@ -14,7 +14,16 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="jdk" jdkName="1.8.0_191" jdkType="JavaSDK" />
-    <orderEntry type="library" exported="" name="postgresql-8.3-603.jdbc4" level="project" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" level="application" />
+    <orderEntry type="module-library">
+      <library name="postgresql-8.3-603.jdbc4.jar">
+        <CLASSES>
+          <root url="file://D:/Instaladores/Bancos_De_Dados/Postgre/postgresql-8.3-603.jdbc4.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

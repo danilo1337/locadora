@@ -21,17 +21,13 @@ public class PessoalIterator {
 
 	public Iterator<Pessoal> listagemComArrayList() throws Exception {
 		ArrayList<Pessoal> arrayList = new ArrayList<>();
-		for (Pessoal pessoal : new PPessoal().listar()) {
-			arrayList.add(pessoal);
-		}
+		arrayList.addAll(new PPessoal().listar());
 		return arrayList.iterator();
 	}
 
 	public Iterator<Pessoal> listagemComFila() throws Exception {
 		Queue<Pessoal> fila = new LinkedList<>();
-		for (Pessoal pessoal : new PPessoal().listar()) {
-			fila.add(pessoal);
-		}
+		fila.addAll(new PPessoal().listar());
 		return fila.iterator();
 	}
 

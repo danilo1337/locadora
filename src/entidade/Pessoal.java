@@ -14,12 +14,12 @@ public class Pessoal {
 	private String nome_completo = "";
 	private String sexo = "";
 	private String cpf = "";
-	private java.sql.Date data_nascimento = null;
+	private java.sql.Date data_nascimento;
 	private String telefone = "";
 	private String celular = "";
 	private String email = "";
 	private int tipo = 5;
-	private Endereco endereco = null;
+	private Endereco endereco;
 
 	public Pessoal() {
 		data_nascimento = new Date(new java.util.Date().getTime());
@@ -55,4 +55,13 @@ public class Pessoal {
 				"celular", "email", "tipo", "endereco" };
 	}
 
+	public String[] getColunas() {
+		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc",
+				"TELEFONE", "CELULAR", "E-MAIL", "TIPO" };
+	}
+	public String[] getVariaveis() {
+		return new String[]{ "id", "nome_completo", "sexo", "cpf", "data_nascimento",
+				"telefone", "celular", "email", "tipo", "endereco" };
+
+	}
 }
