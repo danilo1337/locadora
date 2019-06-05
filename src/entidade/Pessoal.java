@@ -55,13 +55,4 @@ public class Pessoal {
 				"celular", "email", "tipo", "endereco" };
 	}
 
-	public String[] getColunas() {
-		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc",
-				"TELEFONE", "CELULAR", "E-MAIL", "TIPO" };
-	}
-	public String[] getVariaveis() {
-		return new String[]{ "id", "nome_completo", "sexo", "cpf", "data_nascimento",
-				"telefone", "celular", "email", "tipo", "endereco" };
-
-	}
 }
