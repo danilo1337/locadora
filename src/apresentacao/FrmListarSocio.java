@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,6 +43,7 @@ public class FrmListarSocio implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		gerarColunas();
 		gerarTipos();
+		cbTipos.getSelectionModel().select(0);
 	}
 
 	@FXML

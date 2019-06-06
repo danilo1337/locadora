@@ -20,6 +20,7 @@ public class Pessoal {
 	private String email = "";
 	private int tipo = 5;
 	private Endereco endereco;
+	private int situacao = 1;
 
 	public Pessoal() {
 		data_nascimento = new Date(new java.util.Date().getTime());
@@ -46,13 +47,16 @@ public class Pessoal {
 	public void setEmail(String email) {this.email = email;}
 	public int getTipo() {return tipo;}
 	public void setTipo(int tipo) {this.tipo = tipo;}
+	public int getSituacao() {return situacao;}
+	public void setSituacao(int situacao) {this.situacao = situacao;}
 	
 	public String[] getColunas() {
-		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc", "TELEFONE", "CELULAR", "E-MAIL", "TIPO" };
+		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc", "TELEFONE", "CELULAR", "E-MAIL", "TIPO","SITUAÇÃO" };
 	}
 	public String[] getVariaveis() {
 		return new String[]{ "id", "nome_completo", "sexo", "cpf", "data_nascimento", "telefone",
-				"celular", "email", "tipo", "endereco" };
+				"celular", "email", "tipo", "situacao" };
 	}
+
 
 }
