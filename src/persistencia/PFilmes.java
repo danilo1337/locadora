@@ -20,8 +20,9 @@ public class PFilmes {
 
     public void incluir(Filmes filme) throws SQLException {
     	try {
-        String sql = "INSERT INTO filme(ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id)"
-        			+ "VALUES (?,?,?,?,?,?);";
+        String sql = "INSERT INTO filme(ano_lancamento, faixa_etaria,"
+        		+ " titulo, sinopse, genero, tipo_id)"
+        			+ "VALUES (?,?,?,?,?,?)";
 
         PreparedStatement ps = cnn.prepareStatement(sql);
         ps.setString(1, filme.getAnoLancamento());
@@ -29,7 +30,6 @@ public class PFilmes {
         ps.setString(3, filme.getTitulo());
         ps.setString(4, filme.getSinopse());
         ps.setString(5, filme.getGenero());
-        new PTipoFilme().consultar(filme.getTipo_id());
         ps.setInt(6, filme.getTipo_id().getId());
 
         ps.execute();
