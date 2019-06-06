@@ -23,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import negocio.NFilme;
-import negocio.NGenero;
 import negocio.NTipoFilme;
 
 public class FrmCadFilme implements Initializable {
@@ -47,7 +46,7 @@ public class FrmCadFilme implements Initializable {
 	private ComboBox<TipoFilme> Cb_Tipo;
 
 	@FXML
-	private ComboBox<Genero> Cb_Genero;
+	private ComboBox<String> Cb_Genero;
 
 	@FXML
 	private Button btnNovo;
@@ -71,7 +70,7 @@ public class FrmCadFilme implements Initializable {
 	private TextArea txaSinopse;
 
 	ObservableList<String> lista;
-	ObservableList<Genero> listaGen;
+	ObservableList<String> listaGen;
 	ObservableList<TipoFilme> listaTipo;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -79,7 +78,7 @@ public class FrmCadFilme implements Initializable {
 			GerarFaixaEtaria();
 			GerarGenero();
 			GerarTipo();
-			txtID.setText("");
+			txtID.setText("0");
 			btnNovo.setText("");
 			btnAlterar.setText("");
 			btnExcluir.setText("");
@@ -236,11 +235,17 @@ public class FrmCadFilme implements Initializable {
     private void GerarGenero() {
         try {
             listaGen = FXCollections.observableArrayList();
-            for (Genero obj : new NGenero().listarGenero()) {
-
-                listaGen.add(obj);
-                Cb_Genero.setItems(listaGen);
-            }
+            
+            listaGen.add("Ação");
+            listaGen.add("Drama");
+            listaGen.add("Comédia");
+            listaGen.add("Terror");
+            listaGen.add("Suspense");
+            listaGen.add("Guerra");
+            
+            Cb_Genero.setItems(listaGen);
+            
+            
         } catch (Exception e) {
             new Alert(AlertType.ERROR, e.getMessage()).show();
         }

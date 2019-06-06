@@ -102,9 +102,14 @@ public class FrmCadSocio implements Initializable {
 
 	@FXML
 	private ComboBox<String> cbTipo;
+	
+    @FXML
+    private ComboBox<String> cbSituacao;
+    
 	//------Objetos-----
 	ObservableList<String> listaUF;
 	ObservableList<String> listaTipo;
+	ObservableList<String> listaSituacao;
 	int id_endereco = 0;
 
 	@Override
@@ -113,6 +118,7 @@ public class FrmCadSocio implements Initializable {
 			txtID.setText("0");
 			gerarUF();
 			gerarTipo();
+			gerarSituacao();
 			imagemNosBotoes();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -160,7 +166,7 @@ public class FrmCadSocio implements Initializable {
 			case "Gerente":
 				pessoal.setTipo(1);
 				break;
-			case "UsuÃ¡rio":
+			case "Usuário":
 				pessoal.setTipo(5);
 				break;
 			case "Atendente":
@@ -171,9 +177,21 @@ public class FrmCadSocio implements Initializable {
 				pessoal.setTipo(5);
 				break;
 			}
+			String situacao = cbSituacao.getSelectionModel().getSelectedItem();
+			switch(situacao) {
+			case "Ativo":
+				pessoal.setSituacao(1);
+				break;
+			case "Inativo":
+				pessoal.setSituacao(2);
+				break;
+			case "Bloqueado":
+				pessoal.setSituacao(3);
+				break;
+			}
 
 			new NPessoal().salvar(pessoal);
-			new Alert(AlertType.INFORMATION, "Incluido com sucesso! NÂº" + pessoal.getId()).show();
+			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nº" + pessoal.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -218,7 +236,7 @@ public class FrmCadSocio implements Initializable {
 					break;
 				}
 			}
-			// Pega o tipo descobre a descriÃ§Ã£o
+			// Pega o tipo descobre a descrição
 			int tipo = pessoal.getTipo();
 			String tipo_Descricao = "";
 			if (tipo == 1)
@@ -226,13 +244,31 @@ public class FrmCadSocio implements Initializable {
 			else if (tipo == 2)
 				tipo_Descricao = "Atendente";
 			else if (tipo == 5)
-				tipo_Descricao = "UsuÃ¡rio";
-			// Seleciona o tipo segundo a descriÃ§Ã£o
+				tipo_Descricao = "Usuário";
+			
+			// Pega o tipo descobre a situação
+			int situacao = pessoal.getSituacao();
+			String tipo_Situacao = "";
+			if(situacao == 1) {
+				tipo_Situacao = "Ativo";
+			}else if(situacao == 2) {
+				tipo_Situacao = "Inativo";
+			}else if(situacao == 3) {
+				tipo_Situacao = "Bloqueado";
+			}
+			// Seleciona o tipo segundo a descrição
 			for (int i = 0; i < listaTipo.size(); i++) {
 				if (listaTipo.get(i).equals(tipo_Descricao)) {
 					cbTipo.getSelectionModel().select(i);
 				}
 			}
+			// Seleciona o tipo segundo o situação
+			for (int i = 0; i < listaTipo.size(); i++) {
+				if (listaSituacao.get(i).equals(tipo_Situacao)) {
+					cbSituacao.getSelectionModel().select(i);
+				}
+			}
+			
 
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -285,6 +321,7 @@ public class FrmCadSocio implements Initializable {
 		gerarTipo();
 		cbUF.getSelectionModel().select(0);
 		cbTipo.getSelectionModel().select(0);
+		cbSituacao.getSelectionModel().select(0);
 	}
 
 	//--------------------------Combobox--------------------------
@@ -298,9 +335,16 @@ public class FrmCadSocio implements Initializable {
 
 	private void gerarTipo() {
 		listaTipo = FXCollections.observableArrayList();
-		String tipos[] = { "UsuÃ¡rio", "Atendente", "Gerente" };
+		String tipos[] = { "Usuário", "Atendente", "Gerente" };
 		listaTipo.addAll(Arrays.asList(tipos));
 		cbTipo.setItems(listaTipo);
+	}
+	
+	private void gerarSituacao() {
+		listaSituacao = FXCollections.observableArrayList();
+		String tipos[] = {"Ativo","Inativo","Bloqueado"};
+		listaSituacao.addAll(Arrays.asList(tipos));
+		cbSituacao.setItems(listaSituacao);
 	}
 
 	//-------------------Imagem nos botÃµes----------------------------
