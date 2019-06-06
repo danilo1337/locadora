@@ -27,7 +27,7 @@ public class PPessoal {
 						+ " cpf, data_nascimento,"
 						+ " telefone , celular,"
 						+ " endereco_id, email,"
-						+ "	tipo)" + "VALUES (?,?,?,?,?,?,?,?,?)";
+						+ "	tipo, situacao)" + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, pessoal.getNome_completo());
 			ps.setString(2, pessoal.getSexo());
@@ -39,6 +39,7 @@ public class PPessoal {
 			ps.setInt(7, pessoal.getEndereco().getId());
 			ps.setString(8, pessoal.getEmail());
 			ps.setInt(9, pessoal.getTipo());
+			ps.setInt(10, pessoal.getSituacao());
 			ps.execute();
 
 			// recuperar id gerado
@@ -68,7 +69,7 @@ public class PPessoal {
 					+ " nome_completo = ?, sexo = ?,"
 					+ " cpf = ?, data_nascimento = ?,"
 					+ " telefone = ?, celular = ?,"
-					+ " endereco_id = ?, email = ?, tipo = ? WHERE id = ?";
+					+ " endereco_id = ?, email = ?, tipo = ?, situacao = ? WHERE id = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, pessoal.getNome_completo());
 			ps.setString(2, pessoal.getSexo());
@@ -80,7 +81,8 @@ public class PPessoal {
 			ps.setInt(7, pessoal.getEndereco().getId());
 			ps.setString(8, pessoal.getEmail());
 			ps.setInt(9, pessoal.getTipo());
-			ps.setInt(10, pessoal.getId());
+			ps.setInt(10, pessoal.getSituacao());
+			ps.setInt(11, pessoal.getId());
 			ps.execute();
 
 			new PEndereco().alterar(pessoal.getEndereco(), cnn);
@@ -120,6 +122,7 @@ public class PPessoal {
 			retorno.setTelefone(rs.getString("telefone"));
 			retorno.setCelular(rs.getString("celular"));
 			retorno.setEmail(rs.getString("email"));
+			retorno.setSituacao(rs.getInt("situacao"));
 			retorno.getEndereco().setId(rs.getInt("endereco_id"));
 			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 		}
@@ -149,6 +152,7 @@ public class PPessoal {
 			retorno.setTelefone(rs.getString("telefone"));
 			retorno.setCelular(rs.getString("celular"));
 			retorno.setEmail(rs.getString("email"));
+			retorno.setSituacao(rs.getInt("situacao"));
 			retorno.getEndereco().setId(rs.getInt("endereco_id"));
 			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 			lista.add(retorno);
@@ -177,6 +181,7 @@ public class PPessoal {
 			retorno.setTelefone(rs.getString("telefone"));
 			retorno.setCelular(rs.getString("celular"));
 			retorno.setEmail(rs.getString("email"));
+			retorno.setSituacao(rs.getInt("situacao"));
 			retorno.getEndereco().setId(rs.getInt("endereco_id"));
 			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
 		}
