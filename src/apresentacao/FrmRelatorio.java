@@ -66,7 +66,7 @@ public class FrmRelatorio implements Initializable {
 
 	@FXML
 	void fechar(ActionEvent event) {
-
+		
 	}
 
 	@FXML
