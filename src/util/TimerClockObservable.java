@@ -12,6 +12,7 @@ import java.util.TimerTask;
 
 public class TimerClockObservable extends Observable {
     private static final DateFormat CLOCK_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Timer timer;
 
     public String getTime() {
         return time;
@@ -24,10 +25,13 @@ public class TimerClockObservable extends Observable {
     private String time;
 
     public void clock() {
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new RemindTask(), 0, 10000);
     }
 
+    public void stop() {
+    	timer.cancel();
+    }
 
     class RemindTask extends TimerTask {
         public void run() {

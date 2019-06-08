@@ -21,6 +21,7 @@ import util.TimerClockObservable;
 public class FrmPrincipal implements Initializable {
 	Sessao sessao = Sessao.getInstance();
 	Stage stage;
+	TimerClockObservable timerClockObservable;
 
 	@FXML
 	private StackPane paneInterno;
@@ -33,12 +34,9 @@ public class FrmPrincipal implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
-		//Teste
-		TimerClockObservable timerClockObservable = new TimerClockObservable();
-//		new TimeClockObserver(timerClockObservable);
+		timerClockObservable = new TimerClockObservable();
 		new NReservaTimer(timerClockObservable);
-//		timerClockObservable.clock();
+		timerClockObservable.clock();
 
 		Login usuario = sessao.getLogin();
 		new Alert(Alert.AlertType.INFORMATION, "Bem vindo " + usuario.getUsuario()).show(); // So coloquei para teste.
@@ -85,11 +83,13 @@ public class FrmPrincipal implements Initializable {
 		Main a = new Main();
 		stage = (Stage) paneInterno.getScene().getWindow();
 		a.start(stage);
+		timerClockObservable.stop();
 	}
 
 	@FXML
 	void sair(ActionEvent event) {
 		sessao.setLogin(null);
+		timerClockObservable.stop();
 		System.exit(0);
 	}
 }
