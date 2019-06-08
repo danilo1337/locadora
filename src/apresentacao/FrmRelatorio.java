@@ -2,10 +2,12 @@ package apresentacao;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
+import entidade.Filmes;
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +26,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import negocio.NPessoal;
+import persistencia.PFilmes;
 import persistencia.PPessoal;
+import util.pdf.PdfFilmes;
 import util.pdf.PdfPessoal;
 
 public class FrmRelatorio implements Initializable {
@@ -66,27 +70,31 @@ public class FrmRelatorio implements Initializable {
 
 	@FXML
 	void fechar(ActionEvent event) {
-		
+
 	}
 
 	@FXML
 	void gerarPdf(ActionEvent event) {
 		try {
 			String selecionado = (String) cbTipos.getSelectionModel().getSelectedItem();
-			if(selecionado.isEmpty() || selecionado == null)
+			if (selecionado.isEmpty() || selecionado == null)
 				throw new Exception("Escolha um tipo de relatório");
-			
+
 			Date date = new Date(new Date().getTime());
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyhhmmss");
-			String nomeDoPdf = ""+sdf.format(date);
+			String nomeDoPdf = "" + sdf.format(date);
+			
 			switch (selecionado) {
 			case "Pessoas":
-				PdfPessoal pdf = new PdfPessoal(nomeDoPdf, new Pessoal().getColunas(), new NPessoal().listar());
-				pdf.gerarPersonalizado("Relatório de Sócios", "Relatório de todos os Sócios:");	
+				PdfPessoal pdfP = new PdfPessoal(nomeDoPdf, new Pessoal().getColunas(), new NPessoal().listar());
+				pdfP.gerarPersonalizado("Relatório de Sócios", "Relatório de todos os Sócios:");
 				break;
-			case "Pedidos":
+			case "Filmes":
+				PdfFilmes pdfF = new PdfFilmes(nomeDoPdf, new Filmes().getColunas(), new PFilmes().listar(new Filmes()));
+				pdfF.gerarPersonalizado("Relatório de Filmes", "Relatório de todos os Filmes:");
+				break;
+			case"Pedidos":
 				
-				break;
 			default:
 				break;
 			}
@@ -127,13 +135,18 @@ public class FrmRelatorio implements Initializable {
 			colunas = new String[] { "1", "2" };
 			nomeVariaveis = new String[] { "a", "b" };
 			break;
+		case "Filmes":
+			colunas = new Filmes().getColunas();
+			nomeVariaveis = new Filmes().getVariaveis();
+			iterator = new PFilmes().listar(new Filmes()).iterator();
+			break;
 		}
-		
+
 		for (int i = 0; i < colunas.length; i++) {
 			tabela.getColumns().add(new TableColumn<>(colunas[i]));
 			tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
 		}
-		
+
 		imprimirNaTabela(iterator);
 	}
 
@@ -157,10 +170,9 @@ public class FrmRelatorio implements Initializable {
 
 	private void gerarTipos() {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
-		String tipos[] = { "Pessoas", "Pedidos" };
-		for (String valores : tipos) {
-			lista.add(valores);
-		}
+		lista.addAll(Arrays.asList(
+				new String[] {"Pessoas", "Filmes","Pedidos"}
+				));
 		cbTipos.setItems(lista);
 	}
 
