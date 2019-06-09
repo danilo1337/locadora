@@ -135,11 +135,10 @@ public class PPessoal {
 	public List<Pessoal> listar() throws SQLException{
 		String sql = "SELECT * FROM pessoal WHERE 1 = 1";
 		Connection cnn = util.Conexao.getConexao();
+		
 		PreparedStatement ps = cnn.prepareStatement(sql);
 		
-		
 		ResultSet rs = ps.executeQuery();
-		
 		List<Pessoal>lista = new ArrayList<>();
 		while(rs.next()) {
 			Pessoal retorno = new Pessoal();
@@ -166,8 +165,8 @@ public class PPessoal {
 	public Pessoal consultar_cpf(String cpf) throws SQLException {
 		String sql = "SELECT * FROM pessoal WHERE cpf = ?";
 		Connection cnn = util.Conexao.getConexao();
-		PreparedStatement ps = cnn.prepareStatement(sql);
 		
+		PreparedStatement ps = cnn.prepareStatement(sql);
 		ps.setString(1, cpf);
 		ResultSet rs = ps.executeQuery();
 		Pessoal retorno = new Pessoal();

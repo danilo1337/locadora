@@ -20,7 +20,7 @@ public class Filmes {
 	public Filmes() {
 		tipo_id = new TipoFilme();
 	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -77,9 +77,15 @@ public class Filmes {
 		this.tipo_id = tipo_id;
 	}
 
+	public String[] getColunas() {
+		return new String[] {"ID","TÍTULO","GÊNERO","FAIXA-ETÁRIA","LANÇAMENTO"};
+	}
+	public String[] getVariaveis() {
+		return new String[] {"id","titulo","genero","faixaEtaria","anoLancamento"};
+	}
+	
 	@Override
 	public String toString() {
 		return this.titulo;
 	}
-
 }

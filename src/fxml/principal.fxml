@@ -14,7 +14,8 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#cadastrarCliente" text="Sócio" />
                   <MenuItem fx:id="mnuTitulo" mnemonicParsing="false" onAction="#cadastrarTitulo" text="Título" />
-                  <MenuItem mnemonicParsing="false" text="Funcionário" />
+                  <!-- <MenuItem mnemonicParsing="false" text="Funcionário" /> -->
+                  <!--  -->
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Movimentar">
@@ -27,10 +28,10 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Consultar">
             <items>
-              <MenuItem mnemonicParsing="false" text="Todos os títulos" />
+              <MenuItem mnemonicParsing="false" onAction="#listarTitulo" text="Todos os títulos" />
                   <MenuItem mnemonicParsing="false" onAction="#listarSocio" text="Todos os sócios" />
-                  <MenuItem mnemonicParsing="false" text="Histórico de Compras" />
-                  <MenuItem mnemonicParsing="false" text="Histórico de Vendas" />
+                  <!-- <MenuItem mnemonicParsing="false" text="Histórico de Compras" /> -->
+                  <!-- <MenuItem mnemonicParsing="false" text="Histórico de Vendas" /> -->
                   <MenuItem mnemonicParsing="false" text="Título" />
             </items>
           </Menu>

@@ -22,6 +22,9 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.show();
 			
+			primaryStage.setOnCloseRequest(event->{
+				System.exit(0);
+			});
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -30,5 +33,4 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }
