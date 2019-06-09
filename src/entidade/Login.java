@@ -11,8 +11,8 @@ public class Login {
 	private int pessoal_id = 0;
 	private String usuario = "";
 	private String senha = "";
-	private int permissao = PermissaoUsuario.USUARIO.getDescricao();
-	private int situacao = SituacaoUsuario.ATIVO.getDescricao();
+	//private int permissao = PermissaoUsuario.USUARIO.getDescricao();
+	//private int situacao = SituacaoUsuario.ATIVO.getDescricao();
 
 	public Login() {}
 
@@ -24,8 +24,8 @@ public class Login {
 	public void setUsuario(String usuario) { this.usuario = usuario; }
 	public String getSenha() { return senha; }
 	public void setSenha(String senha) { this.senha = senha; }
-	public int getPermissao() { return permissao; }
-	public void setPermissao(int permissao) { this.permissao = permissao; }
-	public int getSituacao() { return situacao; }
-	public void setSituacao(int situacao) { this.situacao = situacao; }
+	//public int getPermissao() { return permissao; }
+	//public void setPermissao(int permissao) { this.permissao = permissao; }
+	//public int getSituacao() { return situacao; }
+	//public void setSituacao(int situacao) { this.situacao = situacao; }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class PLogin {
 
 	public Login login(String usuario, String senha) throws SQLException {
-		String sql = "SELECT id, pessoal_id, usuario, senha, permissao, situacao FROM login WHERE usuario = ? AND senha = ?";
+		String sql = "SELECT id, pessoal_id, usuario, senha FROM login WHERE usuario = ? AND senha = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -69,7 +69,7 @@ public class PLogin {
 	}
 
 	public Login consultar(int id) throws SQLException {
-		String sql = "SELECT id, pessoal_id, usuario, permissao, situacao FROM login WHERE id = ?";
+		String sql = "SELECT id, pessoal_id, usuario FROM login WHERE id = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -79,7 +79,7 @@ public class PLogin {
 	}
 
 	public List<Login> listar() throws SQLException{
-		String sql = "SELECT id, pessoal_id, usuario, permissao, situacao FROM login";
+		String sql = "SELECT id, pessoal_id, usuario FROM login";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -99,7 +99,7 @@ public class PLogin {
 	}
 
 	public Login consultarUsuario(String login) throws SQLException {
-		String sql = "SELECT id, pessoal_id, usuario, permissao, situacao FROM login WHERE usuario = ?";
+		String sql = "SELECT id, pessoal_id, usuario FROM login WHERE usuario = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -114,8 +114,8 @@ public class PLogin {
 			retorno.setId(rs.getInt("id"));
 			retorno.setPessoal_id(rs.getInt("pessoal_id"));
 			retorno.setUsuario(rs.getString("usuario"));
-			retorno.setPermissao(rs.getInt("permissao"));
-			retorno.setSituacao(rs.getInt("situacao"));
+			//retorno.setPermissao(rs.getInt("permissao"));
+			//retorno.setSituacao(rs.getInt("situacao"));
 		}
 		rs.close();
 		cnn.close();
