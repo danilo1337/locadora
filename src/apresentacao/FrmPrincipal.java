@@ -41,10 +41,13 @@ public class FrmPrincipal implements Initializable {
 
 		Login usuario = sessao.getLogin();
 		new Alert(Alert.AlertType.INFORMATION, "Bem vindo " + usuario.getUsuario()).show(); // So coloquei para teste.
+<<<<<<< HEAD
 
 		/*if (usuario.getPermissao() == PermissaoUsuario.USUARIO.getDescricao()) {
 			mnuCadastrar.setVisible(false);
 		}*/
+=======
+>>>>>>> venda
 	}
 
 	@FXML
