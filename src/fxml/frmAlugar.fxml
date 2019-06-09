@@ -12,26 +12,27 @@
    <children>
       <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="719.0" text="Locação">
          <content>
-            <AnchorPane fx:id="PaneInterno" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="696.0">
+            <AnchorPane fx:id="PaneInterno" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="696.0">
                <children>
                   <TableView fx:id="listViewLista" editable="true" layoutX="94.0" layoutY="105.0" prefHeight="135.0" prefWidth="524.0" tableMenuButtonVisible="true">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Label layoutX="40.0" layoutY="31.0" text="Identificador" />
-                  <Label layoutX="432.0" layoutY="31.0" text="Produto" />
-                  <Button layoutX="273.0" layoutY="27.0" mnemonicParsing="false" onAction="#btnPesquisarId" text="Pesquisar" />
-                  <TextField fx:id="txtFieldId" layoutX="120.0" layoutY="27.0" />
-                  <Button layoutX="492.0" layoutY="27.0" mnemonicParsing="false" onAction="#btnPesquisarProduto" text="Pesquisar" />
-                  <Button layoutX="202.0" layoutY="68.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="25.0" prefWidth="154.0" text="Adicionar" />
-                  <Button layoutX="381.0" layoutY="68.0" mnemonicParsing="false" onAction="#btnRetirar" prefHeight="25.0" prefWidth="173.0" text="Retirar" />
-                  <Button fx:id="btSalvar" layoutX="166.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnSalvar" text="Salvar" />
-                  <Button fx:id="btExcluir" layoutX="273.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnExcluir" text="Excluir" />
-                  <Button fx:id="btLimpar" layoutX="381.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnLimpar" text="Limpar" />
-                  <Button fx:id="btFechar" layoutX="495.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnFechar" text="Fechar" />
-                  <TextField fx:id="txtValorTotal" layoutX="324.0" layoutY="249.0" prefHeight="25.0" prefWidth="99.0" />
-                  <Label layoutX="279.0" layoutY="253.0" text="Total" />
+                  <Label layoutX="62.0" layoutY="11.0" text="SOCIO" />
+                  <Label layoutX="505.0" layoutY="11.0" text="Produto" />
+                  <Button layoutX="119.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnPesquisarId" text="Pesquisar" />
+                  <Button layoutX="493.0" layoutY="33.0" mnemonicParsing="false" onAction="#btnPesquisarProduto" text="Pesquisar" />
+                  <Button layoutX="94.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="25.0" prefWidth="154.0" text="Adicionar" />
+                  <Button fx:id="btSalvar" layoutX="186.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnSalvar" text="Salvar" />
+                  <Button fx:id="btExcluir" layoutX="293.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnExcluir" text="Excluir" />
+                  <Button fx:id="btLimpar" layoutX="401.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnLimpar" text="Limpar" />
+                  <TextField fx:id="txtValorTotal" layoutX="519.0" layoutY="249.0" prefHeight="25.0" prefWidth="99.0" />
+                  <Label layoutX="462.0" layoutY="253.0" text="Total" />
+                  <Label fx:id="txtLabelId" layoutX="62.0" layoutY="37.0" text="ID:" />
+                  <Label fx:id="txtLabelNome" layoutX="63.0" layoutY="58.0" text="NOME:" />
+                  <Label fx:id="txtLabelCPF" layoutX="64.0" layoutY="77.0" text="CPF:" />
+                  <Button layoutX="502.0" layoutY="303.0" mnemonicParsing="false" onAction="#VoltarAoPrincipal" text="Voltar" />
                </children>
             </AnchorPane>
          </content>

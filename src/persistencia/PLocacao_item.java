@@ -53,8 +53,7 @@ public class PLocacao_item {
             Locacao_item item = new Locacao_item();
             item.setId(rs.getInt("LocItem.id"));
             item.getLocacao().setId(rs.getInt("LocItem.locacao_id"));
-            //Descomentar ao existir Entidade Copia
-            //item.getLocacao().setId(rs.getInt("LocItem.copia_id"));
+            item.getLocacao().setId(rs.getInt("LocItem.copia_id"));
             item.setValor(rs.getDouble("LocItem.valor"));
             item.getLocacao().setId(rs.getInt("Locacao.id"));
             item.getLocacao().setData_locacao(rs.getDate("Locacao.data_locacao"));

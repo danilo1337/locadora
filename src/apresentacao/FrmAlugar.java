@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import negocio.NFilme;
 import util.NovaCena;
 
@@ -39,9 +41,6 @@ public class FrmAlugar implements Initializable {
 
     @FXML
     private AnchorPane PaneInterno;
-
-    @FXML
-    private TextField txtFieldId;
 
     @FXML
     private TableView<Locacao_item> listViewLista;
@@ -56,10 +55,17 @@ public class FrmAlugar implements Initializable {
     private Button btLimpar;
 
     @FXML
-    private Button btFechar;
+    private TextField txtValorTotal;
 
     @FXML
-    private TextField txtValorTotal;
+    private Label txtLabelId;
+
+    @FXML
+    private Label txtLabelNome;
+
+    @FXML
+    private Label txtLabelCPF;
+
 
     JDesktopPane principal;
 
@@ -70,14 +76,23 @@ public class FrmAlugar implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        txtFieldId.requestFocus();
-       // carregarCombos();
+        //txtFieldId.requestFocus();
+        // carregarCombos();
         carregarTabela();
-
         btSalvar.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
-        btExcluir.setGraphic(new ImageView(new Image( "/icones/delete.png", 26, 26, false, false)));
+        btExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
         btLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
-        btFechar.setGraphic(new ImageView(new Image("/icones/fechar.png", 26, 26,false,false)));
+    }
+
+    @FXML
+    void VoltarAoPrincipal(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/principal.fxml"));
+        Parent tabelaUsadaParent = loader.load();
+        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
+        Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Window.setScene(tabelaUsadaScene);
+        Window.show();
     }
 
     @FXML
@@ -91,31 +106,34 @@ public class FrmAlugar implements Initializable {
     }
 
     @FXML
-    void btnFechar(ActionEvent event) throws IOException {
-    tPaneExit.getChildren().clear();
-    }
-
-    @FXML
     void btnLimpar(ActionEvent event) {
         limpar();
     }
 
     @FXML
     void btnPesquisarId(ActionEvent event) throws Exception {
-        /*PaneInterno.getChildren().clear();
-        PaneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSociosLocacao.fxml"));*/
+        //PaneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSociosLocacao.fxml"));
+        //tester sem colar a tela
+
         //new NovaCena().gerarNovaCena("/fxml/frmListarSociosLocacao.fxml");
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
-        PaneInterno.getChildren().setAll(pane);
+        //tPaneExit.getChildren().clear();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
+        Parent tabelaUsadaParent = loader.load();
+        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
+        Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Window.setScene(tabelaUsadaScene);
+        Window.centerOnScreen();
+        Window.show();
+
+        /*AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
+        PaneInterno.getChildren().setAll(pane);*/
+
     }
 
     @FXML
     void btnPesquisarProduto(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnRetirar(ActionEvent event) {
 
     }
 
@@ -141,8 +159,10 @@ public class FrmAlugar implements Initializable {
         }
     }*/
 
-    private void limpar(){
-        txtFieldId.setText("");
+    private void limpar() {
+       txtLabelId.setText("ID");
+       txtLabelCPF.setText("CPF");
+       txtLabelNome.setText("NOME");
     }
 
     private void carregarTabela() {
@@ -155,14 +175,25 @@ public class FrmAlugar implements Initializable {
         }
     }
 
-    private void imprimirTable(List<Locacao_item> itens){
-        try{
+    private void imprimirTable(List<Locacao_item> itens) {
+        try {
             listaProdutos = FXCollections.observableArrayList();
-            for (Locacao_item item : itens) {listaProdutos.add(item);}
+            for (Locacao_item item : itens) {
+                listaProdutos.add(item);
+            }
             listViewLista.setItems(listaProdutos);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
+
+    private Pessoal socioSelected;
+    public void dados(Pessoal socio){
+        socioSelected = socio;
+        txtLabelId.setText("ID:        "+(socioSelected.getId()));
+        txtLabelNome.setText("NOME: "+socioSelected.getNome_completo());
+        txtLabelCPF.setText("CPF:     "+socioSelected.getCpf());
+    }
+
 }
