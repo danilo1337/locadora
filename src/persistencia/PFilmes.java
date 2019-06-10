@@ -25,7 +25,7 @@ public class PFilmes {
 
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, filme.getAnoLancamento());
-			ps.setInt(2, filme.getFaixaEtaria());
+			ps.setString(2, filme.getFaixaEtaria());
 			ps.setString(3, filme.getTitulo());
 			ps.setString(4, filme.getSinopse());
 			ps.setString(5, filme.getGenero());
