@@ -114,11 +114,6 @@ public class PLogin {
 			retorno.setId(rs.getInt("id"));
 			retorno.setPessoal_id(rs.getInt("pessoal_id"));
 			retorno.setUsuario(rs.getString("usuario"));
-<<<<<<< HEAD
-			//retorno.setPermissao(rs.getInt("permissao"));
-			//retorno.setSituacao(rs.getInt("situacao"));
-=======
->>>>>>> venda
 		}
 		rs.close();
 		cnn.close();
