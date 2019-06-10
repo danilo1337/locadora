@@ -13,12 +13,20 @@ public class Filmes {
 	private String titulo = "";
 	private String sinopse = "";
 	private String genero = "";
+	private TipoFilme tipoFilme;
 
-
-	private TipoFilme tipo_id;
+	public Filmes(int id, String anoLancamento, String faixaEtaria, String titulo, String sinopse, String genero, TipoFilme tipoFilme) {
+		this.id = id;
+		this.anoLancamento = anoLancamento;
+		this.faixaEtaria = faixaEtaria;
+		this.titulo = titulo;
+		this.sinopse = sinopse;
+		this.genero = genero;
+		this.tipoFilme = tipoFilme;
+	}
 	
 	public Filmes() {
-		tipo_id = new TipoFilme();
+		tipoFilme = new TipoFilme();
 	}
 	
 	public int getId() {
@@ -69,16 +77,16 @@ public class Filmes {
 		this.genero = genero;
 	}
 
-	public TipoFilme getTipo_id() {
-		return tipo_id;
+	public TipoFilme getTipoFilme() {
+		return tipoFilme;
 	}
 
-	public void setTipo_id(TipoFilme tipo_id) {
-		this.tipo_id = tipo_id;
+	public void setTipoFilme(TipoFilme tipoFilme) {
+		this.tipoFilme = tipoFilme;
 	}
 
 	public String[] getColunas() {
-		return new String[] {"ID","TÍTULO","GÊNERO","FAIXA-ETÁRIA","LANÇAMENTO"};
+		return new String[] {"ID","Tï¿½TULO","Gï¿½NERO","FAIXA-ETï¿½RIA","LANï¿½AMENTO"};
 	}
 	public String[] getVariaveis() {
 		return new String[] {"id","titulo","genero","faixaEtaria","anoLancamento"};

@@ -1,7 +1,9 @@
 package persistencia;
 
 import entidade.Copias;
+import entidade.Filmes;
 import entidade.Login;
+import entidade.TipoFilme;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,13 +51,36 @@ public class PCopias {
 	}
 
 	public Copias consultarCodigo(String codigoCopia) throws SQLException {
-		String sql = "SELECT id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda FROM copias WHERE codigo_copia = ?";
+		String sql = "SELECT copias.id as copia_id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda, \n" +
+				"ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id, tipo, preco, preco_venda\n" +
+				"FROM copias INNER JOIN filme on (copias.filme_id = filme.id) INNER JOIN tipo_filme on (filme.tipo_id = tipo_filme.id) WHERE codigo_copia = ?";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
 		ps.setString(1, codigoCopia);
 		ResultSet rs = ps.executeQuery();
-		return setRetornoCopias(cnn, rs);
+
+		Copias retorno = new Copias();
+		if(rs.next()) {
+			retorno.setId(rs.getInt("copia_id"));
+			retorno.setCodigoCopia(rs.getString("codigo_copia"));
+			retorno.setFilmeId(rs.getInt("filme_id"));
+			retorno.setDisponivel(rs.getBoolean("disponivel"));
+			retorno.setReservada(rs.getBoolean("reservada"));
+			retorno.setDisponivelVenda(rs.getBoolean("disponivel_venda"));
+			retorno.setDataReserva(rs.getDate("data_reserva"));
+			retorno.setDataVenda(rs.getDate("data_venda"));
+			TipoFilme tipoFilme = new TipoFilme(rs.getInt("tipo_id"), rs.getString("tipo"),
+					rs.getDouble("preco"), rs.getDouble("preco_venda"));
+			Filmes filmes = new Filmes(rs.getInt("filme_id"), rs.getString("ano_lancamento"), rs.getString("faixa_etaria"),
+					rs.getString("titulo"), rs.getString("sinopse"), rs.getString("genero"), tipoFilme);
+			retorno.setFilmes(filmes);
+		}
+		rs.close();
+		cnn.close();
+		return retorno;
+
+//		return setRetornoCopias(cnn, rs);
 	}
 
 	public void alterar(Copias copias) throws SQLException {

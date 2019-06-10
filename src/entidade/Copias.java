@@ -15,6 +15,7 @@ public class Copias {
     private Boolean disponivelVenda = false;
     private java.sql.Date dataReserva = null;
     private java.sql.Date dataVenda = null;
+    private Filmes filmes;
 
     public int getId() {
         return id;
@@ -78,5 +79,13 @@ public class Copias {
 
     public void setCodigoCopia(String codigoCopia) {
         this.codigoCopia = codigoCopia;
+    }
+
+    public Filmes getFilmes() {
+        return filmes;
+    }
+
+    public void setFilmes(Filmes filmes) {
+        this.filmes = filmes;
     }
 }

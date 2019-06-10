@@ -3,6 +3,7 @@ package apresentacao;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,10 +28,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import negocio.NCopias;
-import negocio.NFilme;
-import persistencia.PLocacao_item;
+import negocio.NLocacao;
+import negocio.NLocacaoItem;
 import util.NovaCena;
 
 
@@ -43,7 +43,7 @@ public class FrmAlugar implements Initializable {
     private AnchorPane paneInterno;
 
     @FXML
-    private TableView<Locacao_item> listViewLista;
+    private TableView<LocacaoItem> listViewLista;
 
     @FXML
     private Button btSalvar;
@@ -71,10 +71,10 @@ public class FrmAlugar implements Initializable {
 
     JDesktopPane principal;
     Locacao locacao;
-    ObservableList<Locacao_item> listaProdutos;
+    ObservableList<LocacaoItem> listaProdutos;
     Pessoal pessoal;
-    List<Locacao_item> arrayItens = new ArrayList<>();
-    ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
+    List<LocacaoItem> arrayItens = new ArrayList<>();
+    ObservableList<LocacaoItem> lista = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -92,13 +92,7 @@ public class FrmAlugar implements Initializable {
 
     @FXML
     void VoltarAoPrincipal(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/principal.fxml"));
-        Parent tabelaUsadaParent = loader.load();
-        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
-        Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        Window.setScene(tabelaUsadaScene);
-        Window.show();
+        tPaneExit.getChildren().clear();
     }
 
     @FXML
@@ -106,6 +100,18 @@ public class FrmAlugar implements Initializable {
         NCopias nCopias = new NCopias();
 
         Copias copias = nCopias.consultarCopias("931782");
+
+        LocacaoItem locacaoItem = new LocacaoItem();
+        locacaoItem.setCopias(copias);
+        locacaoItem.setCodigoCopia(copias.getCodigoCopia());
+        locacaoItem.setValor(copias.getFilmes().getTipoFilme().getPreco());
+        locacaoItem.setTitulo(copias.getFilmes().getTitulo());
+        locacaoItem.setData_devolucao(new java.sql.Date(new java.util.Date().getTime()));
+//        locacaoItem.setCopiaId(1);
+//        locacaoItem.setValor(7.00);
+//
+//        locacaoItem.setDataDevolucao(new java.sql.Date(new java.util.Date().getTime()));
+        listViewLista.getItems().add(locacaoItem);
         
         System.out.println(copias.getFilmeId());
     }
@@ -151,8 +157,8 @@ public class FrmAlugar implements Initializable {
 
     private void carregarTabela() throws Exception {
         // Puxando as variaveis da classe Locacao para gerar Colunas
-        String colunas[] = new Locacao_item().getColunas();
-        String nomeVariaveis[] = new Locacao_item().getVariaveis();
+        String colunas[] = new LocacaoItem().getColunas();
+        String nomeVariaveis[] = new LocacaoItem().getVariaveis();
         for (int i = 0; i < colunas.length; i++) {
             listViewLista.getColumns().add(new TableColumn<>(colunas[i]));
             listViewLista.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
@@ -167,15 +173,13 @@ public class FrmAlugar implements Initializable {
         txtLabelCPF.setText("CPF:     "+socioSelected.getCpf());
     }
 
-    private Iterator<Locacao_item> filmeSelected;
-    public void dadosProdutos(Iterator<Locacao_item> LocItem){
+    private Iterator<LocacaoItem> filmeSelected;
+    public void dadosProdutos(Iterator<LocacaoItem> LocItem){
         filmeSelected = LocItem;
         while(LocItem.hasNext()){
-            Locacao_item locacao_item = (Locacao_item) LocItem.next();
+            LocacaoItem locacao_item = (LocacaoItem) LocItem.next();
             lista.add(locacao_item);
         }
         listViewLista.setItems(lista);
     }
-
-
 }

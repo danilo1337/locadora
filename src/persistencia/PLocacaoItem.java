@@ -1,17 +1,16 @@
 package persistencia;
 
 import entidade.Locacao;
-import entidade.Locacao_item;
+import entidade.LocacaoItem;
 import util.Conexao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PLocacao_item {
+public class PLocacaoItem {
 
-    public void incluir(Locacao_item item, Connection cnn) throws SQLException {
-
+    public void incluir(LocacaoItem item, Connection cnn) throws SQLException {
         String sql = "INSERT INTO locacao_item (locacao_id, copia_id, data_devolucao, valor"
         + " VALUES (?,?,?,?,?)";
 
@@ -21,7 +20,6 @@ public class PLocacao_item {
         prd.setDate(3,item.getData_devolucao());
         prd.setDouble(4, item.getValor());
         prd.execute();
-
     }
 
     public void excluirPorPedido(int idLocacao, Connection cnn) throws SQLException{
@@ -31,10 +29,9 @@ public class PLocacao_item {
         prd.setInt(1, idLocacao);
 
         prd.execute();
-
     }
 
-    public List<Locacao_item> listar() throws Exception {
+    public List<LocacaoItem> listar() throws Exception {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
@@ -49,11 +46,11 @@ public class PLocacao_item {
 
         Statement stm = cnn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
-        List<Locacao_item> lista = new ArrayList<>();
+        List<LocacaoItem> lista = new ArrayList<>();
 
         while (rs.next()) {
 
-            Locacao_item item = new Locacao_item();
+            LocacaoItem item = new LocacaoItem();
             item.setId(rs.getInt("LOCACAO_ITEM.ID"));
             item.getLocacao().setId(rs.getInt("LOCACAO_ITEM.LOCACAO_ID"));
             item.setId(rs.getInt("LOCACAO_ITEM.COPIA_ID"));
@@ -76,7 +73,7 @@ public class PLocacao_item {
 
 
 
-    public List<Locacao_item> listarProdutos() throws Exception {
+    public List<LocacaoItem> listarProdutos() throws Exception {
         Connection cnn = util.Conexao.getConexao();
 
         String sql = "SELECT LOCACAO_ITEM.ID,FILME.TITULO, LOCACAO_ITEM.VALOR" +
@@ -88,11 +85,11 @@ public class PLocacao_item {
 
         PreparedStatement ps = cnn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-        List<Locacao_item> lista = new ArrayList<>();
+        List<LocacaoItem> lista = new ArrayList<>();
 
         while (rs.next()) {
 
-            Locacao_item item = new Locacao_item();
+            LocacaoItem item = new LocacaoItem();
             //item.setId(rs.getInt("LOCACAO_ITEM.ID"));
             item.setId(rs.getInt("ID"));
             item.getFilmes().setTitulo(rs.getString("TITULO"));
@@ -108,7 +105,7 @@ public class PLocacao_item {
 
 
 
-    public List<Locacao_item> consultar(Locacao locacao) throws Exception {
+    public List<LocacaoItem> consultar(Locacao locacao) throws Exception {
 
         Connection cnn = Conexao.getConexao();
                 String sql = "SELECT LOCACAO_ITEM.ID, LOCACAO_ITEM.COPIA_ID, COPIAS.ID, LOCACAO_ITEM.LOCACAO_ID, LOCACAO.ID,"
@@ -125,10 +122,10 @@ public class PLocacao_item {
         PreparedStatement stm = cnn.prepareStatement(sql);
         stm.setInt(1, locacao.getId());
         ResultSet rs = stm.executeQuery();
-        List<Locacao_item> listar = new ArrayList<>();
+        List<LocacaoItem> listar = new ArrayList<>();
 
         while (rs.next()) {
-            Locacao_item item = new Locacao_item();
+            LocacaoItem item = new LocacaoItem();
             item.setId(rs.getInt("LOCACAO_ITEM.ID"));
             item.setId(rs.getInt("LOCACAO_ITEM.COPIA_ID"));
             item.getCopias().setId(rs.getInt("COPIAS.ID"));

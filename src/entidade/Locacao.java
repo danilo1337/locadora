@@ -15,14 +15,14 @@ public class Locacao {
             private double multa;
             private double desconto;
             private Pessoal pessoal;
-            private List<Locacao_item> listaItens;
+            private List<LocacaoItem> listaItens;
 
         public Locacao() {
             pessoal = new Pessoal();
             listaItens = new ArrayList<>();
         }
 
-    public Locacao(Pessoal pessoal, List<Locacao_item> listaItens) {
+    public Locacao(Pessoal pessoal, List<LocacaoItem> listaItens) {
         this.pessoal = pessoal;
         this.listaItens = listaItens;
     }
@@ -99,11 +99,11 @@ public class Locacao {
         this.pessoal = pessoal;
     }
 
-    public List<Locacao_item> getListaItens() {
+    public List<LocacaoItem> getListaItens() {
         return listaItens;
     }
 
-    public void setListaItens(List<Locacao_item> listaItens) {
+    public void setListaItens(List<LocacaoItem> listaItens) {
         this.listaItens = listaItens;
     }
 

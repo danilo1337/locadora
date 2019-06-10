@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entidade.Locacao;
-import entidade.Locacao_item;
+import entidade.LocacaoItem;
 import entidade.Pessoal;
-import negocio.NLocacao_item;
+import negocio.NLocacaoItem;
 import negocio.NPessoal;
 import util.Conexao;
 
@@ -55,8 +55,8 @@ public class PLocacao {
             rs.close();
 
             //Percorrer a lista de itens
-            PLocacao_item pItem = new PLocacao_item();
-            for (Locacao_item item : locacao.getListaItens()) {
+            PLocacaoItem pItem = new PLocacaoItem();
+            for (LocacaoItem item : locacao.getListaItens()) {
                 item.getLocacao().setId(locacao.getId());
 
                 //Gravo o item (filho)
@@ -102,11 +102,11 @@ public class PLocacao {
             ps.execute();
 
             //Excluir todos os itens de um pedido
-            PLocacao_item pItem = new PLocacao_item();
+            PLocacaoItem pItem = new PLocacaoItem();
             pItem.excluirPorPedido(locacao.getId(), cnn);
 
             //Incluir todos os itens do pedido
-            for (Locacao_item item : locacao.getListaItens()) {
+            for (LocacaoItem item : locacao.getListaItens()) {
                 item.getLocacao().setId(locacao.getId());
                 pItem.incluir(item, cnn);
             }
@@ -126,7 +126,7 @@ public class PLocacao {
 
         try {
             //Excluir todos os itens de um pedido
-            new PLocacao_item().excluirPorPedido(locacao.getId(), cnn);
+            new PLocacaoItem().excluirPorPedido(locacao.getId(), cnn);
 
             //Exclui o pedido
             String sql = "DELETE FROM locacao "
@@ -174,8 +174,8 @@ public class PLocacao {
                 locacao.setDesconto(rs.getDouble("desconto"));
             }
 
-            PLocacao_item pItem = new PLocacao_item();
-            for (Locacao_item item : locacao.getListaItens()) {
+            PLocacaoItem pItem = new PLocacaoItem();
+            for (LocacaoItem item : locacao.getListaItens()) {
                 item.getLocacao().setId(locacao.getId());
                 //Gravo o item (filho)
                 pItem.incluir(item, cnn);
@@ -218,7 +218,7 @@ public class PLocacao {
             locacao.setMulta(rs.getDouble("multa"));
             locacao.setDesconto(rs.getDouble("desconto"));
 
-            locacao.setListaItens(new NLocacao_item().listar());
+            locacao.setListaItens(new NLocacaoItem().listar());
             lista.add(locacao);
         }
 

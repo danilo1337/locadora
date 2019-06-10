@@ -69,7 +69,7 @@ public class FrmListSocioLocacao implements Initializable {
     private void carregarTabela() {
 
         // Puxando as variaveis da classe Locacao para gerar Colunas
-        //String colunas[] = new Locacao_item().getColunas();
+        //String colunas[] = new LocacaoItem().getColunas();
 
             String colunas[] = new String[]{"ID", "NOME", "CPF"};
             String nomeVariaveis[] = new String[]{"id", "nome_completo", "cpf"};
