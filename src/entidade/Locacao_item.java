@@ -4,6 +4,7 @@ public class Locacao_item {
 
     private int id;
     private double valor;
+    private String titulo;
 
     private Locacao locacao;
     private Copias copias;
@@ -54,6 +55,13 @@ public class Locacao_item {
         this.copias = copias;
     }
 
+    public String[] getColunas() {
+        return new String[]{ "ID", "VALOR", "TITULO"};
+    }
+
+    public String[] getVariaveis() {
+        return new String[]{ "id", "valor", "titulo"};
+    }
 
 
 

@@ -37,13 +37,16 @@ public class FrmLogin implements Initializable {
 	private Button btnLogar;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) { }
+	public void initialize(URL location, ResourceBundle resources) { 
+		txtLogin.setText("ADMIN");
+		txtSenha.setText("123");
+	}
 
 	@FXML
 	private void logar(ActionEvent event) {
 		try {
 			NLogin nLogin = new NLogin();
-			String loginTxt = txtLogin.getText();
+			String loginTxt = txtLogin.getText().toLowerCase();
 			String senhaTxt = util.Hash.codificar(txtSenha.getText());
 
 			Login login = nLogin.logar(loginTxt, senhaTxt);
