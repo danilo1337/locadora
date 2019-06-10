@@ -1,11 +1,13 @@
 package entidade;
 
+import java.sql.Date;
+
 public class Locacao_item {
 
     private int id;
-    private double valor;
     private String titulo;
-
+    private double valor;
+    private Date data_devolucao;
     private Locacao locacao;
     private Copias copias;
     private Filmes filmes;
@@ -63,7 +65,19 @@ public class Locacao_item {
         return new String[]{ "id", "valor", "titulo"};
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
 
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
+    public Date getData_devolucao() {
+        return data_devolucao;
+    }
 
+    public void setData_devolucao(Date data_devolucao) {
+        this.data_devolucao = data_devolucao;
+    }
 }

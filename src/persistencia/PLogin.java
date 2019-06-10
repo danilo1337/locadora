@@ -114,6 +114,8 @@ public class PLogin {
 			retorno.setId(rs.getInt("id"));
 			retorno.setPessoal_id(rs.getInt("pessoal_id"));
 			retorno.setUsuario(rs.getString("usuario"));
+			//retorno.setPermissao(rs.getInt("permissao"));
+			//retorno.setSituacao(rs.getInt("situacao"));
 		}
 		rs.close();
 		cnn.close();

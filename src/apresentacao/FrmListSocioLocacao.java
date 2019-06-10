@@ -1,19 +1,16 @@
 package apresentacao;
 
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
-import entidade.Locacao_item;
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -22,17 +19,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import negocio.NPessoal;
-import padrao.factory.Abreviatura;
-import padrao.factory.AbreviaturaFactory;
+import javafx.stage.Stage;
 import padrao.iterator.PessoalIterator;
-import persistencia.PPessoal;
-import util.NovaCena;
 
-import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class FrmListSocioLocacao implements Initializable {
@@ -40,9 +32,15 @@ public class FrmListSocioLocacao implements Initializable {
     private AnchorPane PaneInterno;
 
     @FXML
+    private Pane PaneGeral;
+
+    @FXML
     private AnchorPane PaneLista;
 
-    TableView<Object> tabela = null;
+    @FXML
+    private Button btnEnviarSocio;
+
+    TableView<Pessoal> tabela = null;
     ObservableList<Object> listaPessoas;
     ObservableList<Pessoal> listaPessoas2;
     PessoalIterator pessoalIterator = new PessoalIterator();
@@ -60,16 +58,16 @@ public class FrmListSocioLocacao implements Initializable {
     }
 
     private void gerarConfigTabela() {
-        tabela = new TableView<Object>();
+        tabela = new TableView<Pessoal>();
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tabela.setPrefWidth(PaneLista.getPrefWidth());
         tabela.setPrefHeight(PaneLista.getPrefHeight());
         tabela.setTableMenuButtonVisible(true);
         PaneLista.getChildren().add(tabela);
-
     }
 
     private void carregarTabela() {
+
         // Puxando as variaveis da classe Locacao para gerar Colunas
         //String colunas[] = new Locacao_item().getColunas();
 
@@ -80,48 +78,33 @@ public class FrmListSocioLocacao implements Initializable {
                 tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
                 tabela.getColumns().get(i).setStyle("-fx-alignment: CENTER;");
             }
-        //tabela.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> listnerTabela(newValue));
-
     }
 
     private void imprimirTable(Iterator<Pessoal> pessoas){
-        ObservableList<Object> lista = FXCollections.observableArrayList();
-        //try{
-            //listaPessoas = FXCollections.observableArrayList();
-           /* for (Pessoal socios : pessoas) {listaPessoas.add(socios);}
-            tabela.setItems(listaPessoas);
-
-        }catch(Exception e){
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }*/
+        ObservableList<Pessoal> lista = FXCollections.observableArrayList();
             while (pessoas.hasNext()) {
                 Pessoal pessoal = (Pessoal) pessoas.next();
                 lista.add(pessoal);
             }
             tabela.setItems(lista);
     }
-/*
-    private Object listnerTabela(Object newValue) {
-        try {
-            ObservableList<String> lista;
-            //String id = tabela.getValueAt(indice, 0).toString();
-            //Pessoal id = tabela.getValueAt(indice, 0).toString();
-            tabela.getSelectionModel().getSelectedItem().toString();
 
+    @FXML
+    void buttonEnviarSocio(ActionEvent event) throws IOException {
+        //Aqui carrega a tela
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/frmAlugar.fxml"));
+        Parent tabelaUsadaParent = loader.load();
+        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
+        FrmAlugar controller = loader.getController();
 
-            Pessoal pessoas = new NPessoal().consultar(id);
+        //Aqui envia os dadosSocios para a outra tela
+        controller.dadosSocios(tabela.getSelectionModel().getSelectedItem());
 
-            FrmCadPedido janela = new FrmCadPedido(pnlPrincipal, cliente);
-            pnlPrincipal.add(janela);
-            janela.setVisible(true);
-            this.dispose();
-
-        } catch (Exception e) {
-            new Alert(AlertType.ERROR, e.getMessage()).show();
-        }
-        return pessoal;
-    }*/
-
-
+        //Aqui mostra a tela
+        Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Window.setScene(tabelaUsadaScene);
+        Window.show();
+    }
 
 }

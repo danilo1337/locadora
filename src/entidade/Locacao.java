@@ -8,7 +8,6 @@ public class Locacao {
 
         private int id;
             private Date data_locacao;
-            private Date data_devolucao;
             private Date data_pagamento;
             private String forma_pagamento;
             private double valor_total;
@@ -42,14 +41,6 @@ public class Locacao {
 
     public void setData_locacao(Date data_locacao) {
         this.data_locacao = data_locacao;
-    }
-
-    public Date getData_devolucao() {
-        return data_devolucao;
-    }
-
-    public void setData_devolucao(Date data_devolucao) {
-        this.data_devolucao = data_devolucao;
     }
 
     public Date getData_pagamento() {

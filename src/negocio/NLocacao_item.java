@@ -1,5 +1,6 @@
 package negocio;
 
+import entidade.Locacao;
 import entidade.Locacao_item;
 import persistencia.PLocacao_item;
 
@@ -15,6 +16,10 @@ public class NLocacao_item {
 
     public List<Locacao_item> listar() throws Exception {
         return per.listar();
+    }
+
+    public List<Locacao_item> consultar(Locacao locacao)throws Exception{
+        return per.consultar(locacao);
     }
 
 
