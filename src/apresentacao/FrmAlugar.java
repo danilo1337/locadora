@@ -10,10 +10,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JDesktopPane;
 
-import entidade.Filmes;
-import entidade.Locacao;
-import entidade.Locacao_item;
-import entidade.Pessoal;
+import entidade.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import negocio.NCopias;
 import negocio.NFilme;
 import persistencia.PLocacao_item;
 import util.NovaCena;
@@ -42,7 +40,7 @@ public class FrmAlugar implements Initializable {
     private Pane tPaneExit;
 
     @FXML
-    private AnchorPane PaneInterno;
+    private AnchorPane paneInterno;
 
     @FXML
     private TableView<Locacao_item> listViewLista;
@@ -68,9 +66,10 @@ public class FrmAlugar implements Initializable {
     @FXML
     private Label txtLabelCPF;
 
+    @FXML
+    private TextField txtCopiaId;
 
     JDesktopPane principal;
-
     Locacao locacao;
     ObservableList<Locacao_item> listaProdutos;
     Pessoal pessoal;
@@ -103,8 +102,12 @@ public class FrmAlugar implements Initializable {
     }
 
     @FXML
-    void btnAdicionar(ActionEvent event) {
+    void btnAdicionar(ActionEvent event) throws Exception {
+        NCopias nCopias = new NCopias();
 
+        Copias copias = nCopias.consultarCopias("931782");
+        
+        System.out.println(copias.getFilmeId());
     }
 
     @FXML
@@ -119,14 +122,8 @@ public class FrmAlugar implements Initializable {
 
     @FXML
     void btnPesquisarId(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
-        Parent tabelaUsadaParent = loader.load();
-        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
-        Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        Window.setScene(tabelaUsadaScene);
-        Window.centerOnScreen();
-        Window.show();
+        paneInterno.getChildren().clear();
+        paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSociosLocacao.fxml"));
     }
 
     @FXML

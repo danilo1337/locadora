@@ -136,10 +136,9 @@ public class PLocacao_item {
             item.getLocacao().setId(rs.getInt("LOCACAO.ID"));
             item.setValor(rs.getDouble("LOCACAO_ITEM.VALOR"));
             item.getCopias().setDisponivel(rs.getBoolean("COPIAS.DISPONIVEL"));
-            item.getCopias().setReserva(rs.getBoolean("COPIAS.RESERVADA"));
+            item.getCopias().setReservada(rs.getBoolean("COPIAS.RESERVADA"));
             item.getCopias().setDisponivelVenda(rs.getBoolean("COPIAS.DISPONIVEL_VENDA"));
             item.getCopias().setDataReserva(rs.getDate("COPIAS.DATA_RESERVA"));
-            item.getCopias().setDataCompra(rs.getDate("COPIAS.DATA_COMPRA"));
             item.getCopias().setDataVenda(rs.getDate("COPIAS.DATA_VENDA"));
             item.getCopias().setId(rs.getInt("COPIAS.FILME_ID"));
             item.getFilmes().setId(rs.getInt("FILME.ID"));

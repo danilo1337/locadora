@@ -29,13 +29,13 @@ import java.util.ResourceBundle;
 
 public class FrmListSocioLocacao implements Initializable {
     @FXML
-    private AnchorPane PaneInterno;
+    private AnchorPane paneInterno;
 
     @FXML
-    private Pane PaneGeral;
+    private Pane paneGeral;
 
     @FXML
-    private AnchorPane PaneLista;
+    private AnchorPane paneLista;
 
     @FXML
     private Button btnEnviarSocio;
@@ -60,10 +60,10 @@ public class FrmListSocioLocacao implements Initializable {
     private void gerarConfigTabela() {
         tabela = new TableView<Pessoal>();
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tabela.setPrefWidth(PaneLista.getPrefWidth());
-        tabela.setPrefHeight(PaneLista.getPrefHeight());
+        tabela.setPrefWidth(paneLista.getPrefWidth());
+        tabela.setPrefHeight(paneLista.getPrefHeight());
         tabela.setTableMenuButtonVisible(true);
-        PaneLista.getChildren().add(tabela);
+        paneLista.getChildren().add(tabela);
     }
 
     private void carregarTabela() {

@@ -8,13 +8,13 @@ import java.util.Date;
 
 public class Copias {
     private int id = 0;
+    private String codigoCopia = "";
     private int filmeId = 0;
     private Boolean disponivel = false;
-    private Boolean reserva = false;
+    private Boolean reservada = false;
     private Boolean disponivelVenda = false;
-    private Date dataReserva = null;
-    private Date dataCompra = null;
-    private Date dataVenda = null;
+    private java.sql.Date dataReserva = null;
+    private java.sql.Date dataVenda = null;
 
     public int getId() {
         return id;
@@ -40,12 +40,12 @@ public class Copias {
         this.disponivel = disponivel;
     }
 
-    public Boolean getReserva() {
-        return reserva;
+    public Boolean getReservada() {
+        return reservada;
     }
 
-    public void setReserva(Boolean reserva) {
-        this.reserva = reserva;
+    public void setReservada(Boolean reservada) {
+        this.reservada = reservada;
     }
 
     public Boolean getDisponivelVenda() {
@@ -56,27 +56,27 @@ public class Copias {
         this.disponivelVenda = disponivelVenda;
     }
 
-    public Date getDataReserva() {
+    public java.sql.Date getDataReserva() {
         return dataReserva;
     }
 
-    public void setDataReserva(Date dataReserva) {
+    public void setDataReserva(java.sql.Date dataReserva) {
         this.dataReserva = dataReserva;
     }
 
-    public Date getDataCompra() {
-        return dataCompra;
-    }
-
-    public void setDataCompra(Date dataCompra) {
-        this.dataCompra = dataCompra;
-    }
-
-    public Date getDataVenda() {
+    public java.sql.Date getDataVenda() {
         return dataVenda;
     }
 
-    public void setDataVenda(Date dataVenda) {
+    public void setDataVenda(java.sql.Date dataVenda) {
         this.dataVenda = dataVenda;
+    }
+
+    public String getCodigoCopia() {
+        return codigoCopia;
+    }
+
+    public void setCodigoCopia(String codigoCopia) {
+        this.codigoCopia = codigoCopia;
     }
 }
