@@ -75,6 +75,7 @@ public class FrmAlugar implements Initializable {
     ObservableList<Locacao_item> listaProdutos;
     Pessoal pessoal;
     List<Locacao_item> arrayItens = new ArrayList<>();
+    ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -145,23 +146,6 @@ public class FrmAlugar implements Initializable {
 
     }
 
-  /*  private void carregarCombos() {
-
-        try {
-            listaProdutos = FXCollections.observableArrayList();
-            comboProduto.getSelectionModel().clearSelection();
-            comboProduto.getSelectionModel().select(-1);
-            for (Filmes filmes : new NFilme().Listar(new Filmes())){
-                listaProdutos.add(filmes);
-                comboProduto.setItems(listaProdutos);
-           }
-
-        }catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-            e.printStackTrace();
-        }
-    }*/
-
     private void limpar() {
        txtLabelId.setText("ID");
        txtLabelCPF.setText("CPF");
@@ -176,18 +160,7 @@ public class FrmAlugar implements Initializable {
             listViewLista.getColumns().add(new TableColumn<>(colunas[i]));
             listViewLista.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
         }
-        //imprimirTable(new PLocacao_item().listarProdutos().iterator());
     }
-
-    /*private void imprimirTable(Iterator<Locacao_item> LocItem){
-     *//*   ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
-        while (LocItem.hasNext()) {
-            Locacao_item locacaoItem = (Locacao_item) LocItem.next();
-            lista.add(locacaoItem);
-        }
-        listViewLista.setItems(lista);*//*
-
-    }*/
 
     private Pessoal socioSelected;
     public void dadosSocios(Pessoal socio){
@@ -197,27 +170,15 @@ public class FrmAlugar implements Initializable {
         txtLabelCPF.setText("CPF:     "+socioSelected.getCpf());
     }
 
-
     private Iterator<Locacao_item> filmeSelected;
     public void dadosProdutos(Iterator<Locacao_item> LocItem){
         filmeSelected = LocItem;
-        ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
         while(LocItem.hasNext()){
             Locacao_item locacao_item = (Locacao_item) LocItem.next();
             lista.add(locacao_item);
         }
         listViewLista.setItems(lista);
     }
-
-/*    public void dadosListaProdutos(List<Locacao_item> itens){
-        filmeSelected = itens;
-        listaProdutos = FXCollections.observableArrayList();
-        for (Locacao_item item : itens) {
-            listaProdutos.add(item);
-        }
-        listViewLista.setItems(listaProdutos);
-    }*/
-
 
 
 }

@@ -20,8 +20,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import persistencia.PLocacao_item;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -56,21 +54,19 @@ public class FrmListarProdutosLocacao implements Initializable {
         Scene tabelaUsadaScene = new Scene(tabelaUsadaParent);
         FrmAlugar controller = loader.getController();
 
-        tabela.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tabela.setOnMouseClicked(new EventHandler<Event>() {
-
-            @Override
-            public void handle(Event event) {
-                ObservableList<Locacao_item> selectedItems =  tabela.getSelectionModel().getSelectedItems();
-                for(Locacao_item itens : selectedItems){
-                    selectedItems.add(itens);
-                    //controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems());
-                    controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems().iterator());
-                    //System.out.println("selected item " + filme);
-                }
+        //tabela.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+     /*   tabela.setOnMouseClicked((EventHandler<Event>) event1 -> {
+            ObservableList<Locacao_item> selectedItems =  tabela.getSelectionModel().getSelectedItems();
+            for(Locacao_item itens : selectedItems){
+                selectedItems.add(itens);
+                //controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems());
+                //System.out.println("selected item " + filme);
             }
-        });
-        enviarImpressao(new PLocacao_item().listar().iterator());
+        });*/
+
+
+        //adiciona 1 de cada vez
+        controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems().iterator());
         Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Window.setScene(tabelaUsadaScene);
         Window.show();
@@ -108,15 +104,5 @@ public class FrmListarProdutosLocacao implements Initializable {
         }
         tabela.setItems(lista);
     }
-
-    private void enviarImpressao(Iterator<Locacao_item> LocItem){
-        ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
-        while(LocItem.hasNext()){
-        Locacao_item locacao_item = (Locacao_item) LocItem.next();
-        lista.add(locacao_item);
-         }
-      }
-
-
 
 }
