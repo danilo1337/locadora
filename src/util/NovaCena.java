@@ -34,6 +34,7 @@ public class NovaCena {
         stage.setScene(scene);
         stage.show();
         stage.centerOnScreen();
+
 	}
 	
 	public static final LocalDate LOCAL_DATE (String dateString){
@@ -42,7 +43,8 @@ public class NovaCena {
 	    
 	    return localDate;
 	}
-	public static final LocalDate LOCAL_DATE (Date date){
+
+	public static final LocalDate 	LOCAL_DATE (Date date){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	    LocalDate localDate = LocalDate.parse(sdf.format(date),formatter);

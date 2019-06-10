@@ -17,38 +17,34 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import negocio.NFilme;
+import util.NovaCena;
 
 
-public class FrmPedido implements Initializable {
-
-    @FXML
-    private TitledPane frmFull;
+public class FrmAlugar implements Initializable {
 
     @FXML
-    private AnchorPane testeExit;
+    private Pane tPaneExit;
+
+    @FXML
+    private AnchorPane PaneInterno;
 
     @FXML
     private TextField txtFieldId;
 
     @FXML
-    private ComboBox<Filmes> comboProduto;
-
-    @FXML
-    private TextField txtFieldQnt;
-
-    @FXML
-    private ListView<?> listViewLista;
+    private TableView<Locacao_item> listViewLista;
 
     @FXML
     private Button btSalvar;
@@ -62,17 +58,21 @@ public class FrmPedido implements Initializable {
     @FXML
     private Button btFechar;
 
+    @FXML
+    private TextField txtValorTotal;
+
     JDesktopPane principal;
 
     Locacao locacao;
-    ObservableList<Filmes> listaProdutos;
+    ObservableList<Locacao_item> listaProdutos;
     Pessoal pessoal;
     List<Locacao_item> arrayItens = new ArrayList<>();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         txtFieldId.requestFocus();
-        carregarCombos();
+       // carregarCombos();
+        carregarTabela();
 
         btSalvar.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
         btExcluir.setGraphic(new ImageView(new Image( "/icones/delete.png", 26, 26, false, false)));
@@ -92,9 +92,7 @@ public class FrmPedido implements Initializable {
 
     @FXML
     void btnFechar(ActionEvent event) throws IOException {
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/principal.fxml"));
-        //fazer algo pra voltar pra tela
-
+    tPaneExit.getChildren().clear();
     }
 
     @FXML
@@ -103,8 +101,12 @@ public class FrmPedido implements Initializable {
     }
 
     @FXML
-    void btnPesquisarId(ActionEvent event) {
-
+    void btnPesquisarId(ActionEvent event) throws Exception {
+        /*PaneInterno.getChildren().clear();
+        PaneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSociosLocacao.fxml"));*/
+        //new NovaCena().gerarNovaCena("/fxml/frmListarSociosLocacao.fxml");
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
+        PaneInterno.getChildren().setAll(pane);
     }
 
     @FXML
@@ -122,7 +124,7 @@ public class FrmPedido implements Initializable {
 
     }
 
-    private void carregarCombos() {
+  /*  private void carregarCombos() {
 
         try {
             listaProdutos = FXCollections.observableArrayList();
@@ -137,22 +139,30 @@ public class FrmPedido implements Initializable {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void limpar(){
         txtFieldId.setText("");
-        txtFieldQnt.setText("");
-        comboProduto.getSelectionModel().select(-1);
     }
 
-    private void carregarTabela(List<Locacao_item> itens){
-
-
-
-
-
+    private void carregarTabela() {
+        // Puxando as variaveis da classe Locacao para gerar Colunas
+        String colunas[] = new Locacao_item().getColunas();
+        String nomeVariaveis[] = new Locacao_item().getVariaveis();
+        for (int i = 0; i < colunas.length; i++) {
+            listViewLista.getColumns().add(new TableColumn<>(colunas[i]));
+            listViewLista.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
+        }
     }
 
+    private void imprimirTable(List<Locacao_item> itens){
+        try{
+            listaProdutos = FXCollections.observableArrayList();
+            for (Locacao_item item : itens) {listaProdutos.add(item);}
+            listViewLista.setItems(listaProdutos);
 
-
+        }catch(Exception e){
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
 }
