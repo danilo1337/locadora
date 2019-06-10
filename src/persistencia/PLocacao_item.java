@@ -74,30 +74,61 @@ public class PLocacao_item {
         return lista;
     }
 
+
+
+    public List<Locacao_item> listarProdutos() throws Exception {
+        Connection cnn = util.Conexao.getConexao();
+
+        String sql = "SELECT LOCACAO_ITEM.ID,FILME.TITULO, LOCACAO_ITEM.VALOR" +
+                " FROM LOCACAO_ITEM INNER JOIN COPIAS" +
+                " ON (LOCACAO_ITEM.COPIA_ID = COPIAS.ID)" +
+                " INNER JOIN FILME" +
+                " ON (COPIAS.FILME_ID = FILME.ID)" +
+                " GROUP BY LOCACAO_ITEM.ID, COPIAS.ID, FILME.ID";
+
+        PreparedStatement ps = cnn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        List<Locacao_item> lista = new ArrayList<>();
+
+        while (rs.next()) {
+
+            Locacao_item item = new Locacao_item();
+            //item.setId(rs.getInt("LOCACAO_ITEM.ID"));
+            item.setId(rs.getInt("ID"));
+            item.getFilmes().setTitulo(rs.getString("TITULO"));
+            item.setValor(rs.getDouble("VALOR"));
+
+            lista.add(item);
+        }
+
+        rs.close();
+        cnn.close();
+        return lista;
+    }
+
+
+
     public List<Locacao_item> consultar(Locacao locacao) throws Exception {
 
         Connection cnn = Conexao.getConexao();
                 String sql = "SELECT LOCACAO_ITEM.ID, LOCACAO_ITEM.COPIA_ID, COPIAS.ID, LOCACAO_ITEM.LOCACAO_ID, LOCACAO.ID,"
                 + "LOCACAO_ITEM.VALOR, COPIAS.DISPONIVEL, COPIAS.RESERVADA, COPIAS.DISPONIVEL_VENDA,"
-                + "COPIAS.DATA_RESERVA, COPIAS.DATA_COMPRA, COPIAS.DATA_VENDA,"
+                + "COPIAS.DATA_RESERVA, COPIAS.DATA_COMPRA, COPIAS.DATA_VENDA, COPIAS.FILME_ID, FILME.ID,FILME.TITULO,"
                 + "COUNT (*) * LOCACAO_ITEM.VALOR AS VALORTOTAL"
                 + "FROM LOCACAO_ITEM INNER JOIN COPIAS"
                 + "ON (LOCACAO_ITEM.COPIA_ID = COPIAS.ID)"
                 + "INNER JOIN LOCACAO"
                 + "ON (LOCACAO_ITEM.LOCACAO_ID = LOCACAO.ID)"
-                + "GROUP BY LOCACAO_ITEM.COPIA_ID, COPIAS.ID, LOCACAO_ITEM.LOCACAO_ID, LOCACAO.ID,"
-                + "LOCACAO_ITEM.VALOR";
+                + "GROUP BY LOCACAO_ITEM.ID, LOCACAO_ITEM.COPIA_ID, COPIAS.ID, LOCACAO_ITEM.LOCACAO_ID, LOCACAO.ID,"
+                + "LOCACAO_ITEM.VALOR, COPIAS.FILME_ID, FILME.ID";
 
         PreparedStatement stm = cnn.prepareStatement(sql);
         stm.setInt(1, locacao.getId());
         ResultSet rs = stm.executeQuery();
-
         List<Locacao_item> listar = new ArrayList<>();
 
         while (rs.next()) {
             Locacao_item item = new Locacao_item();
-
-
             item.setId(rs.getInt("LOCACAO_ITEM.ID"));
             item.setId(rs.getInt("LOCACAO_ITEM.COPIA_ID"));
             item.getCopias().setId(rs.getInt("COPIAS.ID"));
@@ -110,6 +141,9 @@ public class PLocacao_item {
             item.getCopias().setDataReserva(rs.getDate("COPIAS.DATA_RESERVA"));
             item.getCopias().setDataCompra(rs.getDate("COPIAS.DATA_COMPRA"));
             item.getCopias().setDataVenda(rs.getDate("COPIAS.DATA_VENDA"));
+            item.getCopias().setId(rs.getInt("COPIAS.FILME_ID"));
+            item.getFilmes().setId(rs.getInt("FILME.ID"));
+            item.getFilmes().setTitulo(rs.getString("FILME.TITULO"));
             item.getLocacao().setValor_total(rs.getDouble("VALORTOTAL"));
             listar.add(item);
         }

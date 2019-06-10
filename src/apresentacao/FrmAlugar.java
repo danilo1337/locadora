@@ -4,6 +4,7 @@ package apresentacao;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import negocio.NFilme;
+import persistencia.PLocacao_item;
 import util.NovaCena;
 
 
@@ -78,7 +80,11 @@ public class FrmAlugar implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         //txtFieldId.requestFocus();
         // carregarCombos();
-        carregarTabela();
+        try {
+            carregarTabela();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         btSalvar.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
         btExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
         btLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
@@ -162,7 +168,7 @@ public class FrmAlugar implements Initializable {
        txtLabelNome.setText("NOME");
     }
 
-    private void carregarTabela() {
+    private void carregarTabela() throws Exception {
         // Puxando as variaveis da classe Locacao para gerar Colunas
         String colunas[] = new Locacao_item().getColunas();
         String nomeVariaveis[] = new Locacao_item().getVariaveis();
@@ -170,20 +176,18 @@ public class FrmAlugar implements Initializable {
             listViewLista.getColumns().add(new TableColumn<>(colunas[i]));
             listViewLista.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
         }
+        //imprimirTable(new PLocacao_item().listarProdutos().iterator());
     }
 
-    private void imprimirTable(List<Locacao_item> itens) {
-        try {
-            listaProdutos = FXCollections.observableArrayList();
-            for (Locacao_item item : itens) {
-                listaProdutos.add(item);
-            }
-            listViewLista.setItems(listaProdutos);
-
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+    /*private void imprimirTable(Iterator<Locacao_item> LocItem){
+     *//*   ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
+        while (LocItem.hasNext()) {
+            Locacao_item locacaoItem = (Locacao_item) LocItem.next();
+            lista.add(locacaoItem);
         }
-    }
+        listViewLista.setItems(lista);*//*
+
+    }*/
 
     private Pessoal socioSelected;
     public void dadosSocios(Pessoal socio){
@@ -192,13 +196,28 @@ public class FrmAlugar implements Initializable {
         txtLabelNome.setText("NOME: "+socioSelected.getNome_completo());
         txtLabelCPF.setText("CPF:     "+socioSelected.getCpf());
     }
-    private List<Locacao_item> filmeSelected;
-    public void dadosProdutos(List<Locacao_item> itens){
+
+
+    private Iterator<Locacao_item> filmeSelected;
+    public void dadosProdutos(Iterator<Locacao_item> LocItem){
+        filmeSelected = LocItem;
+        ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
+        while(LocItem.hasNext()){
+            Locacao_item locacao_item = (Locacao_item) LocItem.next();
+            lista.add(locacao_item);
+        }
+        listViewLista.setItems(lista);
+    }
+
+/*    public void dadosListaProdutos(List<Locacao_item> itens){
         filmeSelected = itens;
         listaProdutos = FXCollections.observableArrayList();
         for (Locacao_item item : itens) {
             listaProdutos.add(item);
         }
         listViewLista.setItems(listaProdutos);
-    }
+    }*/
+
+
+
 }

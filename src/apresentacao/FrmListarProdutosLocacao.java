@@ -1,6 +1,7 @@
 package apresentacao;
 
 import entidade.Filmes;
+import entidade.Locacao;
 import entidade.Locacao_item;
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
@@ -14,16 +15,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import persistencia.PLocacao_item;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 public class FrmListarProdutosLocacao implements Initializable {
@@ -35,16 +35,19 @@ public class FrmListarProdutosLocacao implements Initializable {
     private Button btnEnviarDados;
 
     TableView<Locacao_item> tabela = null;
-
+    ObservableList<Filmes> list = FXCollections.observableArrayList();
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-    GerarConfigTabelas();
-    carregarTabela();
-
+        try {
+            gerarConfigTabelas();
+            carregarTabela();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     @FXML
-    void ButtonEnviarDados(ActionEvent event) throws IOException {
+    void ButtonEnviarDados(ActionEvent event) throws Exception {
         ObservableList<Filmes> list = FXCollections.observableArrayList();
 
         FXMLLoader loader = new FXMLLoader();
@@ -61,19 +64,19 @@ public class FrmListarProdutosLocacao implements Initializable {
                 ObservableList<Locacao_item> selectedItems =  tabela.getSelectionModel().getSelectedItems();
                 for(Locacao_item itens : selectedItems){
                     selectedItems.add(itens);
-                    controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems());
-                    //controller.dadosSocios(tabela.getSelectionModel().getSelectedItem());
+                    //controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems());
+                    controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems().iterator());
                     //System.out.println("selected item " + filme);
                 }
             }
         });
-
+        enviarImpressao(new PLocacao_item().listar().iterator());
         Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Window.setScene(tabelaUsadaScene);
         Window.show();
     }
 
-    private void GerarConfigTabelas(){
+    private void gerarConfigTabelas(){
         tabela = new TableView<Locacao_item>();
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -84,16 +87,36 @@ public class FrmListarProdutosLocacao implements Initializable {
         PaneDadosGerais.getChildren().add(tabela);
     }
 
-    private void carregarTabela() {
+    private void carregarTabela() throws Exception {
         // Puxando as variaveis da classe Locacao para gerar Colunas
         //String colunas[] = new Locacao_item().getColunas();
         String colunas[] = new String[]{"ID", "TITULO", "VALOR"};
-        String nomeVariaveis[] = new String[]{"id", "titulo", "valor"};
+        String nomeVariaveis[] = new String[]{"id", "filmes", "valor"};
         for (int i = 0; i < colunas.length; i++) {
             tabela.getColumns().add(new TableColumn<>(colunas[i]));
             tabela.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
             tabela.getColumns().get(i).setStyle("-fx-alignment: CENTER;");
         }
+        imprimirTable(new PLocacao_item().listarProdutos().iterator());
+       }
+
+    private void imprimirTable(Iterator<Locacao_item> LocItem){
+        ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
+        while (LocItem.hasNext()) {
+            Locacao_item locacaoItem = (Locacao_item) LocItem.next();
+            lista.add(locacaoItem);
+        }
+        tabela.setItems(lista);
     }
+
+    private void enviarImpressao(Iterator<Locacao_item> LocItem){
+        ObservableList<Locacao_item> lista = FXCollections.observableArrayList();
+        while(LocItem.hasNext()){
+        Locacao_item locacao_item = (Locacao_item) LocItem.next();
+        lista.add(locacao_item);
+         }
+      }
+
+
 
 }
