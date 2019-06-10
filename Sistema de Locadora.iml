@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
-    <libelement value="file://D:/Instaladores/Bancos_De_Dados/Postgre/postgresql-8.3-603.jdbc4.jar" />
+    <libelement value="file://C:/Users/aluno/Desktop/Danilo/postgresql-8.3-603.jdbc4.jar" />
     <conelement value="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" />
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
@@ -15,15 +15,7 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" level="application" />
-    <orderEntry type="module-library">
-      <library name="postgresql-8.3-603.jdbc4.jar">
-        <CLASSES>
-          <root url="file://D:/Instaladores/Bancos_De_Dados/Postgre/postgresql-8.3-603.jdbc4.jar" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" exported="" name="postgresql-8.3-603.jdbc4" level="project" />
+    <orderEntry type="library" exported="" name="itextpdf-5.4.0" level="project" />
   </component>
 </module>
