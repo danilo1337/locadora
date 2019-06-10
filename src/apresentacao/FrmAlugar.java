@@ -112,12 +112,6 @@ public class FrmAlugar implements Initializable {
 
     @FXML
     void btnPesquisarId(ActionEvent event) throws Exception {
-        //PaneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSociosLocacao.fxml"));
-        //tester sem colar a tela
-
-        //new NovaCena().gerarNovaCena("/fxml/frmListarSociosLocacao.fxml");
-        //tPaneExit.getChildren().clear();
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
         Parent tabelaUsadaParent = loader.load();
@@ -126,15 +120,18 @@ public class FrmAlugar implements Initializable {
         Window.setScene(tabelaUsadaScene);
         Window.centerOnScreen();
         Window.show();
-
-        /*AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
-        PaneInterno.getChildren().setAll(pane);*/
-
     }
 
     @FXML
-    void btnPesquisarProduto(ActionEvent event) {
-
+    void btnPesquisarProduto(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/frmListarProdutos.fxml"));
+        Parent tabelaUsadaParent = loader.load();
+        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
+        Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Window.setScene(tabelaUsadaScene);
+        Window.centerOnScreen();
+        Window.show();
     }
 
     @FXML
@@ -189,11 +186,19 @@ public class FrmAlugar implements Initializable {
     }
 
     private Pessoal socioSelected;
-    public void dados(Pessoal socio){
+    public void dadosSocios(Pessoal socio){
         socioSelected = socio;
         txtLabelId.setText("ID:        "+(socioSelected.getId()));
         txtLabelNome.setText("NOME: "+socioSelected.getNome_completo());
         txtLabelCPF.setText("CPF:     "+socioSelected.getCpf());
     }
-
+    private List<Locacao_item> filmeSelected;
+    public void dadosProdutos(List<Locacao_item> itens){
+        filmeSelected = itens;
+        listaProdutos = FXCollections.observableArrayList();
+        for (Locacao_item item : itens) {
+            listaProdutos.add(item);
+        }
+        listViewLista.setItems(listaProdutos);
+    }
 }

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="tPaneExit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apresentacao.FrmAlugar">
    <children>
@@ -19,20 +20,60 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Label layoutX="62.0" layoutY="11.0" text="SOCIO" />
-                  <Label layoutX="505.0" layoutY="11.0" text="Produto" />
-                  <Button layoutX="119.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnPesquisarId" text="Pesquisar" />
-                  <Button layoutX="493.0" layoutY="33.0" mnemonicParsing="false" onAction="#btnPesquisarProduto" text="Pesquisar" />
-                  <Button layoutX="94.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="25.0" prefWidth="154.0" text="Adicionar" />
-                  <Button fx:id="btSalvar" layoutX="186.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnSalvar" text="Salvar" />
-                  <Button fx:id="btExcluir" layoutX="293.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnExcluir" text="Excluir" />
-                  <Button fx:id="btLimpar" layoutX="401.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnLimpar" text="Limpar" />
+                  <Label layoutX="62.0" layoutY="11.0" text="SOCIO">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="495.0" layoutY="11.0" text="PRODUTOS">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Button layoutX="119.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnPesquisarId" text="Pesquisar">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font></Button>
+                  <Button layoutX="493.0" layoutY="33.0" mnemonicParsing="false" onAction="#btnPesquisarProduto" text="Pesquisar">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font></Button>
+                  <Button layoutX="216.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="25.0" prefWidth="154.0" text="Adicionar">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="btSalvar" layoutX="186.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnSalvar" text="Salvar">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="btExcluir" layoutX="293.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnExcluir" text="Excluir">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="btLimpar" layoutX="401.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnLimpar" text="Limpar">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Button>
                   <TextField fx:id="txtValorTotal" layoutX="519.0" layoutY="249.0" prefHeight="25.0" prefWidth="99.0" />
-                  <Label layoutX="462.0" layoutY="253.0" text="Total" />
-                  <Label fx:id="txtLabelId" layoutX="62.0" layoutY="37.0" text="ID:" />
-                  <Label fx:id="txtLabelNome" layoutX="63.0" layoutY="58.0" text="NOME:" />
-                  <Label fx:id="txtLabelCPF" layoutX="64.0" layoutY="77.0" text="CPF:" />
-                  <Button layoutX="502.0" layoutY="303.0" mnemonicParsing="false" onAction="#VoltarAoPrincipal" text="Voltar" />
+                  <Label layoutX="462.0" layoutY="253.0" text="Total">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="txtLabelId" layoutX="62.0" layoutY="37.0" text="ID:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="txtLabelNome" layoutX="63.0" layoutY="58.0" text="NOME:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="txtLabelCPF" layoutX="64.0" layoutY="77.0" text="CPF:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Button layoutX="502.0" layoutY="303.0" mnemonicParsing="false" onAction="#VoltarAoPrincipal" text="Voltar">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Button>
+                  <TextField layoutX="94.0" layoutY="249.0" prefHeight="25.0" prefWidth="113.0" />
                </children>
             </AnchorPane>
          </content>

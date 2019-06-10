@@ -24,7 +24,7 @@ public class PLocacao {
         try {
 
             String sql = "INSERT INTO "
-                    +"locacao (pessoal_id, data_locacao, data_devolucao, data_pagamento, forma_pagamento, valor_total," +
+                    +"locacao (pessoal_id, data_locacao, data_pagamento, forma_pagamento, valor_total," +
                     " juros, multa, desconto) "
                     + "VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -33,7 +33,6 @@ public class PLocacao {
             //passo os itens da sql para o statement
             ps.setInt(1, locacao.getPessoal().getId());
             ps.setDate(2, locacao.getData_locacao());
-            ps.setDate(3, locacao.getData_devolucao());
             ps.setDate(4, locacao.getData_pagamento());
             ps.setString(5, locacao.getForma_pagamento());
             ps.setDouble(6, locacao.getValor_total());
@@ -82,7 +81,6 @@ public class PLocacao {
             //- Atualizar o pedido
             String sql = "UPDATE locacao "
                     + "SET data_locacao = ?, "
-                    + "data_devolucao = ?, "
                     + "data_pagamento = ?, "
                     + "forma_pagamento = ?, "
                     + "valor_total = ?, "
@@ -94,7 +92,6 @@ public class PLocacao {
             PreparedStatement ps = cnn.prepareStatement(sql);
 
             ps.setDate(1, locacao.getData_locacao());
-            ps.setDate(2, locacao.getData_devolucao());
             ps.setDate(3, locacao.getData_pagamento());
             ps.setString(4, locacao.getForma_pagamento());
             ps.setDouble(5, locacao.getValor_total());
@@ -113,11 +110,11 @@ public class PLocacao {
                 item.getLocacao().setId(locacao.getId());
                 pItem.incluir(item, cnn);
             }
-            //Efetua a gravação no banco de dados
+            //Efetua a gravação no banco de dadosSocios
             cnn.commit();
 
         } catch (Exception e) {
-            //Desfaz as alterações no banco de dados
+            //Desfaz as alterações no banco de dadosSocios
             cnn.rollback();
         }
         cnn.close();
@@ -139,11 +136,11 @@ public class PLocacao {
             ps.setInt(1, locacao.getId());
             ps.execute();
 
-            //Efetua a gravação no banco de dados
+            //Efetua a gravação no banco de dadosSocios
             cnn.commit();
 
         } catch (Exception e) {
-            //Desfaz as alterações no banco de dados
+            //Desfaz as alterações no banco de dadosSocios
             cnn.rollback();
         }
         cnn.close();
@@ -156,7 +153,7 @@ public class PLocacao {
         Locacao locacao = new Locacao();
         //Select do que será consultado
         try {
-            String sql = "SELECT id, pessoal_id, data_locacao, data_devolucao, data_pagamento, forma_pagamento, valor_total"
+            String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, forma_pagamento, valor_total"
                     + " juros, multa, desconto"
                     + " FROM locacao "
                     + " WHERE id = ?";
@@ -169,7 +166,6 @@ public class PLocacao {
             if (rs.next()) {
                 locacao.setId(rs.getInt("id"));
                 locacao.setData_locacao(rs.getDate("data_locacao"));
-                locacao.setData_locacao(rs.getDate("data_devolucao"));
                 locacao.setData_locacao(rs.getDate("data_pagamento"));
                 locacao.setForma_pagamento(rs.getString("forma_pagamento"));
                 locacao.setValor_total(rs.getDouble("valor_total"));
@@ -184,12 +180,12 @@ public class PLocacao {
                 //Gravo o item (filho)
                 pItem.incluir(item, cnn);
             }
-            //Efetua a gravação no banco de dados
+            //Efetua a gravação no banco de dadosSocios
             cnn.commit();
             rs.close();
 
         } catch (Exception e) {
-            //Desfaz as alterações no banco de dados
+            //Desfaz as alterações no banco de dadosSocios
             cnn.rollback();
         }
 
@@ -201,7 +197,7 @@ public class PLocacao {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
-        String sql = "SELECT id, pessoal_id, data_locacao, data_devolucao, data_pagamento, forma_pagamento, valor_total"
+        String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, forma_pagamento, valor_total"
                 + " juros, multa, desconto"
                 + " FROM locacao "
                 + " WHERE id = ?";
@@ -215,7 +211,6 @@ public class PLocacao {
             Locacao locacao = new Locacao();
             locacao.setId(rs.getInt("id"));
             locacao.setData_locacao(rs.getDate("data_locacao"));
-            locacao.setData_locacao(rs.getDate("data_devolucao"));
             locacao.setData_locacao(rs.getDate("data_pagamento"));
             locacao.setForma_pagamento(rs.getString("forma_pagamento"));
             locacao.setValor_total(rs.getDouble("valor_total"));
