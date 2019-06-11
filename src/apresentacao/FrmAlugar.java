@@ -3,6 +3,7 @@ package apresentacao;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -111,12 +112,13 @@ public class FrmAlugar implements Initializable {
     @FXML
     void btnAdicionar(ActionEvent event) throws Exception {
         String codigoCopia = txtCopiaId.getText();
-        if(!codigoCopia.isEmpty()){
+        if (!codigoCopia.isEmpty()) {
             NCopias nCopias = new NCopias();
 
             Copias copias = nCopias.consultarCopias(codigoCopia);
 
-            if(copias.getId() != 0){
+            if (copias.getId() != 0) {
+                txtCopiaId.setText("");
                 LocacaoItem locacaoItem = new LocacaoItem();
                 locacaoItem.setCopias(copias);
                 locacaoItem.setCodigoCopia(copias.getCodigoCopia());
@@ -124,16 +126,16 @@ public class FrmAlugar implements Initializable {
                 locacaoItem.setTitulo(copias.getFilmes().getTitulo());
                 listViewLista.getItems().add(locacaoItem);
 
-                if(txtValorTotal.getText().isEmpty()){
+                if (txtValorTotal.getText().isEmpty()) {
                     txtValorTotal.setText(String.valueOf(copias.getFilmes().getTipoFilme().getPreco()));
-                }else{
+                } else {
                     double valorTotal = Double.parseDouble(txtValorTotal.getText());
                     txtValorTotal.setText(String.valueOf(valorTotal + copias.getFilmes().getTipoFilme().getPreco()));
                 }
-            }else{
+            } else {
                 new Alert(Alert.AlertType.WARNING, "Copia não encontrada ou não disponivel.").show();
             }
-        }else{
+        } else {
             new Alert(Alert.AlertType.WARNING, "Campo copia vazio.").show();
         }
     }
@@ -143,7 +145,7 @@ public class FrmAlugar implements Initializable {
         int index = listViewLista.getSelectionModel().getSelectedIndex();
         LocacaoItem locacaoItem = listViewLista.getItems().get(index);
 
-        if(!txtValorTotal.getText().isEmpty()){
+        if (!txtValorTotal.getText().isEmpty()) {
             double valorTotal = Double.parseDouble(txtValorTotal.getText());
             txtValorTotal.setText(String.valueOf(valorTotal - locacaoItem.getValor()));
         }
@@ -159,21 +161,22 @@ public class FrmAlugar implements Initializable {
     void btnPesquisarId(ActionEvent event) throws Exception {
         System.out.println(txtSocioCpf.getText());
         String cpf = txtSocioCpf.getText();
-        if(!cpf.isEmpty()){
+        if (!cpf.isEmpty()) {
             NPessoal nPessoal = new NPessoal();
             pessoal = nPessoal.consultarCpf(cpf);
 
-            if(pessoal.getId()!=0){
-                txtLabelId.setText("ID:        "+pessoal.getId());
-                txtLabelNome.setText("NOME:     "+pessoal.getNomeCompleto());
-                txtLabelCPF.setText("CPF:     "+pessoal.getCpf());
-                txtLabelSexo.setText("SEXO:     "+pessoal.getSexo());
-                txtLabelCelular.setText("CELULAR:     "+pessoal.getCelular());
-                txtLabelEmail.setText("EMAIL:     "+pessoal.getEmail());
-            }else{
+            if (pessoal.getId() != 0) {
+                txtSocioCpf.setText("");
+                txtLabelId.setText("ID:        " + pessoal.getId());
+                txtLabelNome.setText("NOME:     " + pessoal.getNomeCompleto());
+                txtLabelCPF.setText("CPF:     " + pessoal.getCpf());
+                txtLabelSexo.setText("SEXO:     " + pessoal.getSexo());
+                txtLabelCelular.setText("CELULAR:     " + pessoal.getCelular());
+                txtLabelEmail.setText("EMAIL:     " + pessoal.getEmail());
+            } else {
                 new Alert(Alert.AlertType.WARNING, "CPF não encontrado ou cliente inativo/bloqueado.").show();
             }
-        }else{
+        } else {
             new Alert(Alert.AlertType.WARNING, "Campo socio vazio.").show();
         }
     }
@@ -183,18 +186,28 @@ public class FrmAlugar implements Initializable {
         lista = listViewLista.getItems();
         locacao = new Locacao(pessoal, lista);
         locacao.setValorTotal(Double.parseDouble(txtValorTotal.getText()));
+        java.sql.Date sqlDate = new Date(System.currentTimeMillis());
+        locacao.setDataLocacao(sqlDate);
 
         NLocacao nLocacao = new NLocacao();
-        nLocacao.salvar(locacao);
+        try {
+            nLocacao.salvar(locacao);
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro ao salvar a locação.").show();
+        }
+        new Alert(Alert.AlertType.INFORMATION, "Locação salva.").show();
+        limpar();
     }
 
     private void limpar() {
-       txtLabelId.setText("ID:");
-       txtLabelCPF.setText("CPF:");
-       txtLabelNome.setText("NOME:");
+        txtLabelId.setText("ID:");
+        txtLabelCPF.setText("CPF:");
+        txtLabelNome.setText("NOME:");
         txtLabelSexo.setText("SEXO:");
         txtLabelCelular.setText("CELULAR:");
         txtLabelEmail.setText("EMAIL:");
+        listViewLista.getItems().clear();
+        txtValorTotal.setText("");
     }
 
     private void carregarTabela() throws Exception {

@@ -11,8 +11,8 @@ import java.util.List;
 public class PLocacaoItem {
 
     public void incluir(LocacaoItem item, Connection cnn) throws SQLException {
-        String sql = "INSERT INTO locacao_item (locacao_id, copia_id, data_devolucao, valor"
-        + " VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO locacao_item (locacao_id, copia_id, data_devolucao, valor)"
+        + " VALUES (?,?,?,?)";
 
         PreparedStatement prd = cnn.prepareStatement(sql);
         prd.setInt(1, item.getLocacao().getId());
@@ -36,7 +36,7 @@ public class PLocacaoItem {
         cnn.setAutoCommit(false);
 
             String sql = "SELECT LOCACAO_ITEM.ID, LOCACAO_ITEM.LOCACAO_ID, LOCACAO_ITEM.COPIA_ID, COPIAS.ID LOCACAO_ITEM.DATA_DEVOLUCAO, LOCACAO.ID,"
-                +"LOCACAO_ITEM.VALOR, LOCACAO.DATA_PAGAMENTO, LOCACAO.FORMA_PAGAMENTO, LOCACAO.MULTA, LOCACAO.DATA_LOCACAO"
+                +"LOCACAO_ITEM.VALOR, LOCACAO.DATA_PAGAMENTO, LOCACAO.MULTA, LOCACAO.DATA_LOCACAO"
                 +"COUNT (*) * LOCACAO_ITEM.VALOR AS VALORTOTAL"
                 +"FROM LOCACAO_ITEM INNER JOIN LOCACAO"
                 +"ON (LOCACAO_ITEM.LOCACAO_ID = LOCACAO.ID)"
@@ -59,7 +59,6 @@ public class PLocacaoItem {
             item.getLocacao().setId(rs.getInt("LOCACAO.ID"));
             item.setValor(rs.getDouble("LOCACAO_ITEM.VALOR"));
             item.getLocacao().setDataPagamento(rs.getDate("LOCACAO.DATA_PAGAMENTO"));
-            item.getLocacao().setForma_pagamento(rs.getString("LOCACAO.FORMA_PAGAMENTO"));
             item.getLocacao().setMulta(rs.getDouble("LOCACAO.MULTA"));
             item.getLocacao().setDataLocacao(rs.getDate("LOCACAO.DATA_LOCACAO"));
             item.getLocacao().setValorTotal(rs.getDouble("VALORTOTAL"));

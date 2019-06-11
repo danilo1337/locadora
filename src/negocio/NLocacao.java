@@ -15,7 +15,7 @@ public class NLocacao {
 
     public void salvar(Locacao parametro) throws Exception {
         if (parametro.getValorTotal() == 0 && parametro.getListaItens() == null)
-            throw new Exception("Por favor, Inserir algum produto");
+            throw new Exception("Por favor, Inserir algum item");
 
         if (parametro.getListaItens() == null)
             throw new Exception("É necessário inserir um item");

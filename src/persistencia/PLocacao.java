@@ -1,19 +1,15 @@
 package persistencia;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import entidade.Locacao;
 import entidade.LocacaoItem;
 import entidade.Pessoal;
 import negocio.NLocacaoItem;
 import negocio.NPessoal;
 import util.Conexao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PLocacao {
 
@@ -22,23 +18,15 @@ public class PLocacao {
         cnn.setAutoCommit(false);
 
         try {
-
-            String sql = "INSERT INTO "
-                    +"locacao (pessoal_id, data_locacao, data_pagamento, forma_pagamento, valor_total," +
-                    " juros, multa, desconto) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO locacao (pessoal_id, data_locacao, valor_total)"
+                    + "VALUES (?,?,?)";
 
             PreparedStatement ps = cnn.prepareStatement(sql);
 
             //passo os itens da sql para o statement
             ps.setInt(1, locacao.getPessoal().getId());
             ps.setDate(2, locacao.getDataLocacao());
-            ps.setDate(4, locacao.getDataPagamento());
-            ps.setString(5, locacao.getForma_pagamento());
-            ps.setDouble(6, locacao.getValorTotal());
-            ps.setDouble(7, locacao.getJuros());
-            ps.setDouble(8, locacao.getMulta());
-            ps.setDouble(9, locacao.getDesconto());
+            ps.setDouble(3, locacao.getValorTotal());
 
             //gravo o locacao pai
             ps.execute();
@@ -56,33 +44,36 @@ public class PLocacao {
 
             //Percorrer a lista de itens
             PLocacaoItem pItem = new PLocacaoItem();
+            PCopias pCopias = new PCopias();
             for (LocacaoItem item : locacao.getListaItens()) {
                 item.getLocacao().setId(locacao.getId());
 
                 //Gravo o item (filho)
                 pItem.incluir(item, cnn);
+
+                item.getCopias().setDisponivel(false);
+                pCopias.alterarLocacao(item.getCopias(), cnn);
             }
 
             cnn.commit();
 
         } catch (Exception e) {
             cnn.rollback();
+            System.out.println(e.getMessage());
         }
         cnn.close();
     }
 
 
-        public void alterar(Locacao locacao) throws SQLException {
+    public void alterar(Locacao locacao) throws SQLException {
         Connection cnn = Conexao.getConexao();
         cnn.setAutoCommit(false);
 
         try {
-
             //- Atualizar o pedido
             String sql = "UPDATE locacao "
                     + "SET data_locacao = ?, "
                     + "data_pagamento = ?, "
-                    + "forma_pagamento = ?, "
                     + "valor_total = ?, "
                     + "juros = ?, "
                     + "multa = ?, "
@@ -92,13 +83,12 @@ public class PLocacao {
             PreparedStatement ps = cnn.prepareStatement(sql);
 
             ps.setDate(1, locacao.getDataLocacao());
-            ps.setDate(3, locacao.getDataPagamento());
-            ps.setString(4, locacao.getForma_pagamento());
-            ps.setDouble(5, locacao.getValorTotal());
-            ps.setDouble(6, locacao.getJuros());
-            ps.setDouble(7, locacao.getMulta());
-            ps.setDouble(8, locacao.getDesconto());
-            ps.setInt(9, locacao.getId());
+            ps.setDate(2, locacao.getDataPagamento());
+            ps.setDouble(3, locacao.getValorTotal());
+            ps.setDouble(4, locacao.getJuros());
+            ps.setDouble(5, locacao.getMulta());
+            ps.setDouble(6, locacao.getDesconto());
+            ps.setInt(7, locacao.getId());
             ps.execute();
 
             //Excluir todos os itens de um pedido
@@ -153,7 +143,7 @@ public class PLocacao {
         Locacao locacao = new Locacao();
         //Select do que será consultado
         try {
-            String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, forma_pagamento, valor_total"
+            String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, valor_total"
                     + " juros, multa, desconto"
                     + " FROM locacao "
                     + " WHERE id = ?";
@@ -167,7 +157,6 @@ public class PLocacao {
                 locacao.setId(rs.getInt("id"));
                 locacao.setDataLocacao(rs.getDate("data_locacao"));
                 locacao.setDataLocacao(rs.getDate("data_pagamento"));
-                locacao.setForma_pagamento(rs.getString("forma_pagamento"));
                 locacao.setValorTotal(rs.getDouble("valor_total"));
                 locacao.setJuros(rs.getDouble("juros"));
                 locacao.setMulta(rs.getDouble("multa"));
@@ -197,7 +186,7 @@ public class PLocacao {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
-        String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, forma_pagamento, valor_total"
+        String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, valor_total"
                 + " juros, multa, desconto"
                 + " FROM locacao "
                 + " WHERE id = ?";
@@ -212,7 +201,6 @@ public class PLocacao {
             locacao.setId(rs.getInt("id"));
             locacao.setDataLocacao(rs.getDate("data_locacao"));
             locacao.setDataLocacao(rs.getDate("data_pagamento"));
-            locacao.setForma_pagamento(rs.getString("forma_pagamento"));
             locacao.setValorTotal(rs.getDouble("valor_total"));
             locacao.setJuros(rs.getDouble("juros"));
             locacao.setMulta(rs.getDouble("multa"));
@@ -226,11 +214,4 @@ public class PLocacao {
         cnn.close();
         return lista;
     }
-
-
-
-
-
-//modified
-
 }

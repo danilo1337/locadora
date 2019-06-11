@@ -9,7 +9,6 @@ public class Locacao {
     private int id;
     private Date dataLocacao;
     private Date dataPagamento;
-    private String forma_pagamento;
     private double valorTotal;
     private double juros;
     private double multa;
@@ -49,14 +48,6 @@ public class Locacao {
 
     public void setDataPagamento(Date dataPagamento) {
         this.dataPagamento = dataPagamento;
-    }
-
-    public String getForma_pagamento() {
-        return forma_pagamento;
-    }
-
-    public void setForma_pagamento(String forma_pagamento) {
-        this.forma_pagamento = forma_pagamento;
     }
 
     public double getValorTotal() {
