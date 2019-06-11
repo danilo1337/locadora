@@ -62,7 +62,7 @@ public class FrmListarProdutosLocacao implements Initializable {
 
 
         //adiciona 1 de cada vez
-        controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems().iterator());
+//        controller.dadosProdutos(tabela.getSelectionModel().getSelectedItems().iterator());
         Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         Window.setScene(tabelaUsadaScene);
         Window.show();

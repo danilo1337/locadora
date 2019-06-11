@@ -53,7 +53,7 @@ public class PCopias {
 	public Copias consultarCodigo(String codigoCopia) throws SQLException {
 		String sql = "SELECT copias.id as copia_id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda, \n" +
 				"ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id, tipo, preco, preco_venda\n" +
-				"FROM copias INNER JOIN filme on (copias.filme_id = filme.id) INNER JOIN tipo_filme on (filme.tipo_id = tipo_filme.id) WHERE codigo_copia = ?";
+				"FROM copias INNER JOIN filme on (copias.filme_id = filme.id) INNER JOIN tipo_filme on (filme.tipo_id = tipo_filme.id) WHERE codigo_copia = ? AND disponivel = true";
 		Connection cnn = util.Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -79,8 +79,6 @@ public class PCopias {
 		rs.close();
 		cnn.close();
 		return retorno;
-
-//		return setRetornoCopias(cnn, rs);
 	}
 
 	public void alterar(Copias copias) throws SQLException {

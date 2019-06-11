@@ -99,7 +99,7 @@ public class FrmListSocioLocacao implements Initializable {
         FrmAlugar controller = loader.getController();
 
         //Aqui envia os dadosSocios para a outra tela
-        controller.dadosSocios(tabela.getSelectionModel().getSelectedItem());
+//        controller.dadosSocios(tabela.getSelectionModel().getSelectedItem());
 
         //Aqui mostra a tela
         Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();

@@ -58,11 +58,11 @@ public class PLocacaoItem {
             item.setData_devolucao(rs.getDate("LOCACAO_ITEM.DATA_DEVOLUCAO"));
             item.getLocacao().setId(rs.getInt("LOCACAO.ID"));
             item.setValor(rs.getDouble("LOCACAO_ITEM.VALOR"));
-            item.getLocacao().setData_pagamento(rs.getDate("LOCACAO.DATA_PAGAMENTO"));
+            item.getLocacao().setDataPagamento(rs.getDate("LOCACAO.DATA_PAGAMENTO"));
             item.getLocacao().setForma_pagamento(rs.getString("LOCACAO.FORMA_PAGAMENTO"));
             item.getLocacao().setMulta(rs.getDouble("LOCACAO.MULTA"));
-            item.getLocacao().setData_locacao(rs.getDate("LOCACAO.DATA_LOCACAO"));
-            item.getLocacao().setValor_total(rs.getDouble("VALORTOTAL"));
+            item.getLocacao().setDataLocacao(rs.getDate("LOCACAO.DATA_LOCACAO"));
+            item.getLocacao().setValorTotal(rs.getDouble("VALORTOTAL"));
             lista.add(item);
         }
 
@@ -140,7 +140,7 @@ public class PLocacaoItem {
             item.getCopias().setId(rs.getInt("COPIAS.FILME_ID"));
             item.getFilmes().setId(rs.getInt("FILME.ID"));
             item.getFilmes().setTitulo(rs.getString("FILME.TITULO"));
-            item.getLocacao().setValor_total(rs.getDouble("VALORTOTAL"));
+            item.getLocacao().setValorTotal(rs.getDouble("VALORTOTAL"));
             listar.add(item);
         }
 

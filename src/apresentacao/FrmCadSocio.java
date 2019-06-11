@@ -152,8 +152,8 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setId(Integer.parseInt(txtID.getText()));
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setCpf(txtCpf.getText());
-			pessoal.setData_nascimento(dataSql);
-			pessoal.setNome_completo(txtNome.getText());
+			pessoal.setDataNascimento(dataSql);
+			pessoal.setNomeCompleto(txtNome.getText());
 			pessoal.setTelefone(txtTelefone.getText());
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setEmail(txtEmail.getText());
@@ -166,7 +166,7 @@ public class FrmCadSocio implements Initializable {
 			case "Gerente":
 				pessoal.setTipo(1);
 				break;
-			case "Usuário":
+			case "Usuï¿½rio":
 				pessoal.setTipo(5);
 				break;
 			case "Atendente":
@@ -191,7 +191,7 @@ public class FrmCadSocio implements Initializable {
 			}
 
 			new NPessoal().salvar(pessoal);
-			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nº" + pessoal.getId()).show();
+			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nï¿½" + pessoal.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -210,7 +210,7 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void buscar(ActionEvent event) {
 		try {
-			Pessoal pessoal = new NPessoal().consultar_cpf(txtCpf_consulta.getText());
+			Pessoal pessoal = new NPessoal().consultarCpf(txtCpf_consulta.getText());
 			txtBairro.setText(pessoal.getEndereco().getBairro());
 			txtCelular.setText(pessoal.getCelular());
 			txtCep.setText(pessoal.getEndereco().getCep());
@@ -220,9 +220,9 @@ public class FrmCadSocio implements Initializable {
 			txtID.setText(pessoal.getId() + "");
 			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
 			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
-			txtNome.setText(pessoal.getNome_completo());
+			txtNome.setText(pessoal.getNomeCompleto());
 			txtTelefone.setText(pessoal.getTelefone());
-			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getData_nascimento()));
+			dateNascimento.setValue(NovaCena.LOCAL_DATE(pessoal.getDataNascimento()));
 			if (pessoal.getSexo().equals("Masculino"))
 				raSexo_M.setSelected(true);
 			else
@@ -236,7 +236,7 @@ public class FrmCadSocio implements Initializable {
 					break;
 				}
 			}
-			// Pega o tipo descobre a descrição
+			// Pega o tipo descobre a descriï¿½ï¿½o
 			int tipo = pessoal.getTipo();
 			String tipo_Descricao = "";
 			if (tipo == 1)
@@ -244,9 +244,9 @@ public class FrmCadSocio implements Initializable {
 			else if (tipo == 2)
 				tipo_Descricao = "Atendente";
 			else if (tipo == 5)
-				tipo_Descricao = "Usuário";
+				tipo_Descricao = "Usuï¿½rio";
 			
-			// Pega o tipo descobre a situação
+			// Pega o tipo descobre a situaï¿½ï¿½o
 			int situacao = pessoal.getSituacao();
 			String tipo_Situacao = "";
 			if(situacao == 1) {
@@ -256,13 +256,13 @@ public class FrmCadSocio implements Initializable {
 			}else if(situacao == 3) {
 				tipo_Situacao = "Bloqueado";
 			}
-			// Seleciona o tipo segundo a descrição
+			// Seleciona o tipo segundo a descriï¿½ï¿½o
 			for (int i = 0; i < listaTipo.size(); i++) {
 				if (listaTipo.get(i).equals(tipo_Descricao)) {
 					cbTipo.getSelectionModel().select(i);
 				}
 			}
-			// Seleciona o tipo segundo o situação
+			// Seleciona o tipo segundo o situaï¿½ï¿½o
 			for (int i = 0; i < listaTipo.size(); i++) {
 				if (listaSituacao.get(i).equals(tipo_Situacao)) {
 					cbSituacao.getSelectionModel().select(i);
@@ -335,7 +335,7 @@ public class FrmCadSocio implements Initializable {
 
 	private void gerarTipo() {
 		listaTipo = FXCollections.observableArrayList();
-		String tipos[] = { "Usuário", "Atendente", "Gerente" };
+		String tipos[] = { "Usuï¿½rio", "Atendente", "Gerente" };
 		listaTipo.addAll(Arrays.asList(tipos));
 		cbTipo.setItems(listaTipo);
 	}

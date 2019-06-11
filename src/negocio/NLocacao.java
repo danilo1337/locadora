@@ -14,22 +14,16 @@ public class NLocacao {
     }
 
     public void salvar(Locacao parametro) throws Exception {
-
-
-
-        if (parametro.getValor_total() == 0 && parametro.getListaItens() == null)
+        if (parametro.getValorTotal() == 0 && parametro.getListaItens() == null)
             throw new Exception("Por favor, Inserir algum produto");
-
 
         if (parametro.getListaItens() == null)
             throw new Exception("É necessário inserir um item");
-
 
         if (parametro.getId()== 0)
             new PLocacao().incluir(parametro);
          else
             new PLocacao().alterar(parametro);
-
     }
 
     public void excluir(Locacao locacao) throws Exception{
@@ -43,8 +37,4 @@ public class NLocacao {
     public List<Locacao> listar() throws Exception {
         return per.listar();
     }
-
-//modified1
-
-
 }

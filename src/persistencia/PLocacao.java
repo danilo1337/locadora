@@ -32,10 +32,10 @@ public class PLocacao {
 
             //passo os itens da sql para o statement
             ps.setInt(1, locacao.getPessoal().getId());
-            ps.setDate(2, locacao.getData_locacao());
-            ps.setDate(4, locacao.getData_pagamento());
+            ps.setDate(2, locacao.getDataLocacao());
+            ps.setDate(4, locacao.getDataPagamento());
             ps.setString(5, locacao.getForma_pagamento());
-            ps.setDouble(6, locacao.getValor_total());
+            ps.setDouble(6, locacao.getValorTotal());
             ps.setDouble(7, locacao.getJuros());
             ps.setDouble(8, locacao.getMulta());
             ps.setDouble(9, locacao.getDesconto());
@@ -91,10 +91,10 @@ public class PLocacao {
 
             PreparedStatement ps = cnn.prepareStatement(sql);
 
-            ps.setDate(1, locacao.getData_locacao());
-            ps.setDate(3, locacao.getData_pagamento());
+            ps.setDate(1, locacao.getDataLocacao());
+            ps.setDate(3, locacao.getDataPagamento());
             ps.setString(4, locacao.getForma_pagamento());
-            ps.setDouble(5, locacao.getValor_total());
+            ps.setDouble(5, locacao.getValorTotal());
             ps.setDouble(6, locacao.getJuros());
             ps.setDouble(7, locacao.getMulta());
             ps.setDouble(8, locacao.getDesconto());
@@ -165,10 +165,10 @@ public class PLocacao {
 
             if (rs.next()) {
                 locacao.setId(rs.getInt("id"));
-                locacao.setData_locacao(rs.getDate("data_locacao"));
-                locacao.setData_locacao(rs.getDate("data_pagamento"));
+                locacao.setDataLocacao(rs.getDate("data_locacao"));
+                locacao.setDataLocacao(rs.getDate("data_pagamento"));
                 locacao.setForma_pagamento(rs.getString("forma_pagamento"));
-                locacao.setValor_total(rs.getDouble("valor_total"));
+                locacao.setValorTotal(rs.getDouble("valor_total"));
                 locacao.setJuros(rs.getDouble("juros"));
                 locacao.setMulta(rs.getDouble("multa"));
                 locacao.setDesconto(rs.getDouble("desconto"));
@@ -207,13 +207,13 @@ public class PLocacao {
         List<Locacao> lista = new ArrayList<>();
 
         while (rs.next()) {
-            Pessoal pessoal = new NPessoal().consultar_cpf(rs.getString("pessoal_id"));
+            Pessoal pessoal = new NPessoal().consultarCpf(rs.getString("pessoal_id"));
             Locacao locacao = new Locacao();
             locacao.setId(rs.getInt("id"));
-            locacao.setData_locacao(rs.getDate("data_locacao"));
-            locacao.setData_locacao(rs.getDate("data_pagamento"));
+            locacao.setDataLocacao(rs.getDate("data_locacao"));
+            locacao.setDataLocacao(rs.getDate("data_pagamento"));
             locacao.setForma_pagamento(rs.getString("forma_pagamento"));
-            locacao.setValor_total(rs.getDouble("valor_total"));
+            locacao.setValorTotal(rs.getDouble("valor_total"));
             locacao.setJuros(rs.getDouble("juros"));
             locacao.setMulta(rs.getDouble("multa"));
             locacao.setDesconto(rs.getDouble("desconto"));
