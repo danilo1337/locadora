@@ -3,10 +3,7 @@ package apresentacao;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import entidade.Filmes;
-import entidade.Genero;
 import entidade.TipoFilme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -111,7 +108,7 @@ public class FrmCadFilme implements Initializable {
 			filme.setAnoLancamento(txtAnoLancamento.getText());
 			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
 			filme.setSinopse(txaSinopse.getText());
-			filme.setTipo_id(Cb_Tipo.getValue());
+			filme.setTipoFilme(Cb_Tipo.getValue());
 
 			new NFilme().salvar(filme);
 			new Alert(AlertType.INFORMATION, "Incluido com sucesso! N " + filme.getId()).show();
@@ -236,9 +233,9 @@ public class FrmCadFilme implements Initializable {
         try {
             listaGen = FXCollections.observableArrayList();
             
-            listaGen.add("Ação");
+            listaGen.add("Aï¿½ï¿½o");
             listaGen.add("Drama");
-            listaGen.add("Comédia");
+            listaGen.add("Comï¿½dia");
             listaGen.add("Terror");
             listaGen.add("Suspense");
             listaGen.add("Guerra");

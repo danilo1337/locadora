@@ -29,7 +29,7 @@ public class PFilmes {
 			ps.setString(3, filme.getTitulo());
 			ps.setString(4, filme.getSinopse());
 			ps.setString(5, filme.getGenero());
-			ps.setInt(6, filme.getTipo_id().getId());
+			ps.setInt(6, filme.getTipoFilme().getId());
 
 			ps.execute();
 

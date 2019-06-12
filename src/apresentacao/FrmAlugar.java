@@ -3,33 +3,30 @@ package apresentacao;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 import javax.swing.JDesktopPane;
 
-import entidade.Filmes;
-import entidade.Locacao;
-import entidade.Locacao_item;
-import entidade.Pessoal;
+import entidade.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import negocio.NFilme;
-import util.NovaCena;
+import javafx.util.converter.IntegerStringConverter;
+import negocio.NCopias;
+import negocio.NLocacao;
+import negocio.NPessoal;
 
 
 public class FrmAlugar implements Initializable {
@@ -38,13 +35,10 @@ public class FrmAlugar implements Initializable {
     private Pane tPaneExit;
 
     @FXML
-    private AnchorPane PaneInterno;
+    private AnchorPane paneInterno;
 
     @FXML
-    private TextField txtFieldId;
-
-    @FXML
-    private TableView<Locacao_item> listViewLista;
+    private TableView<LocacaoItem> listViewLista;
 
     @FXML
     private Button btSalvar;
@@ -56,43 +50,106 @@ public class FrmAlugar implements Initializable {
     private Button btLimpar;
 
     @FXML
-    private Button btFechar;
-
-    @FXML
     private TextField txtValorTotal;
 
-    JDesktopPane principal;
+    @FXML
+    private Label txtLabelId;
 
+    @FXML
+    private Label txtLabelNome;
+
+    @FXML
+    private Label txtLabelCPF;
+
+    @FXML
+    private Label txtLabelCelular;
+
+    @FXML
+    private Label txtLabelSexo;
+
+    @FXML
+    private Label txtLabelEmail;
+
+    @FXML
+    private TextField txtCopiaId;
+
+    @FXML
+    private TextField txtSocioCpf;
+
+    JDesktopPane principal;
     Locacao locacao;
-    ObservableList<Locacao_item> listaProdutos;
+    ObservableList<LocacaoItem> listaProdutos;
     Pessoal pessoal;
-    List<Locacao_item> arrayItens = new ArrayList<>();
+    List<LocacaoItem> arrayItens = new ArrayList<>();
+    ObservableList<LocacaoItem> lista = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        txtFieldId.requestFocus();
-       // carregarCombos();
-        carregarTabela();
-
+        try {
+            carregarTabela();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         btSalvar.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
-        btExcluir.setGraphic(new ImageView(new Image( "/icones/delete.png", 26, 26, false, false)));
-        btLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
-        btFechar.setGraphic(new ImageView(new Image("/icones/fechar.png", 26, 26,false,false)));
+
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("-?([0-9][0-9]*)?")) {
+                return change;
+            }
+            return null;
+        };
+
+        txtCopiaId.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), null, integerFilter));
+        txtValorTotal.setEditable(false);
     }
 
     @FXML
-    void btnAdicionar(ActionEvent event) {
+    void VoltarAoPrincipal(ActionEvent event) throws IOException {
+        tPaneExit.getChildren().clear();
+    }
 
+    @FXML
+    void btnAdicionar(ActionEvent event) throws Exception {
+        String codigoCopia = txtCopiaId.getText();
+        if (!codigoCopia.isEmpty()) {
+            NCopias nCopias = new NCopias();
+
+            Copias copias = nCopias.consultarCopias(codigoCopia);
+
+            if (copias.getId() != 0) {
+                txtCopiaId.setText("");
+                LocacaoItem locacaoItem = new LocacaoItem();
+                locacaoItem.setCopias(copias);
+                locacaoItem.setCodigoCopia(copias.getCodigoCopia());
+                locacaoItem.setValor(copias.getFilmes().getTipoFilme().getPreco());
+                locacaoItem.setTitulo(copias.getFilmes().getTitulo());
+                listViewLista.getItems().add(locacaoItem);
+
+                if (txtValorTotal.getText().isEmpty()) {
+                    txtValorTotal.setText(String.valueOf(copias.getFilmes().getTipoFilme().getPreco()));
+                } else {
+                    double valorTotal = Double.parseDouble(txtValorTotal.getText());
+                    txtValorTotal.setText(String.valueOf(valorTotal + copias.getFilmes().getTipoFilme().getPreco()));
+                }
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Copia não encontrada ou não disponivel.").show();
+            }
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Campo copia vazio.").show();
+        }
     }
 
     @FXML
     void btnExcluir(ActionEvent event) {
+        int index = listViewLista.getSelectionModel().getSelectedIndex();
+        LocacaoItem locacaoItem = listViewLista.getItems().get(index);
 
-    }
-
-    @FXML
-    void btnFechar(ActionEvent event) throws IOException {
-    tPaneExit.getChildren().clear();
+        if (!txtValorTotal.getText().isEmpty()) {
+            double valorTotal = Double.parseDouble(txtValorTotal.getText());
+            txtValorTotal.setText(String.valueOf(valorTotal - locacaoItem.getValor()));
+        }
+        listViewLista.getItems().remove(listViewLista.getSelectionModel().getSelectedIndex());
     }
 
     @FXML
@@ -102,67 +159,64 @@ public class FrmAlugar implements Initializable {
 
     @FXML
     void btnPesquisarId(ActionEvent event) throws Exception {
-        /*PaneInterno.getChildren().clear();
-        PaneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarSociosLocacao.fxml"));*/
-        //new NovaCena().gerarNovaCena("/fxml/frmListarSociosLocacao.fxml");
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/frmListarSociosLocacao.fxml"));
-        PaneInterno.getChildren().setAll(pane);
-    }
+        System.out.println(txtSocioCpf.getText());
+        String cpf = txtSocioCpf.getText();
+        if (!cpf.isEmpty()) {
+            NPessoal nPessoal = new NPessoal();
+            pessoal = nPessoal.consultarCpf(cpf);
 
-    @FXML
-    void btnPesquisarProduto(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnRetirar(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnSalvar(ActionEvent event) {
-
-    }
-
-  /*  private void carregarCombos() {
-
-        try {
-            listaProdutos = FXCollections.observableArrayList();
-            comboProduto.getSelectionModel().clearSelection();
-            comboProduto.getSelectionModel().select(-1);
-            for (Filmes filmes : new NFilme().Listar(new Filmes())){
-                listaProdutos.add(filmes);
-                comboProduto.setItems(listaProdutos);
-           }
-
-        }catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-            e.printStackTrace();
+            if (pessoal.getId() != 0) {
+                txtSocioCpf.setText("");
+                txtLabelId.setText("ID:        " + pessoal.getId());
+                txtLabelNome.setText("NOME:     " + pessoal.getNomeCompleto());
+                txtLabelCPF.setText("CPF:     " + pessoal.getCpf());
+                txtLabelSexo.setText("SEXO:     " + pessoal.getSexo());
+                txtLabelCelular.setText("CELULAR:     " + pessoal.getCelular());
+                txtLabelEmail.setText("EMAIL:     " + pessoal.getEmail());
+            } else {
+                new Alert(Alert.AlertType.WARNING, "CPF não encontrado ou cliente inativo/bloqueado.").show();
+            }
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Campo socio vazio.").show();
         }
-    }*/
-
-    private void limpar(){
-        txtFieldId.setText("");
     }
 
-    private void carregarTabela() {
+    @FXML
+    void btnSalvar(ActionEvent event) throws Exception {
+        lista = listViewLista.getItems();
+        locacao = new Locacao(pessoal, lista);
+        locacao.setValorTotal(Double.parseDouble(txtValorTotal.getText()));
+        java.sql.Date sqlDate = new Date(System.currentTimeMillis());
+        locacao.setDataLocacao(sqlDate);
+
+        NLocacao nLocacao = new NLocacao();
+        try {
+            nLocacao.salvar(locacao);
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro ao salvar a locação.").show();
+        }
+        new Alert(Alert.AlertType.INFORMATION, "Locação salva.").show();
+        limpar();
+    }
+
+    private void limpar() {
+        txtLabelId.setText("ID:");
+        txtLabelCPF.setText("CPF:");
+        txtLabelNome.setText("NOME:");
+        txtLabelSexo.setText("SEXO:");
+        txtLabelCelular.setText("CELULAR:");
+        txtLabelEmail.setText("EMAIL:");
+        listViewLista.getItems().clear();
+        txtValorTotal.setText("");
+    }
+
+    private void carregarTabela() throws Exception {
         // Puxando as variaveis da classe Locacao para gerar Colunas
-        String colunas[] = new Locacao_item().getColunas();
-        String nomeVariaveis[] = new Locacao_item().getVariaveis();
+        String[] colunas = new LocacaoItem().getColunas();
+        String[] nomeVariaveis = new LocacaoItem().getVariaveis();
         for (int i = 0; i < colunas.length; i++) {
             listViewLista.getColumns().add(new TableColumn<>(colunas[i]));
             listViewLista.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
-        }
-    }
-
-    private void imprimirTable(List<Locacao_item> itens){
-        try{
-            listaProdutos = FXCollections.observableArrayList();
-            for (Locacao_item item : itens) {listaProdutos.add(item);}
-            listViewLista.setItems(listaProdutos);
-
-        }catch(Exception e){
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 }
