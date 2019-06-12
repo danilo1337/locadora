@@ -42,10 +42,10 @@ public class PdfPessoal extends PdfTemplate{
 		for (Object o:listaDeObjetos ) {
 			Pessoal p = (Pessoal) o; 
 			celula.add(new PdfPCell(new Paragraph(p.getId()+"",FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
-			celula.add(new PdfPCell(new Paragraph(p.getNome_completo(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
+			celula.add(new PdfPCell(new Paragraph(p.getNomeCompleto(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
 			celula.add(new PdfPCell(new Paragraph(p.getSexo(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
 			celula.add(new PdfPCell(new Paragraph(p.getCpf(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
-			celula.add(new PdfPCell(new Paragraph(p.getData_nascimento()+"",FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
+			celula.add(new PdfPCell(new Paragraph(p.getDataNascimento()+"",FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
 			celula.add(new PdfPCell(new Paragraph(p.getTelefone(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
 			celula.add(new PdfPCell(new Paragraph(p.getCelular(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));
 			celula.add(new PdfPCell(new Paragraph(p.getEmail(),FontFactory.getFont(FontFactory.TIMES_ROMAN, 10))));

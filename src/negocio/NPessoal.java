@@ -32,8 +32,7 @@ public class NPessoal {
 		return per.listar();
 	}
 	
-	public Pessoal consultar_cpf(String cpf) throws Exception {
-		return per.consultar_cpf(cpf);
+	public Pessoal consultarCpf(String cpf) throws Exception {
+		return per.consultarCpf(cpf);
 	}
-	
 }

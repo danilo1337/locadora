@@ -26,7 +26,7 @@ public class TimerClockObservable extends Observable {
 
     public void clock() {
         timer = new Timer();
-        timer.schedule(new RemindTask(), 0, 10000);
+        timer.schedule(new RemindTask(), 0, 3600000);
     }
 
     public void stop() {
@@ -39,7 +39,6 @@ public class TimerClockObservable extends Observable {
 
             setChanged();
             notifyObservers();
-            System.out.println(CLOCK_FORMAT.format(System.currentTimeMillis()));
         }
     }
 }

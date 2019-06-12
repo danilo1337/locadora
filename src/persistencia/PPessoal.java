@@ -29,10 +29,10 @@ public class PPessoal {
 						+ " endereco_id, email,"
 						+ "	tipo, situacao)" + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
-			ps.setString(1, pessoal.getNome_completo());
+			ps.setString(1, pessoal.getNomeCompleto());
 			ps.setString(2, pessoal.getSexo());
 			ps.setString(3, pessoal.getCpf());
-			ps.setDate(4, pessoal.getData_nascimento());
+			ps.setDate(4, pessoal.getDataNascimento());
 			ps.setString(5, pessoal.getTelefone());
 			ps.setString(6, pessoal.getCelular());
 			new PEndereco().incluir(pessoal.getEndereco(), cnn);
@@ -71,10 +71,10 @@ public class PPessoal {
 					+ " telefone = ?, celular = ?,"
 					+ " endereco_id = ?, email = ?, tipo = ?, situacao = ? WHERE id = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
-			ps.setString(1, pessoal.getNome_completo());
+			ps.setString(1, pessoal.getNomeCompleto());
 			ps.setString(2, pessoal.getSexo());
 			ps.setString(3, pessoal.getCpf());
-			ps.setDate(4, pessoal.getData_nascimento());
+			ps.setDate(4, pessoal.getDataNascimento());
 			ps.setString(5, pessoal.getTelefone());
 			ps.setString(6, pessoal.getCelular());
 			new PEndereco().incluir(pessoal.getEndereco(), cnn);
@@ -111,24 +111,7 @@ public class PPessoal {
 		
 		ps.setInt(1, pessoal.getId());
 		ResultSet rs = ps.executeQuery();
-		Pessoal retorno = new Pessoal();
-		if(rs.next()) {
-			retorno.setId(rs.getInt("id"));
-			retorno.setNome_completo(rs.getString("nome_completo"));
-			retorno.setTipo(rs.getInt("tipo"));
-			retorno.setSexo(rs.getString("sexo"));
-			retorno.setCpf(rs.getString("cpf"));
-			retorno.setData_nascimento(rs.getDate("data_nascimento"));
-			retorno.setTelefone(rs.getString("telefone"));
-			retorno.setCelular(rs.getString("celular"));
-			retorno.setEmail(rs.getString("email"));
-			retorno.setSituacao(rs.getInt("situacao"));
-			retorno.getEndereco().setId(rs.getInt("endereco_id"));
-			retorno.setEndereco(new PEndereco().consultar(retorno.getEndereco(), cnn));
-		}
-		rs.close();
-		cnn.close();
-		return retorno;
+		return retornoPessoal(cnn, rs);
 	}
 	
 	
@@ -143,11 +126,11 @@ public class PPessoal {
 		while(rs.next()) {
 			Pessoal retorno = new Pessoal();
 			retorno.setId(rs.getInt("id"));
-			retorno.setNome_completo(rs.getString("nome_completo"));
+			retorno.setNomeCompleto(rs.getString("nome_completo"));
 			retorno.setTipo(rs.getInt("tipo"));
 			retorno.setSexo(rs.getString("sexo"));
 			retorno.setCpf(rs.getString("cpf"));
-			retorno.setData_nascimento(rs.getDate("data_nascimento"));
+			retorno.setDataNascimento(rs.getDate("data_nascimento"));
 			retorno.setTelefone(rs.getString("telefone"));
 			retorno.setCelular(rs.getString("celular"));
 			retorno.setEmail(rs.getString("email"));
@@ -162,21 +145,25 @@ public class PPessoal {
 		return lista;
 	}
 	
-	public Pessoal consultar_cpf(String cpf) throws SQLException {
-		String sql = "SELECT * FROM pessoal WHERE cpf = ?";
+	public Pessoal consultarCpf(String cpf) throws SQLException {
+		String sql = "SELECT * FROM pessoal WHERE cpf = ? AND situacao = 1";
 		Connection cnn = util.Conexao.getConexao();
 		
 		PreparedStatement ps = cnn.prepareStatement(sql);
 		ps.setString(1, cpf);
 		ResultSet rs = ps.executeQuery();
+		return retornoPessoal(cnn, rs);
+	}
+
+	private Pessoal retornoPessoal(Connection cnn, ResultSet rs) throws SQLException {
 		Pessoal retorno = new Pessoal();
 		if(rs.next()) {
 			retorno.setId(rs.getInt("id"));
-			retorno.setNome_completo(rs.getString("nome_completo"));
+			retorno.setNomeCompleto(rs.getString("nome_completo"));
 			retorno.setTipo(rs.getInt("tipo"));
 			retorno.setSexo(rs.getString("sexo"));
 			retorno.setCpf(rs.getString("cpf"));
-			retorno.setData_nascimento(rs.getDate("data_nascimento"));
+			retorno.setDataNascimento(rs.getDate("data_nascimento"));
 			retorno.setTelefone(rs.getString("telefone"));
 			retorno.setCelular(rs.getString("celular"));
 			retorno.setEmail(rs.getString("email"));

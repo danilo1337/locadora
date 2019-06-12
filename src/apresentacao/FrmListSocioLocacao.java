@@ -29,13 +29,13 @@ import java.util.ResourceBundle;
 
 public class FrmListSocioLocacao implements Initializable {
     @FXML
-    private AnchorPane PaneInterno;
+    private AnchorPane paneInterno;
 
     @FXML
-    private Pane PaneGeral;
+    private Pane paneGeral;
 
     @FXML
-    private AnchorPane PaneLista;
+    private AnchorPane paneLista;
 
     @FXML
     private Button btnEnviarSocio;
@@ -60,16 +60,16 @@ public class FrmListSocioLocacao implements Initializable {
     private void gerarConfigTabela() {
         tabela = new TableView<Pessoal>();
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tabela.setPrefWidth(PaneLista.getPrefWidth());
-        tabela.setPrefHeight(PaneLista.getPrefHeight());
+        tabela.setPrefWidth(paneLista.getPrefWidth());
+        tabela.setPrefHeight(paneLista.getPrefHeight());
         tabela.setTableMenuButtonVisible(true);
-        PaneLista.getChildren().add(tabela);
+        paneLista.getChildren().add(tabela);
     }
 
     private void carregarTabela() {
 
         // Puxando as variaveis da classe Locacao para gerar Colunas
-        //String colunas[] = new Locacao_item().getColunas();
+        //String colunas[] = new LocacaoItem().getColunas();
 
             String colunas[] = new String[]{"ID", "NOME", "CPF"};
             String nomeVariaveis[] = new String[]{"id", "nome_completo", "cpf"};
@@ -99,7 +99,7 @@ public class FrmListSocioLocacao implements Initializable {
         FrmAlugar controller = loader.getController();
 
         //Aqui envia os dadosSocios para a outra tela
-        controller.dadosSocios(tabela.getSelectionModel().getSelectedItem());
+//        controller.dadosSocios(tabela.getSelectionModel().getSelectedItem());
 
         //Aqui mostra a tela
         Stage Window = (Stage) ((Node)event.getSource()).getScene().getWindow();

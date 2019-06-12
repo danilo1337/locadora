@@ -118,7 +118,7 @@ public class FrmListarSocio implements Initializable {
 		if(newValue != null) {
 			pessoal = (Pessoal) newValue;
 			Abreviatura abr = AbreviaturaFactory.criarAbreviatura(pessoal.getSexo());
-			new Alert(AlertType.INFORMATION,abr.getAbreviatura()+" "+pessoal.getNome_completo()).show();;
+			new Alert(AlertType.INFORMATION,abr.getAbreviatura()+" "+pessoal.getNomeCompleto()).show();;
 		}
 		return pessoal;
 	}
