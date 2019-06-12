@@ -59,7 +59,7 @@ public class PReserva {
 			retorno.setId(rs.getInt("id"));
 			retorno.setFilmeId(rs.getInt("filme_id"));
 			retorno.setDisponivel(rs.getBoolean("disponivel"));
-			retorno.setReserva(rs.getBoolean("reservada"));
+			retorno.setReservada(rs.getBoolean("reservada"));
 			retorno.setDataReserva(rs.getDate("data_reserva"));
 			lista.add(retorno);
 		}

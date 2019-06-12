@@ -6,74 +6,111 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="tPaneExit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apresentacao.FrmAlugar">
+<Pane fx:id="tPaneExit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apresentacao.FrmAlugar">
    <children>
       <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="719.0" text="Locação">
          <content>
-            <AnchorPane fx:id="PaneInterno" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="696.0">
+            <AnchorPane fx:id="paneInterno" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="696.0">
                <children>
-                  <TableView fx:id="listViewLista" editable="true" layoutX="94.0" layoutY="105.0" prefHeight="135.0" prefWidth="524.0" tableMenuButtonVisible="true">
+                  <TableView fx:id="listViewLista" editable="true" layoutX="14.0" layoutY="139.0" prefHeight="146.0" prefWidth="693.0" tableMenuButtonVisible="true">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Label layoutX="62.0" layoutY="11.0" text="SOCIO">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Label layoutX="495.0" layoutY="11.0" text="PRODUTOS">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Button layoutX="119.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnPesquisarId" text="Pesquisar">
+                  <Button layoutX="218.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnPesquisarId" text="Pesquisar">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font></Button>
-                  <Button layoutX="493.0" layoutY="33.0" mnemonicParsing="false" onAction="#btnPesquisarProduto" text="Pesquisar">
+                  <Button layoutX="188.0" layoutY="294.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="25.0" prefWidth="118.0" text="Adicionar">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font></Button>
-                  <Button layoutX="216.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnAdicionar" prefHeight="25.0" prefWidth="154.0" text="Adicionar">
+                  <TextField fx:id="txtValorTotal" layoutX="604.0" layoutY="294.0" prefHeight="25.0" prefWidth="99.0" />
+                  <Label layoutX="555.0" layoutY="298.0" text="TOTAL:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <TextField fx:id="txtCopiaId" layoutX="58.0" layoutY="294.0" prefHeight="25.0" prefWidth="113.0" />
+                  <TextField fx:id="txtSocioCpf" layoutX="59.0" layoutY="16.0" />
+                  <GridPane layoutX="14.0" layoutY="43.0" prefHeight="91.0" prefWidth="693.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label fx:id="txtLabelId" text="ID:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtLabelNome" text="NOME:" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtLabelCPF" text="CPF:" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtLabelSexo" text="SEXO:" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtLabelCelular" text="CELULAR:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtLabelEmail" text="EMAIL:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <Label layoutX="14.0" layoutY="298.0" text="COPIA">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
-                     </font></Button>
-                  <Button fx:id="btSalvar" layoutX="186.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnSalvar" text="Salvar">
+                     </font>
+                  </Label>
+                  <Button fx:id="btExcluir" layoutX="333.0" layoutY="294.0" mnemonicParsing="false" onAction="#btnExcluir" text="Excluir">
                      <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Button>
-                  <Button fx:id="btExcluir" layoutX="293.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnExcluir" text="Excluir">
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btSalvar" layoutX="602.0" layoutY="334.0" mnemonicParsing="false" onAction="#btnSalvar" prefHeight="40.0" prefWidth="101.0" text="Salvar">
                      <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Button>
-                  <Button fx:id="btLimpar" layoutX="401.0" layoutY="303.0" mnemonicParsing="false" onAction="#btnLimpar" text="Limpar">
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btLimpar" layoutX="416.0" layoutY="294.0" mnemonicParsing="false" onAction="#btnLimpar" text="Limpar">
                      <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Button>
-                  <TextField fx:id="txtValorTotal" layoutX="519.0" layoutY="249.0" prefHeight="25.0" prefWidth="99.0" />
-                  <Label layoutX="462.0" layoutY="253.0" text="Total">
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="518.0" layoutY="334.0" mnemonicParsing="false" onAction="#VoltarAoPrincipal" prefHeight="40.0" prefWidth="75.0" text="Voltar">
                      <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Label fx:id="txtLabelId" layoutX="62.0" layoutY="37.0" text="ID:">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Label fx:id="txtLabelNome" layoutX="63.0" layoutY="58.0" text="NOME:">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Label fx:id="txtLabelCPF" layoutX="64.0" layoutY="77.0" text="CPF:">
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="14.0" layoutY="20.0" text="SOCIO">
                      <font>
                         <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Button layoutX="502.0" layoutY="303.0" mnemonicParsing="false" onAction="#VoltarAoPrincipal" text="Voltar">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Button>
-                  <TextField layoutX="94.0" layoutY="249.0" prefHeight="25.0" prefWidth="113.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </content>
