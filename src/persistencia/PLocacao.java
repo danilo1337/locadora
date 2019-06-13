@@ -1,15 +1,19 @@
 package persistencia;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import entidade.Locacao;
 import entidade.LocacaoItem;
 import entidade.Pessoal;
 import negocio.NLocacaoItem;
 import negocio.NPessoal;
 import util.Conexao;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PLocacao {
 
@@ -196,7 +200,7 @@ public class PLocacao {
         List<Locacao> lista = new ArrayList<>();
 
         while (rs.next()) {
-            Pessoal pessoal = new NPessoal().consultarCpf(rs.getString("pessoal_id"));
+        	
             Locacao locacao = new Locacao();
             locacao.setId(rs.getInt("id"));
             locacao.setDataLocacao(rs.getDate("data_locacao"));
@@ -205,8 +209,39 @@ public class PLocacao {
             locacao.setJuros(rs.getDouble("juros"));
             locacao.setMulta(rs.getDouble("multa"));
             locacao.setDesconto(rs.getDouble("desconto"));
+            
 
             locacao.setListaItens(new NLocacaoItem().listar());
+            lista.add(locacao);
+        }
+
+        rs.close();
+        cnn.close();
+        return lista;
+    }
+    
+    public List<Locacao> listar2() throws Exception {
+        Connection cnn = util.Conexao.getConexao();
+        String sql = "SELECT"
+                + "  id,pessoal_id,data_locacao,data_pagamento,valor_total,multa"
+                + " FROM locacao "
+                + " WHERE 1=1";
+
+        PreparedStatement stm = cnn.prepareStatement(sql);
+        ResultSet rs = stm.executeQuery();
+        
+        List<Locacao> lista = new ArrayList<>();
+        while (rs.next()) {
+            Pessoal p = new Pessoal();
+            p.setId(rs.getInt("pessoal_id"));
+            p = new NPessoal().consultar(p);
+            Locacao locacao = new Locacao();
+            locacao.setId(rs.getInt("id"));
+            locacao.setDataLocacao(rs.getDate("data_locacao"));
+            locacao.setDataPagamento(rs.getDate("data_pagamento"));
+            locacao.setValorTotal(rs.getDouble("valor_total"));
+            locacao.setMulta(rs.getDouble("multa"));
+            locacao.setPessoal(p);
             lista.add(locacao);
         }
 

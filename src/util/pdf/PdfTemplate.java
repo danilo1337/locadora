@@ -47,7 +47,7 @@ public abstract class PdfTemplate {
 			doc.add(tabela);
 //-----------------------------Data-----------------------
 			Locale localeBR = new Locale("pt", "BR");
-			SimpleDateFormat fmt = new SimpleDateFormat("'Goiï¿½nia,' dd 'de' MMMM 'de' yyyy '\n' hh:mm:ss", localeBR);
+			SimpleDateFormat fmt = new SimpleDateFormat("'Goiânia,' dd 'de' MMMM 'de' yyyy '\n' hh:mm:ss", localeBR);
 			String msg = fmt.format(new Date());
 			Paragraph rodape = new Paragraph(msg);
 			rodape.setAlignment(1);

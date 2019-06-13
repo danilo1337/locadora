@@ -86,7 +86,7 @@ public class Filmes {
 	}
 
 	public String[] getColunas() {
-		return new String[] {"ID","Tï¿½TULO","Gï¿½NERO","FAIXA-ETï¿½RIA","LANï¿½AMENTO"};
+		return new String[] {"ID","TÍTULO","GÊNERO","FAIXA-ETÁRIA","LANÇAMENTO"};
 	}
 	public String[] getVariaveis() {
 		return new String[] {"id","titulo","genero","faixaEtaria","anoLancamento"};

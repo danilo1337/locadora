@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import entidade.Filmes;
+import entidade.Locacao;
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,8 +28,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import negocio.NPessoal;
 import persistencia.PFilmes;
+import persistencia.PLocacao;
 import persistencia.PPessoal;
 import util.pdf.PdfFilmes;
+import util.pdf.PdfLocacao;
 import util.pdf.PdfPessoal;
 
 public class FrmRelatorio implements Initializable {
@@ -83,19 +86,33 @@ public class FrmRelatorio implements Initializable {
 			Date date = new Date(new Date().getTime());
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyhhmmss");
 			String nomeDoPdf = "" + sdf.format(date);
-			
 			switch (selecionado) {
-			case "Pessoas":
-				PdfPessoal pdfP = new PdfPessoal(nomeDoPdf, new Pessoal().getColunas(), new NPessoal().listar());
-				pdfP.gerarPersonalizado("Relatório de Sócios", "Relatório de todos os Sócios:");
+			case "Aluguel":
+				//falta implementar
 				break;
-			case "Filmes":
+			case "Devolução":
+				//falta implementar			
+				break;
+			case "Filme":
 				PdfFilmes pdfF = new PdfFilmes(nomeDoPdf, new Filmes().getColunas(), new PFilmes().listar(new Filmes()));
 				pdfF.gerarPersonalizado("Relatório de Filmes", "Relatório de todos os Filmes:");
 				break;
+			case "Locação":
+				PdfLocacao pdfL = new PdfLocacao(nomeDoPdf, new Locacao().getColunas(), new PLocacao().listar2());
+				pdfL.gerarPersonalizado("Relatório de Locação", "Relatório de todas as locações:");
+				break;
 			case"Pedidos":
-				
-			default:
+				//falta implementar	
+				break;
+			case "Pessoal":
+				PdfPessoal pdfP = new PdfPessoal(nomeDoPdf, new Pessoal().getColunas(), new NPessoal().listar());
+				pdfP.gerarPersonalizado("Relatório de Sócios", "Relatório de todos os Sócios:");
+				break;
+			case"Reserva":
+				//falta implementar	
+				break;
+			case"Venda":
+				//falta implementar	
 				break;
 			}
 		} catch (Exception e) {
@@ -125,20 +142,35 @@ public class FrmRelatorio implements Initializable {
 		String colunas[] = null;
 		String nomeVariaveis[] = null;
 		Iterator<?> iterator = null;
+		//"Aluguel", "Devolução","Filme","Locação","Pedidos","Pessoal","Reserva","Venda"
 		switch (selecionado) {
-		case "Pessoas":
-			colunas = new Pessoal().getColunas();
-			nomeVariaveis = new Pessoal().getVariaveis();
-			iterator = new PPessoal().listar().iterator();
+		case "Aluguel":
+			//falta implementar
+			break;
+		case "Devolução":
+			//falta implementar			
+			break;
+		case "Filme":
+			colunas = new Filmes().getColunas();
+			nomeVariaveis = new Filmes().getVariaveis();
+			iterator = new PFilmes().listar(new Filmes()).iterator();
+			break;
+		case "Locação":
+			colunas = new Locacao().getColunas();
+			nomeVariaveis = new Locacao().getVariaveis();
+			iterator = new PLocacao().listar2().iterator();
 			break;
 		case "Pedidos":
 			colunas = new String[] { "1", "2" };
 			nomeVariaveis = new String[] { "a", "b" };
 			break;
-		case "Filmes":
-			colunas = new Filmes().getColunas();
-			nomeVariaveis = new Filmes().getVariaveis();
-			iterator = new PFilmes().listar(new Filmes()).iterator();
+		case "Pessoal":
+			colunas = new Pessoal().getColunas();
+			nomeVariaveis = new Pessoal().getVariaveis();
+			iterator = new PPessoal().listar().iterator();
+			break;
+		case "Reserva":
+			//falta implementar
 			break;
 		}
 
@@ -171,7 +203,7 @@ public class FrmRelatorio implements Initializable {
 	private void gerarTipos() {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
 		lista.addAll(Arrays.asList(
-				new String[] {"Pessoas", "Filmes","Pedidos"}
+				new String[] {"Aluguel", "Devolução","Filme","Locação","Pedidos","Pessoal","Reserva"}
 				));
 		cbTipos.setItems(lista);
 	}

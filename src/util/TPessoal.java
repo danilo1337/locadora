@@ -2,8 +2,8 @@ package util;
 
 import java.sql.SQLException;
 
-import entidade.Pessoal;
-import persistencia.PPessoal;
+import entidade.Locacao;
+import persistencia.PLocacao;
 
 public class TPessoal {
 	public static void main(String[] args) throws SQLException {
@@ -45,15 +45,24 @@ public class TPessoal {
 //		saida+= "\nLocalidade: "+pes.getEndereco().getLocalidade();
 //		System.out.println(saida);
 ////------------------------------------------
-		
-		for (Pessoal pessoal : new PPessoal().listar()) {
-			String saida = "";
-			saida+= "Nome: "+pessoal.getNomeCompleto();
-			saida+="End id:"+pessoal.getEndereco().getId();
-			saida+= "\nUF: "+pessoal.getEndereco().getUF();
-			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
-			System.out.println(saida);
-			
+//		
+//		for (Pessoal pessoal : new PPessoal().listar()) {
+//			String saida = "";
+//			saida+= "Nome: "+pessoal.getNomeCompleto();
+//			saida+="End id:"+pessoal.getEndereco().getId();
+//			saida+= "\nUF: "+pessoal.getEndereco().getUF();
+//			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
+//			System.out.println(saida);
+//			
+//		}
+		try {
+			for(Locacao l : new PLocacao().listar2()) {
+				System.out.println(l.getDataLocacao());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+		
 }
