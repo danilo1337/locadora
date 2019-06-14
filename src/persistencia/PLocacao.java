@@ -244,4 +244,33 @@ public class PLocacao {
 		cnn.close();
 		return lista;
 	}
+	
+	public Double[] listarDiario() throws Exception {
+		Connection cnn = util.Conexao.getConexao();
+		String sql = "SELECT" + 
+				" MIN(VALOR_TOTAL)," + 
+				" AVG(VALOR_TOTAL)," + 
+				" MAX(VALOR_TOTAL)," + 
+				" SUM(VALOR_TOTAL)" + 
+				" FROM " + 
+				" LOCACAO" + 
+				" WHERE DATA_LOCACAO = 'now()'";
+
+		PreparedStatement stm = cnn.prepareStatement(sql);
+		ResultSet rs = stm.executeQuery();
+
+		Double saida[] = new Double[4];
+		while (rs.next()) {
+			saida[0] = rs.getDouble("min");
+			saida[1] = rs.getDouble("avg");
+			saida[2] = rs.getDouble("max");
+			saida[3] = rs.getDouble("sum");
+		}
+
+		rs.close();
+		cnn.close();
+		return saida;
+	}
+	
+	
 }

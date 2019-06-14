@@ -17,6 +17,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -59,23 +63,43 @@ public class FrmRelatorio implements Initializable {
 	private Button btnLimpar;
 
 	@FXML
-	private Button btnFechar;
+	private Button btnGrafico;
 	// -------Variaveis
 	TableView<Object> tabela = null;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		btnGrafico.setDisable(true);
 		btnListar.setGraphic(new ImageView(new Image("/icones/table.png", 26, 26, false, false)));
 		btnPdf.setGraphic(new ImageView(new Image("/icones/export_pdf.png", 26, 26, false, false)));
 		btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
-		btnFechar.setGraphic(new ImageView(new Image("/icones/fechar.png", 26, 26, false, false)));
+		btnGrafico.setGraphic(new ImageView(new Image("/icones/bar.png", 26, 26, false, false)));
 		gerarConfigTabela();
 		gerarTipos();
 	}
 
 	@FXML
-	void fechar(ActionEvent event) {
+	void grafico(ActionEvent event) {
+		try {
+//		paneDaTabela.getChildren().clear();
+//		PieChart pie = new PieChart();
+//		pie.setPrefWidth(paneDaTabela.getPrefWidth());
+//		pie.setPrefHeight(paneDaTabela.getPrefHeight());
+//		paneDaTabela.getChildren().add(pie);
+//			Double valores[] = new PLocacao().listarDiario();
+//    	PieChart.Data slice1 = new PieChart.Data("Mínimo", valores[0]);
+//    	PieChart.Data slice2 = new PieChart.Data("Média"  , valores[1]);
+//    	PieChart.Data slice3 = new PieChart.Data("Máxima" , valores[2]);
+//    	pie.getData().add(slice1);
+//    	pie.getData().add(slice2);
+//    	pie.getData().add(slice3);
+//----------------------------------------------
 
+		gerarBarCharDiario();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -84,7 +108,7 @@ public class FrmRelatorio implements Initializable {
 			String selecionado = (String) cbTipos.getSelectionModel().getSelectedItem();
 			if (selecionado.isEmpty() || selecionado == null)
 				throw new Exception("Escolha um tipo de relatório");
-
+	
 			Date date = new Date(new Date().getTime());
 			java.sql.Date data1 = validaData(dateInicio); 
 			java.sql.Date data2 = validaData(dateFinal);
@@ -127,6 +151,29 @@ public class FrmRelatorio implements Initializable {
 		}
 	}
 
+	private void gerarBarCharDiario() throws Exception {
+		paneDaTabela.getChildren().clear();
+		BarChart<String,Number> bar = new BarChart<>(new CategoryAxis(),  new NumberAxis());
+		bar.setPrefWidth(paneDaTabela.getPrefWidth());
+		bar.setPrefHeight(paneDaTabela.getPrefHeight());
+		paneDaTabela.getChildren().add(bar);
+		Double valores[] = new PLocacao().listarDiario();
+		XYChart.Series<String,Number> xy1 = new XYChart.Series<String,Number>();
+		xy1.setName("Mínimo");
+		xy1.getData().add(new XYChart.Data<String,Number>("Mínimo",valores[0]));
+		XYChart.Series<String, Number> xy2 = new XYChart.Series<String, Number>();
+		XYChart.Series<String, Number> xy3 = new XYChart.Series<String, Number>();
+		xy3.setName("Médio");
+		xy3.getData().add(new XYChart.Data<String, Number>("Médio",valores[1]));
+		xy2.setName("Máximo");
+		xy2.getData().add(new XYChart.Data<String, Number>("Máximo",valores[2]));
+		bar.getData().add(xy1);
+		bar.getData().add(xy2);
+		bar.getData().add(xy3);
+		bar.setTitle("RELATÓRIO DE VENDAS DIÁRIO"
+				+ "\n\tTOTAL: R$"+valores[3]);
+	}
+
 	private void gerarTabela(String selecionado) throws Exception {
 		gerarConfigTabela();
 		String colunas[] = null;
@@ -163,26 +210,6 @@ public class FrmRelatorio implements Initializable {
 		imprimirNaTabela(iterator);
 	}
 
-	private java.sql.Date validaData(DatePicker datePicker) throws ParseException {
-		java.sql.Date dataSql;
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		if (dateInicio.getValue() == null || dateFinal.getValue() == null) {
-			dataSql = new java.sql.Date(new java.util.Date().getTime());
-		} else {
-			dataSql = new java.sql.Date(sdf.parse(datePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).getTime());
-		}
-		return dataSql;
-	}
-
-	private void imprimirNaTabela(Iterator<?> dados) throws Exception {
-		ObservableList<Object> lista = FXCollections.observableArrayList();
-		while (dados.hasNext()) {
-			Object pessoal = dados.next();
-			lista.add(pessoal);
-		}
-		tabela.setItems(lista);
-	}
-
 	private void gerarConfigTabela() {
 		tabela = new TableView<Object>();
 		tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -195,10 +222,19 @@ public class FrmRelatorio implements Initializable {
 	private void gerarTipos() {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
 		lista.addAll(Arrays.asList(
-				new String[] {"Filme","Locação","Pessoal"}
+				new String[] {"Filme","Locação","Pessoal","Diário"}
 				));
 		cbTipos.setItems(lista);
 		cbTipos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> listnerCombobox(newValue));
+	}
+
+	private void imprimirNaTabela(Iterator<?> dados) throws Exception {
+		ObservableList<Object> lista = FXCollections.observableArrayList();
+		while (dados.hasNext()) {
+			Object pessoal = dados.next();
+			lista.add(pessoal);
+		}
+		tabela.setItems(lista);
 	}
 
 	private Object listnerCombobox(Object newValue) {
@@ -207,17 +243,36 @@ public class FrmRelatorio implements Initializable {
 		switch (selecionado) {
 		case "Filme":
 			editavel = true;
+			btnGrafico.setDisable(true);
 			break;
 		case "Locação":
 			editavel = false;
+			btnGrafico.setDisable(true);
 			break;
 		case "Pessoal":
 			editavel = true;
+			btnGrafico.setDisable(true);
+			break;
+		case "Diário":
+			editavel = true;
+			btnGrafico.setDisable(false);
 			break;
 		}
 		dateInicio.setDisable(editavel);
 		dateFinal.setDisable(editavel);
+		
 		return newValue;
+	}
+
+	private java.sql.Date validaData(DatePicker datePicker) throws ParseException {
+		java.sql.Date dataSql;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		if (dateInicio.getValue() == null || dateFinal.getValue() == null) {
+			dataSql = new java.sql.Date(new java.util.Date().getTime());
+		} else {
+			dataSql = new java.sql.Date(sdf.parse(datePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).getTime());
+		}
+		return dataSql;
 	}
 
 }
