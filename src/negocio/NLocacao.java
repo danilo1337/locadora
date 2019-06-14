@@ -1,9 +1,10 @@
 package negocio;
 
+import java.sql.Date;
+import java.util.List;
+
 import entidade.Locacao;
 import persistencia.PLocacao;
-
-import java.util.List;
 
 public class NLocacao {
 
@@ -18,7 +19,7 @@ public class NLocacao {
             throw new Exception("Por favor, Inserir algum item");
 
         if (parametro.getListaItens() == null)
-            throw new Exception("√â necess√°rio inserir um item");
+            throw new Exception("… necess·rio inserir um item");
 
         if (parametro.getId()== 0)
             new PLocacao().incluir(parametro);
@@ -34,7 +35,10 @@ public class NLocacao {
         return per.consultar(id);
     }
 
-    public List<Locacao> listar() throws Exception {
-        return per.listar();
+    public List<Locacao> listar(Date data1, Date data2) throws Exception {
+        return per.listar(data1,data2);
+    }
+    public List<Locacao> listar2() throws Exception {
+        return per.listar2();
     }
 }

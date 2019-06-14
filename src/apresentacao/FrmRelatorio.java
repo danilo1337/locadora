@@ -1,7 +1,9 @@
 package apresentacao;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -84,35 +86,23 @@ public class FrmRelatorio implements Initializable {
 				throw new Exception("Escolha um tipo de relatório");
 
 			Date date = new Date(new Date().getTime());
+			java.sql.Date data1 = validaData(dateInicio); 
+			java.sql.Date data2 = validaData(dateFinal);
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyhhmmss");
 			String nomeDoPdf = "" + sdf.format(date);
 			switch (selecionado) {
-			case "Aluguel":
-				//falta implementar
-				break;
-			case "Devolução":
-				//falta implementar			
-				break;
 			case "Filme":
 				PdfFilmes pdfF = new PdfFilmes(nomeDoPdf, new Filmes().getColunas(), new PFilmes().listar(new Filmes()));
 				pdfF.gerarPersonalizado("Relatório de Filmes", "Relatório de todos os Filmes:");
 				break;
 			case "Locação":
-				PdfLocacao pdfL = new PdfLocacao(nomeDoPdf, new Locacao().getColunas(), new PLocacao().listar2());
+				PdfLocacao pdfL = new PdfLocacao(nomeDoPdf, new Locacao().getColunas(), new PLocacao().listar(data1,data2));
 				pdfL.gerarPersonalizado("Relatório de Locação", "Relatório de todas as locações:");
-				break;
-			case"Pedidos":
-				//falta implementar	
 				break;
 			case "Pessoal":
 				PdfPessoal pdfP = new PdfPessoal(nomeDoPdf, new Pessoal().getColunas(), new NPessoal().listar());
 				pdfP.gerarPersonalizado("Relatório de Sócios", "Relatório de todos os Sócios:");
-				break;
-			case"Reserva":
-				//falta implementar	
-				break;
-			case"Venda":
-				//falta implementar	
 				break;
 			}
 		} catch (Exception e) {
@@ -142,14 +132,12 @@ public class FrmRelatorio implements Initializable {
 		String colunas[] = null;
 		String nomeVariaveis[] = null;
 		Iterator<?> iterator = null;
+		java.sql.Date data1;
+		java.sql.Date data2;
+		data1 = validaData(dateInicio);
+		data2 = validaData(dateFinal);
 		//"Aluguel", "Devolução","Filme","Locação","Pedidos","Pessoal","Reserva","Venda"
 		switch (selecionado) {
-		case "Aluguel":
-			//falta implementar
-			break;
-		case "Devolução":
-			//falta implementar			
-			break;
 		case "Filme":
 			colunas = new Filmes().getColunas();
 			nomeVariaveis = new Filmes().getVariaveis();
@@ -158,19 +146,12 @@ public class FrmRelatorio implements Initializable {
 		case "Locação":
 			colunas = new Locacao().getColunas();
 			nomeVariaveis = new Locacao().getVariaveis();
-			iterator = new PLocacao().listar2().iterator();
-			break;
-		case "Pedidos":
-			colunas = new String[] { "1", "2" };
-			nomeVariaveis = new String[] { "a", "b" };
+			iterator = new PLocacao().listar(data1,data2).iterator();
 			break;
 		case "Pessoal":
 			colunas = new Pessoal().getColunas();
 			nomeVariaveis = new Pessoal().getVariaveis();
 			iterator = new PPessoal().listar().iterator();
-			break;
-		case "Reserva":
-			//falta implementar
 			break;
 		}
 
@@ -180,6 +161,17 @@ public class FrmRelatorio implements Initializable {
 		}
 
 		imprimirNaTabela(iterator);
+	}
+
+	private java.sql.Date validaData(DatePicker datePicker) throws ParseException {
+		java.sql.Date dataSql;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		if (dateInicio.getValue() == null || dateFinal.getValue() == null) {
+			dataSql = new java.sql.Date(new java.util.Date().getTime());
+		} else {
+			dataSql = new java.sql.Date(sdf.parse(datePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).getTime());
+		}
+		return dataSql;
 	}
 
 	private void imprimirNaTabela(Iterator<?> dados) throws Exception {
@@ -203,9 +195,29 @@ public class FrmRelatorio implements Initializable {
 	private void gerarTipos() {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
 		lista.addAll(Arrays.asList(
-				new String[] {"Aluguel", "Devolução","Filme","Locação","Pedidos","Pessoal","Reserva"}
+				new String[] {"Filme","Locação","Pessoal"}
 				));
 		cbTipos.setItems(lista);
+		cbTipos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> listnerCombobox(newValue));
+	}
+
+	private Object listnerCombobox(Object newValue) {
+		String selecionado = (String) cbTipos.getSelectionModel().getSelectedItem();
+		boolean editavel = true;
+		switch (selecionado) {
+		case "Filme":
+			editavel = true;
+			break;
+		case "Locação":
+			editavel = false;
+			break;
+		case "Pessoal":
+			editavel = true;
+			break;
+		}
+		dateInicio.setDisable(editavel);
+		dateFinal.setDisable(editavel);
+		return newValue;
 	}
 
 }
