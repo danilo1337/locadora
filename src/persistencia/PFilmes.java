@@ -55,7 +55,7 @@ public class PFilmes {
 	public void alterar(Filmes filme) throws SQLException {
 		String sql = "UPDATE filme SET" + "	ano_lancamento = ?," + " faixa_etaria = ?, titulo = ?," + " sinopse = ?,"
 				+ " genero = ?," + " tipo_id = ?"
-				+ "WHERE" + "id = ?";
+				+ "WHERE " + "id = ?";
 
 		Connection cnn = Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
