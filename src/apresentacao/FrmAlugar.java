@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
@@ -16,17 +17,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import negocio.NCopias;
 import negocio.NLocacao;
 import negocio.NPessoal;
+import padrao.iterator.LocacaoIterator;
 
 
 public class FrmAlugar implements Initializable {
@@ -192,6 +198,7 @@ public class FrmAlugar implements Initializable {
         NLocacao nLocacao = new NLocacao();
         try {
             nLocacao.salvar(locacao);
+            enviarDados();
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Erro ao salvar a locação.").show();
         }
@@ -218,5 +225,22 @@ public class FrmAlugar implements Initializable {
             listViewLista.getColumns().add(new TableColumn<>(colunas[i]));
             listViewLista.getColumns().get(i).setCellValueFactory(new PropertyValueFactory<>(nomeVariaveis[i]));
         }
+    }
+
+    public void enviarDados() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/frmListarHistorico.fxml"));
+        Parent tabelaUsadaParent = loader.load();
+        Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
+        FrmHistorico controller = loader.getController();
+        Iterator<Locacao> pilhas;
+        /*lista = listViewLista.getItems();
+        locacao = new Locacao(pessoal, lista);*/
+        //Precisa-se fazer este comando funcionar para jogar os dados para a outra tela ...
+        //controller.dadosLocacao(listViewLista.getSelectionModel().getSelectedItem());
+        controller.dadosLocacao(new LocacaoIterator().listagemComArrayList());
+
+
+
     }
 }

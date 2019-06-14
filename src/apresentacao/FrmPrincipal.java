@@ -80,6 +80,11 @@ public class FrmPrincipal implements Initializable {
     	paneInterno.getChildren().clear();
 		paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmRelatorio.fxml"));
     }
+	@FXML
+	void historicolocacao(ActionEvent event) {
+		paneInterno.getChildren().clear();
+		paneInterno.getChildren().add(new NovaCena().getNode("/fxml/frmListarHistorico.fxml"));
+	}
     
 	@FXML
 	void logout(ActionEvent event) {
