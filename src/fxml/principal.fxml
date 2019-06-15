@@ -32,7 +32,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#listarSocio" text="Todos os sócios" />
                   <!-- <MenuItem mnemonicParsing="false" text="Histórico de Compras" /> -->
                   <!-- <MenuItem mnemonicParsing="false" text="Histórico de Vendas" /> -->
-                  <MenuItem mnemonicParsing="false" text="Título" />
+                  <MenuItem fx:id="historicoLocacao" mnemonicParsing="false" onAction="#historicolocacao" text="Histórico de Locações" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Relatório">

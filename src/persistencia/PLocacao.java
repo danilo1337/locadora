@@ -144,7 +144,7 @@ public class PLocacao {
         //Select do que será consultado
         try {
             String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, valor_total"
-                    + " juros, multa, desconto"
+                    + " juros, multa"
                     + " FROM locacao "
                     + " WHERE id = ?";
 
@@ -186,26 +186,29 @@ public class PLocacao {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
-        String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, valor_total"
-                + " juros, multa, desconto"
-                + " FROM locacao "
-                + " WHERE id = ?";
+        String sql = "SELECT" + 
+        		" L.ID," + 
+        		" P.NOME_COMPLETO," + 
+        		" L.data_locacao," + 
+        		" L.data_pagamento," + 
+        		" L.valor_total," + 
+        		" L.multa" + 
+        		" FROM locacao L" + 
+        		" INNER JOIN PESSOAL P" + 
+        		" ON L.pessoal_id = P.ID";
 
         Statement stm = cnn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         List<Locacao> lista = new ArrayList<>();
 
         while (rs.next()) {
-            Pessoal pessoal = new NPessoal().consultarCpf(rs.getString("pessoal_id"));
             Locacao locacao = new Locacao();
-            locacao.setId(rs.getInt("id"));
+            locacao.setId(rs.getInt("ID"));
+            locacao.getPessoal().setNomeCompleto("NOME_COMPLETO");
             locacao.setDataLocacao(rs.getDate("data_locacao"));
             locacao.setDataLocacao(rs.getDate("data_pagamento"));
             locacao.setValorTotal(rs.getDouble("valor_total"));
-            locacao.setJuros(rs.getDouble("juros"));
-            locacao.setMulta(rs.getDouble("multa"));
-            locacao.setDesconto(rs.getDouble("desconto"));
-
+            locacao.setJuros(rs.getDouble("multa"));
             locacao.setListaItens(new NLocacaoItem().listar());
             lista.add(locacao);
         }
