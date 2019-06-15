@@ -191,7 +191,7 @@ public class FrmCadSocio implements Initializable {
 			}
 
 			new NPessoal().salvar(pessoal);
-			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nï¿½" + pessoal.getId()).show();
+			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nº" + pessoal.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -210,6 +210,7 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void buscar(ActionEvent event) {
 		try {
+			System.out.println("Buscar");
 			Pessoal pessoal = new NPessoal().consultarCpf(txtCpf_consulta.getText());
 			txtBairro.setText(pessoal.getEndereco().getBairro());
 			txtCelular.setText(pessoal.getCelular());
@@ -244,7 +245,7 @@ public class FrmCadSocio implements Initializable {
 			else if (tipo == 2)
 				tipo_Descricao = "Atendente";
 			else if (tipo == 5)
-				tipo_Descricao = "Usuï¿½rio";
+				tipo_Descricao = "Usuário";
 			
 			// Pega o tipo descobre a situaï¿½ï¿½o
 			int situacao = pessoal.getSituacao();
@@ -335,7 +336,7 @@ public class FrmCadSocio implements Initializable {
 
 	private void gerarTipo() {
 		listaTipo = FXCollections.observableArrayList();
-		String tipos[] = { "Usuï¿½rio", "Atendente", "Gerente" };
+		String tipos[] = { "Usuário", "Atendente", "Gerente" };
 		listaTipo.addAll(Arrays.asList(tipos));
 		cbTipo.setItems(listaTipo);
 	}
@@ -349,11 +350,6 @@ public class FrmCadSocio implements Initializable {
 
 	//-------------------Imagem nos botÃµes----------------------------
 	private void imagemNosBotoes() {
-		btnNovo.setText("");
-		btnAlterar.setText("");
-		btnExcluir.setText("");
-		btnLimpar.setText("");
-		btnBuscar.setText("");
 		btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
 		btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
 		btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));

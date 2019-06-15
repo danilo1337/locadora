@@ -1,12 +1,9 @@
 package util;
 
-import java.sql.SQLException;
-
-import entidade.Pessoal;
-import persistencia.PPessoal;
+import persistencia.PLocacao;
 
 public class TPessoal {
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws Exception {
 //		Endereco e = new Endereco();
 //		e.setBairro("Vila");
 //		e.setCep("78744");
@@ -45,15 +42,40 @@ public class TPessoal {
 //		saida+= "\nLocalidade: "+pes.getEndereco().getLocalidade();
 //		System.out.println(saida);
 ////------------------------------------------
-		
-		for (Pessoal pessoal : new PPessoal().listar()) {
-			String saida = "";
-			saida+= "Nome: "+pessoal.getNomeCompleto();
-			saida+="End id:"+pessoal.getEndereco().getId();
-			saida+= "\nUF: "+pessoal.getEndereco().getUF();
-			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
-			System.out.println(saida);
-			
-		}
+//		
+//		for (Pessoal pessoal : new PPessoal().listar()) {
+//			String saida = "";
+//			saida+= "Nome: "+pessoal.getNomeCompleto();
+//			saida+="End id:"+pessoal.getEndereco().getId();
+//			saida+= "\nUF: "+pessoal.getEndereco().getUF();
+//			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
+//			System.out.println(saida);
+//			
+//		}
+//		try {
+//			for(Locacao l : new PLocacao().listar2()) {
+//				System.out.println(l.getDataLocacao());
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		Date data1 = new Date(sdf.parse("12/06/2019").getTime());
+//		Date data2 = new Date(sdf.parse("13/06/2019").getTime());
+//		System.out.println(data1.before(data2));
+//		try {
+//			for(Locacao l : new PLocacao().listar(data1,data2)) {
+//				System.out.println(l.getDataLocacao());
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		for(Double s : new PLocacao().listarDiario()) {
+			System.out.println(s);
+		} 
 	}
+		
+			
 }

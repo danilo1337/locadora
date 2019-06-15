@@ -33,6 +33,10 @@ import negocio.NCopias;
 import negocio.NLocacao;
 import negocio.NPessoal;
 import padrao.iterator.LocacaoIterator;
+import padrao.decorator.AnoFilme;
+import padrao.decorator.BasicFilme;
+import padrao.decorator.Filme;
+import padrao.decorator.GeneroFilme;
 
 
 public class FrmAlugar implements Initializable {
@@ -130,6 +134,7 @@ public class FrmAlugar implements Initializable {
                 locacaoItem.setCodigoCopia(copias.getCodigoCopia());
                 locacaoItem.setValor(copias.getFilmes().getTipoFilme().getPreco());
                 locacaoItem.setTitulo(copias.getFilmes().getTitulo());
+                locacaoItem.setFilmes(copias.getFilmes());
                 listViewLista.getItems().add(locacaoItem);
 
                 if (txtValorTotal.getText().isEmpty()) {
@@ -143,6 +148,22 @@ public class FrmAlugar implements Initializable {
             }
         } else {
             new Alert(Alert.AlertType.WARNING, "Campo copia vazio.").show();
+        }
+    }
+
+    @FXML
+    void btnInfo(ActionEvent event) {
+        int index = listViewLista.getSelectionModel().getSelectedIndex();
+        if(index >= 0){
+            LocacaoItem locacaoItem = listViewLista.getItems().get(index);
+
+            Filme filme = new BasicFilme(locacaoItem.getTitulo());
+            filme = new GeneroFilme(locacaoItem.getFilmes().getGenero() ,filme);
+            filme = new AnoFilme(locacaoItem.getFilmes().getAnoLancamento(), filme);
+
+            new Alert(Alert.AlertType.INFORMATION, filme.getInfo()).show();
+        }else{
+            new Alert(Alert.AlertType.ERROR, "Selecionar uma copia para informações.").show();
         }
     }
 

@@ -233,9 +233,9 @@ public class FrmCadFilme implements Initializable {
         try {
             listaGen = FXCollections.observableArrayList();
             
-            listaGen.add("Aï¿½ï¿½o");
+            listaGen.add("Ação");
             listaGen.add("Drama");
-            listaGen.add("Comï¿½dia");
+            listaGen.add("Comédia");
             listaGen.add("Terror");
             listaGen.add("Suspense");
             listaGen.add("Guerra");
