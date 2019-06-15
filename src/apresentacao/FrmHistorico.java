@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
+import com.itextpdf.text.html.simpleparser.ImageProvider;
+
 public class FrmHistorico implements Initializable {
 
     @FXML
@@ -42,8 +44,9 @@ public class FrmHistorico implements Initializable {
 
     @FXML
     void consultar(ActionEvent event) throws Exception {
-        dadosLocacao(new LocacaoIterator().listagemComArrayList());
-        }
+//        dadosLocacao(new LocacaoIterator().listagemComArrayList());
+    	
+    }
 
     @FXML
     void limpar(ActionEvent event) {
@@ -77,14 +80,24 @@ public class FrmHistorico implements Initializable {
         tabela.setItems(listaProdutos);
     }*/
 
-  Iterator<Locacao> pilhas;
-  public void dadosLocacao(Iterator<Locacao> dados){
+  Iterator<?> pilhas;
+  public void dadosLocacao(Iterator<?> dados){
+	  Locacao l = (Locacao)dados.next();
+	  System.out.println(l);
       listaProdutos = FXCollections.observableArrayList();
       pilhas = dados;
-      ArrayList<Locacao> arrayList = new ArrayList<>();
-      for (Locacao item : arrayList) {
-          pilha.empilhar(listaProdutos.add(item));
+      while(dados.hasNext()) {
+    	  pilha.empilhar((Locacao)dados.next());
+    	  listaProdutos.add(pilha);
+//    	  listaProdutos.add(pilhas.next());
+//    	  pilha.empilhar());
       }
+//      ArrayList<Locacao> arrayList = new ArrayList<>();
+//      for (Locacao item : arrayList) {
+//          pilha.empilhar(listaProdutos.add(item));
+//      }
+      pilha.ImprimirPilha();
       tabela.setItems(listaProdutos);
   }
+	
 }

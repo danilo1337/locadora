@@ -186,11 +186,16 @@ public class PLocacao {
         Connection cnn = util.Conexao.getConexao();
         cnn.setAutoCommit(false);
 
-        String sql = "SELECT locacao.id, nome_completo, data_locacao, data_pagamento, valor_total, multa" +
-                " FROM locacao_item inner join locacao" +
-                " ON (locacao_item.locacao_id = locacao.id)" +
-                " inner join pessoal" +
-                " ON (pessoal_id = pessoal.id);";
+        String sql = "SELECT" + 
+        		" L.ID," + 
+        		" P.NOME_COMPLETO," + 
+        		" L.data_locacao," + 
+        		" L.data_pagamento," + 
+        		" L.valor_total," + 
+        		" L.multa" + 
+        		" FROM locacao L" + 
+        		" INNER JOIN PESSOAL P" + 
+        		" ON L.pessoal_id = P.ID";
 
         Statement stm = cnn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
@@ -198,8 +203,8 @@ public class PLocacao {
 
         while (rs.next()) {
             Locacao locacao = new Locacao();
-            locacao.setId(rs.getInt("id"));
-            locacao.getPessoal().setNomeCompleto("nome_completo");
+            locacao.setId(rs.getInt("ID"));
+            locacao.getPessoal().setNomeCompleto("NOME_COMPLETO");
             locacao.setDataLocacao(rs.getDate("data_locacao"));
             locacao.setDataLocacao(rs.getDate("data_pagamento"));
             locacao.setValorTotal(rs.getDouble("valor_total"));

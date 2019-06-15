@@ -204,6 +204,7 @@ public class FrmAlugar implements Initializable {
         }
         new Alert(Alert.AlertType.INFORMATION, "Locação salva.").show();
         limpar();
+        enviarDados();
     }
 
     private void limpar() {
@@ -238,9 +239,7 @@ public class FrmAlugar implements Initializable {
         locacao = new Locacao(pessoal, lista);*/
         //Precisa-se fazer este comando funcionar para jogar os dados para a outra tela ...
         //controller.dadosLocacao(listViewLista.getSelectionModel().getSelectedItem());
-        controller.dadosLocacao(new LocacaoIterator().listagemComArrayList());
-
-
-
+        controller.dadosLocacao(locacao.getListaItens().iterator());
     }
+    
 }
