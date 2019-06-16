@@ -21,6 +21,10 @@ public class NFilme {
 		else
 			per.alterar(filme);
 	}
+	
+	public void alterar(Filmes filme) throws SQLException {
+		per.alterar(filme);
+	}
 
 	public void excluir(Filmes filme) throws Exception {
 		per.excluir(filme);

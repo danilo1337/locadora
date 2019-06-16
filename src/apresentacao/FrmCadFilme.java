@@ -118,7 +118,24 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void alterar(ActionEvent event) {
 		try {
-			 limparTudo();
+			Filmes filme = new Filmes();
+			TipoFilme tipo = new TipoFilme();
+
+			tipo.setId(tipo.getId());
+			tipo.setPreco(tipo.getPreco());
+			tipo.setTipo(tipo.getTipo());
+
+			filme.setId(Integer.parseInt(txtID.getText()));
+			filme.setTitulo(txtTituloFilme.getText());
+			filme.setFaixaEtaria(Cb_FaixaEtaria.getSelectionModel().getSelectedItem());
+			filme.setAnoLancamento(txtAnoLancamento.getText());
+			filme.setGenero(String.valueOf(Cb_Genero.getSelectionModel().getSelectedItem()));
+			filme.setSinopse(txaSinopse.getText());
+			filme.setTipoFilme(Cb_Tipo.getValue());
+
+			new NFilme().alterar(filme);
+			new Alert(AlertType.INFORMATION, "Incluido com sucesso! N " + filme.getId()).show();
+			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
