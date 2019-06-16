@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
-
 import entidade.Endereco;
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
@@ -296,6 +294,9 @@ public class FrmCadSocio implements Initializable {
 			new NPessoal().excluir(pessoal);
 			limparTudo();
 			new Alert(AlertType.INFORMATION, "Excluído com sucesso!").show();
+			btnNovo.setDisable(false);
+			btnAlterar.setDisable(true);
+			btnExcluir.setDisable(true);
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -305,6 +306,9 @@ public class FrmCadSocio implements Initializable {
 	private void limpar(ActionEvent event) {
 		try {
 			limparTudo();
+            btnExcluir.setDisable(true);
+            btnAlterar.setDisable(true);
+            btnNovo.setDisable(false);
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
