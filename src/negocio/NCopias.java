@@ -1,10 +1,10 @@
 package negocio;
 
-import entidade.Copias;
-import persistencia.PCopias;
-
 import java.sql.SQLException;
 import java.util.List;
+
+import entidade.Copias;
+import persistencia.PCopias;
 
 /*
  * @author Hugo Henrique

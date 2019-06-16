@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entidade.Filmes;
+import entidade.TipoFilme;
 import util.Conexao;
 
 public class PFilmes {
@@ -52,7 +53,8 @@ public class PFilmes {
 	}
 
 	public void alterar(Filmes filme) throws SQLException {
-		String sql = "UPDATE filme SET" + "	ano_lancamento = ?," + " faixa_etaria = ?, titulo = ?," + " sinopse = ?"
+		String sql = "UPDATE filme SET" + "	ano_lancamento = ?," + " faixa_etaria = ?, titulo = ?," + " sinopse = ?,"
+				+ " genero = ?," + " tipo_id = ?"
 				+ "WHERE" + "id = ?";
 
 		Connection cnn = Conexao.getConexao();
@@ -61,20 +63,11 @@ public class PFilmes {
 		ps.setString(2, filme.getFaixaEtaria());
 		ps.setString(3, filme.getTitulo());
 		ps.setString(4, filme.getSinopse());
-		ps.setInt(5, filme.getId());
+		ps.setString(5, filme.getGenero());
+		ps.setInt(6, filme.getTipoFilme().getId());
+		ps.setInt(7, filme.getId());
 
 		ps.execute();
-
-		// recuperar id gerado
-		String sql2 = "SELECT currval('filme_id_seq') as id";
-
-		Statement stm = cnn.createStatement();
-		ResultSet rs = stm.executeQuery(sql2);
-
-		if (rs.next()) {
-			filme.setId(rs.getInt("id"));
-		}
-		rs.close();
 		cnn.close();
 
 	}
@@ -103,6 +96,8 @@ public class PFilmes {
 			retorno.setTitulo(rs.getString("titulo"));
 			retorno.setSinopse(rs.getString("sinopse"));
 			retorno.setGenero(rs.getString("genero"));
+			retorno.getTipoFilme().setId(rs.getInt("tipo_id"));
+			retorno.setTipoFilme(new PTipoFilme().consultar(retorno.getTipoFilme()));
 		}
 		rs.close();
 		cnn.close();

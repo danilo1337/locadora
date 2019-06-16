@@ -1,5 +1,14 @@
 package persistencia;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import entidade.Locacao;
 import entidade.LocacaoItem;
 import entidade.Pessoal;
@@ -7,214 +16,261 @@ import negocio.NLocacaoItem;
 import negocio.NPessoal;
 import util.Conexao;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class PLocacao {
 
-    public void incluir(Locacao locacao) throws SQLException {
-        Connection cnn = util.Conexao.getConexao();
-        cnn.setAutoCommit(false);
+	public void incluir(Locacao locacao) throws SQLException {
+		Connection cnn = util.Conexao.getConexao();
+		cnn.setAutoCommit(false);
 
-        try {
-            String sql = "INSERT INTO locacao (pessoal_id, data_locacao, valor_total)"
-                    + "VALUES (?,?,?)";
+		try {
+			String sql = "INSERT INTO locacao (pessoal_id, data_locacao, valor_total)" + "VALUES (?,?,?)";
 
-            PreparedStatement ps = cnn.prepareStatement(sql);
+			PreparedStatement ps = cnn.prepareStatement(sql);
 
-            //passo os itens da sql para o statement
-            ps.setInt(1, locacao.getPessoal().getId());
-            ps.setDate(2, locacao.getDataLocacao());
-            ps.setDouble(3, locacao.getValorTotal());
+			// passo os itens da sql para o statement
+			ps.setInt(1, locacao.getPessoal().getId());
+			ps.setDate(2, locacao.getDataLocacao());
+			ps.setDouble(3, locacao.getValorTotal());
 
-            //gravo o locacao pai
-            ps.execute();
+			// gravo o locacao pai
+			ps.execute();
 
-            // pai id id
-            // recuperar id gerado
-            String sql2 = "SELECT currval('locacao_id_seq') as id";
-            Statement st = cnn.createStatement();
-            ResultSet rs = st.executeQuery(sql2);
+			// pai id id
+			// recuperar id gerado
+			String sql2 = "SELECT currval('locacao_id_seq') as id";
+			Statement st = cnn.createStatement();
+			ResultSet rs = st.executeQuery(sql2);
 
-            if (rs.next()) {
-                locacao.setId(rs.getInt("id"));
-            }
-            rs.close();
+			if (rs.next()) {
+				locacao.setId(rs.getInt("id"));
+			}
+			rs.close();
 
-            //Percorrer a lista de itens
-            PLocacaoItem pItem = new PLocacaoItem();
-            PCopias pCopias = new PCopias();
-            for (LocacaoItem item : locacao.getListaItens()) {
-                item.getLocacao().setId(locacao.getId());
+			// Percorrer a lista de itens
+			PLocacaoItem pItem = new PLocacaoItem();
+			PCopias pCopias = new PCopias();
+			for (LocacaoItem item : locacao.getListaItens()) {
+				item.getLocacao().setId(locacao.getId());
 
-                //Gravo o item (filho)
-                pItem.incluir(item, cnn);
+				// Gravo o item (filho)
+				pItem.incluir(item, cnn);
 
-                item.getCopias().setDisponivel(false);
-                pCopias.alterarLocacao(item.getCopias(), cnn);
-            }
+				item.getCopias().setDisponivel(false);
+				pCopias.alterarLocacao(item.getCopias(), cnn);
+			}
 
-            cnn.commit();
+			cnn.commit();
 
-        } catch (Exception e) {
-            cnn.rollback();
-            System.out.println(e.getMessage());
-        }
-        cnn.close();
-    }
+		} catch (Exception e) {
+			cnn.rollback();
+			System.out.println(e.getMessage());
+		}
+		cnn.close();
+	}
 
+	public void alterar(Locacao locacao) throws SQLException {
+		Connection cnn = Conexao.getConexao();
+		cnn.setAutoCommit(false);
 
-    public void alterar(Locacao locacao) throws SQLException {
-        Connection cnn = Conexao.getConexao();
-        cnn.setAutoCommit(false);
+		try {
+			// - Atualizar o pedido
+			String sql = "UPDATE locacao " + "SET data_locacao = ?, " + "data_pagamento = ?, " + "valor_total = ?, "
+					+ "juros = ?, " + "multa = ?, " + "desconto = ? " + "WHERE id = ?";
 
-        try {
-            //- Atualizar o pedido
-            String sql = "UPDATE locacao "
-                    + "SET data_locacao = ?, "
-                    + "data_pagamento = ?, "
-                    + "valor_total = ?, "
-                    + "juros = ?, "
-                    + "multa = ?, "
-                    + "desconto = ? "
-                    + "WHERE id = ?";
+			PreparedStatement ps = cnn.prepareStatement(sql);
 
-            PreparedStatement ps = cnn.prepareStatement(sql);
+			ps.setDate(1, locacao.getDataLocacao());
+			ps.setDate(2, locacao.getDataPagamento());
+			ps.setDouble(3, locacao.getValorTotal());
+			ps.setDouble(4, locacao.getJuros());
+			ps.setDouble(5, locacao.getMulta());
+			ps.setDouble(6, locacao.getDesconto());
+			ps.setInt(7, locacao.getId());
+			ps.execute();
 
-            ps.setDate(1, locacao.getDataLocacao());
-            ps.setDate(2, locacao.getDataPagamento());
-            ps.setDouble(3, locacao.getValorTotal());
-            ps.setDouble(4, locacao.getJuros());
-            ps.setDouble(5, locacao.getMulta());
-            ps.setDouble(6, locacao.getDesconto());
-            ps.setInt(7, locacao.getId());
-            ps.execute();
+			// Excluir todos os itens de um pedido
+			PLocacaoItem pItem = new PLocacaoItem();
+			pItem.excluirPorPedido(locacao.getId(), cnn);
 
-            //Excluir todos os itens de um pedido
-            PLocacaoItem pItem = new PLocacaoItem();
-            pItem.excluirPorPedido(locacao.getId(), cnn);
+			// Incluir todos os itens do pedido
+			for (LocacaoItem item : locacao.getListaItens()) {
+				item.getLocacao().setId(locacao.getId());
+				pItem.incluir(item, cnn);
+			}
+			// Efetua a gravação no banco de dadosSocios
+			cnn.commit();
 
-            //Incluir todos os itens do pedido
-            for (LocacaoItem item : locacao.getListaItens()) {
-                item.getLocacao().setId(locacao.getId());
-                pItem.incluir(item, cnn);
-            }
-            //Efetua a gravação no banco de dadosSocios
-            cnn.commit();
+		} catch (Exception e) {
+			// Desfaz as alterações no banco de dadosSocios
+			cnn.rollback();
+		}
+		cnn.close();
+	}
 
-        } catch (Exception e) {
-            //Desfaz as alterações no banco de dadosSocios
-            cnn.rollback();
-        }
-        cnn.close();
-    }
+	public void excluir(Locacao locacao) throws SQLException {
+		Connection cnn = util.Conexao.getConexao();
+		cnn.setAutoCommit(false);
 
-    public void excluir(Locacao locacao) throws SQLException {
-        Connection cnn = util.Conexao.getConexao();
-        cnn.setAutoCommit(false);
+		try {
+			// Excluir todos os itens de um pedido
+			new PLocacaoItem().excluirPorPedido(locacao.getId(), cnn);
 
-        try {
-            //Excluir todos os itens de um pedido
-            new PLocacaoItem().excluirPorPedido(locacao.getId(), cnn);
+			// Exclui o pedido
+			String sql = "DELETE FROM locacao " + " WHERE id = ?";
 
-            //Exclui o pedido
-            String sql = "DELETE FROM locacao "
-                    + " WHERE id = ?";
+			PreparedStatement ps = cnn.prepareStatement(sql);
+			ps.setInt(1, locacao.getId());
+			ps.execute();
 
-            PreparedStatement ps = cnn.prepareStatement(sql);
-            ps.setInt(1, locacao.getId());
-            ps.execute();
+			// Efetua a gravação no banco de dadosSocios
+			cnn.commit();
 
-            //Efetua a gravação no banco de dadosSocios
-            cnn.commit();
+		} catch (Exception e) {
+			// Desfaz as alterações no banco de dadosSocios
+			cnn.rollback();
+		}
+		cnn.close();
+	}
 
-        } catch (Exception e) {
-            //Desfaz as alterações no banco de dadosSocios
-            cnn.rollback();
-        }
-        cnn.close();
-    }
+	public Locacao consultar(int id) throws SQLException {
 
-    public Locacao consultar(int id) throws SQLException {
+		Connection cnn = Conexao.getConexao();
+		cnn.setAutoCommit(false);
+		Locacao locacao = new Locacao();
+		// Select do que será consultado
+		try {
+			String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, valor_total" + " juros, multa, desconto"
+					+ " FROM locacao " + " WHERE id = ?";
 
-        Connection cnn = Conexao.getConexao();
-        cnn.setAutoCommit(false);
-        Locacao locacao = new Locacao();
-        //Select do que será consultado
-        try {
-            String sql = "SELECT id, pessoal_id, data_locacao, data_pagamento, valor_total"
-                    + " juros, multa"
-                    + " FROM locacao "
-                    + " WHERE id = ?";
+			PreparedStatement stm = cnn.prepareStatement(sql);
+			stm.setInt(1, id);
 
-            PreparedStatement stm = cnn.prepareStatement(sql);
-            stm.setInt(1, id);
+			ResultSet rs = stm.executeQuery();
 
-            ResultSet rs = stm.executeQuery();
+			if (rs.next()) {
+				locacao.setId(rs.getInt("id"));
+				locacao.setDataLocacao(rs.getDate("data_locacao"));
+				locacao.setDataLocacao(rs.getDate("data_pagamento"));
+				locacao.setValorTotal(rs.getDouble("valor_total"));
+				locacao.setJuros(rs.getDouble("juros"));
+				locacao.setMulta(rs.getDouble("multa"));
+				locacao.setDesconto(rs.getDouble("desconto"));
+			}
 
-            if (rs.next()) {
-                locacao.setId(rs.getInt("id"));
-                locacao.setDataLocacao(rs.getDate("data_locacao"));
-                locacao.setDataLocacao(rs.getDate("data_pagamento"));
-                locacao.setValorTotal(rs.getDouble("valor_total"));
-                locacao.setJuros(rs.getDouble("juros"));
-                locacao.setMulta(rs.getDouble("multa"));
-                locacao.setDesconto(rs.getDouble("desconto"));
-            }
+			PLocacaoItem pItem = new PLocacaoItem();
+			for (LocacaoItem item : locacao.getListaItens()) {
+				item.getLocacao().setId(locacao.getId());
+				// Gravo o item (filho)
+				pItem.incluir(item, cnn);
+			}
+			// Efetua a gravação no banco de dadosSocios
+			cnn.commit();
+			rs.close();
 
-            PLocacaoItem pItem = new PLocacaoItem();
-            for (LocacaoItem item : locacao.getListaItens()) {
-                item.getLocacao().setId(locacao.getId());
-                //Gravo o item (filho)
-                pItem.incluir(item, cnn);
-            }
-            //Efetua a gravação no banco de dadosSocios
-            cnn.commit();
-            rs.close();
+		} catch (Exception e) {
+			// Desfaz as alterações no banco de dadosSocios
+			cnn.rollback();
+		}
 
-        } catch (Exception e) {
-            //Desfaz as alterações no banco de dadosSocios
-            cnn.rollback();
-        }
+		cnn.close();
+		return locacao;
+	}
 
-        cnn.close();
-        return locacao;
-    }
+	public List<Locacao> listar(Date data1, Date data2) throws Exception {
+		Connection cnn = util.Conexao.getConexao();
+		String sql = "SELECT" +
+					 "  id,pessoal_id,data_locacao,data_pagamento,valor_total,multa" + " FROM locacao "
+				+ " WHERE 1=1";
+		if (data1 != null) {
+			if (data1.before(data2) || data1.compareTo(data2) == 0) {
+				sql += " AND data_locacao between ? and ?";
+			}
+		}
+		//
+		PreparedStatement stm = cnn.prepareStatement(sql);
+		if (data2 != null) {
+			if (data1.before(data2) || data1.compareTo(data2) == 0) {
+				stm.setDate(1, data1);
+				stm.setDate(2, data2);
+			}
+		}
+		ResultSet rs = stm.executeQuery();
 
-    public List<Locacao> listar() throws Exception {
-        Connection cnn = util.Conexao.getConexao();
-        cnn.setAutoCommit(false);
+		List<Locacao> lista = new ArrayList<>();
+		while (rs.next()) {
+			Pessoal p = new Pessoal();
+			p.setId(rs.getInt("pessoal_id"));
+			p = new NPessoal().consultar(p);
+			Locacao locacao = new Locacao();
+			locacao.setId(rs.getInt("id"));
+			locacao.setDataLocacao(rs.getDate("data_locacao"));
+			locacao.setDataPagamento(rs.getDate("data_pagamento"));
+			locacao.setValorTotal(rs.getDouble("valor_total"));
+			locacao.setMulta(rs.getDouble("multa"));
+			locacao.setPessoal(p);
+			lista.add(locacao);
+		}
 
-        String sql = "SELECT" +
-        		" L.ID," +
-        		" P.NOME_COMPLETO," +
-        		" L.data_locacao," +
-        		" L.data_pagamento," +
-        		" L.valor_total," +
-        		" L.multa" +
-        		" FROM locacao L" +
-        		" INNER JOIN PESSOAL P" +
-        		" ON L.pessoal_id = P.ID";
+		rs.close();
+		cnn.close();
+		return lista;
 
-        Statement stm = cnn.createStatement();
-        ResultSet rs = stm.executeQuery(sql);
-        List<Locacao> lista = new ArrayList<>();
+	}
 
-        while (rs.next()) {
-            Locacao locacao = new Locacao();
-            locacao.setId(rs.getInt("ID"));
-            locacao.getPessoal().setNomeCompleto("NOME_COMPLETO");
-            locacao.setDataLocacao(rs.getDate("data_locacao"));
-            locacao.setDataLocacao(rs.getDate("data_pagamento"));
-            locacao.setValorTotal(rs.getDouble("valor_total"));
-            locacao.setJuros(rs.getDouble("multa"));
-            locacao.setListaItens(new NLocacaoItem().listar());
-            lista.add(locacao);
-        }
+	public List<Locacao> listar2() throws Exception {
+		Connection cnn = util.Conexao.getConexao();
+		String sql = "SELECT" + "  id,pessoal_id,data_locacao,data_pagamento,valor_total,multa" + " FROM locacao "
+				+ " WHERE 1=1";
 
-        rs.close();
-        cnn.close();
-        return lista;
-    }
+		PreparedStatement stm = cnn.prepareStatement(sql);
+		ResultSet rs = stm.executeQuery();
+
+		List<Locacao> lista = new ArrayList<>();
+		while (rs.next()) {
+			Pessoal p = new Pessoal();
+			p.setId(rs.getInt("pessoal_id"));
+			p = new NPessoal().consultar(p);
+			Locacao locacao = new Locacao();
+			locacao.setId(rs.getInt("id"));
+			locacao.setDataLocacao(rs.getDate("data_locacao"));
+			locacao.setDataPagamento(rs.getDate("data_pagamento"));
+			locacao.setValorTotal(rs.getDouble("valor_total"));
+			locacao.setMulta(rs.getDouble("multa"));
+			locacao.setPessoal(p);
+			lista.add(locacao);
+		}
+
+		rs.close();
+		cnn.close();
+		return lista;
+	}
+	
+	public Double[] listarDiario() throws Exception {
+		Connection cnn = util.Conexao.getConexao();
+		String sql = "SELECT" + 
+				" MIN(VALOR_TOTAL)," + 
+				" AVG(VALOR_TOTAL)," + 
+				" MAX(VALOR_TOTAL)," + 
+				" SUM(VALOR_TOTAL)" + 
+				" FROM " + 
+				" LOCACAO" + 
+				" WHERE DATA_LOCACAO = 'now()'";
+
+		PreparedStatement stm = cnn.prepareStatement(sql);
+		ResultSet rs = stm.executeQuery();
+
+		Double saida[] = new Double[4];
+		while (rs.next()) {
+			saida[0] = rs.getDouble("min");
+			saida[1] = rs.getDouble("avg");
+			saida[2] = rs.getDouble("max");
+			saida[3] = rs.getDouble("sum");
+		}
+
+		rs.close();
+		cnn.close();
+		return saida;
+	}
+	
+	
 }
