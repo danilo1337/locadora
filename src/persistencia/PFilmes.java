@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entidade.Filmes;
-import entidade.TipoFilme;
 import util.Conexao;
 
 public class PFilmes {
@@ -53,9 +52,12 @@ public class PFilmes {
 	}
 
 	public void alterar(Filmes filme) throws SQLException {
-		String sql = "UPDATE filme SET" + "	ano_lancamento = ?," + " faixa_etaria = ?, titulo = ?," + " sinopse = ?,"
+		String sql = "UPDATE filme SET"
+				+ "	ano_lancamento = ?,"
+				+ " faixa_etaria = ?, titulo = ?,"
+				+ " sinopse = ?,"
 				+ " genero = ?," + " tipo_id = ?"
-				+ "WHERE" + "id = ?";
+				+ " WHERE" + " id = ?";
 
 		Connection cnn = Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
@@ -81,11 +83,20 @@ public class PFilmes {
 	}
 
 	public Filmes consultar(String filme) throws SQLException {
-		String sql = "SELECT * FROM filme WHERE titulo = ?";
+		String sql = "SELECT" + 
+				" f.id,f.ano_lancamento," + 
+				" f.faixa_etaria," + 
+				" f.titulo, f.sinopse," + 
+				" f.genero,f.tipo_id," + 
+				" tf.tipo, tf.preco" + 
+				" FROM filme f" + 
+				" INNER JOIN tipo_filme tf " + 
+				" on tf.id  = f.tipo_id" + 
+				" WHERE UPPER(F.TITULO) = ?";
 		Connection cnn = Conexao.getConexao();
 		PreparedStatement ps = cnn.prepareStatement(sql);
 
-		ps.setString(1, filme);
+		ps.setString(1, filme.toUpperCase());
 
 		ResultSet rs = ps.executeQuery();
 		Filmes retorno = new Filmes();
@@ -97,6 +108,9 @@ public class PFilmes {
 			retorno.setSinopse(rs.getString("sinopse"));
 			retorno.setGenero(rs.getString("genero"));
 			retorno.getTipoFilme().setId(rs.getInt("tipo_id"));
+			retorno.getTipoFilme().setTipo(rs.getString("tipo"));
+			retorno.getTipoFilme().setPreco(rs.getDouble("preco"));
+			
 			retorno.setTipoFilme(new PTipoFilme().consultar(retorno.getTipoFilme()));
 		}
 		rs.close();
