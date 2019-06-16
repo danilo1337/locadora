@@ -92,7 +92,7 @@ public class FrmListarSocio implements Initializable {
 		}
 	}
 
-	private void imprimirNaTabela(Iterator<Pessoal> dados) throws Exception {
+	private void imprimirNaTabela(Iterator<?> dados) throws Exception {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
 		while (dados.hasNext()) {
 			Pessoal pessoal = (Pessoal) dados.next();

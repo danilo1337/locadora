@@ -21,7 +21,10 @@ public class NPessoal {
 	}
 
 	public void excluir(Pessoal pessoal) throws Exception {
-		per.excluir(pessoal);
+		if(pessoal.getId() <= 0)
+			throw new Exception("Não foi possível encontrar esse registro.");
+		else
+			per.excluir(pessoal);
 	}
 
 	public Pessoal consultar(Pessoal pessoal) throws Exception {
@@ -33,6 +36,10 @@ public class NPessoal {
 	}
 	
 	public Pessoal consultarCpf(String cpf) throws Exception {
+		if(!cpf.matches("-?\\d+(\\.\\d+)?"))
+			throw new Exception("Digite apenas números!");
+		if(cpf.length() > 11 || cpf.isEmpty())
+			throw new Exception("A quantidade de digitos do CPF está incorreta!");
 		return per.consultarCpf(cpf);
 	}
 }

@@ -14,8 +14,8 @@ import negocio.NPessoal;
 
 public abstract class PessoalTemplate {
 	public abstract boolean ePrimeiro(Pessoal pessoa_1, Pessoal pessoa_2);
-
-	public Iterator<Pessoal> listagem() throws Exception {
+	
+	public Iterator<?> listagem() throws Exception {
 		try {
 			List<Pessoal> lista = new NPessoal().listar(); 
 			

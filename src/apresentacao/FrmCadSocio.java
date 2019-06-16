@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
+
 import entidade.Endereco;
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
@@ -116,6 +118,8 @@ public class FrmCadSocio implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			txtID.setText("0");
+			btnAlterar.setDisable(true);
+			btnExcluir.setDisable(true);
 			gerarUF();
 			gerarTipo();
 			gerarSituacao();
@@ -191,7 +195,8 @@ public class FrmCadSocio implements Initializable {
 			}
 
 			new NPessoal().salvar(pessoal);
-			new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nº" + pessoal.getId()).show();
+			if(pessoal.getId() <= 0)
+				new Alert(AlertType.INFORMATION, "Incluido com sucesso! Nº" + pessoal.getId()).show();
 			limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -201,7 +206,10 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void alterar(ActionEvent event) {
 		try {
-			limparTudo();
+			novo(event);
+			btnAlterar.setDisable(true);
+			btnExcluir.setDisable(true);
+			btnNovo.setDisable(false);
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -216,7 +224,7 @@ public class FrmCadSocio implements Initializable {
 			txtCep.setText(pessoal.getEndereco().getCep());
 			txtComplemento.setText(pessoal.getEndereco().getComplemento());
 			txtCpf.setText(pessoal.getCpf());
-			txtEmail.setText(pessoal.getEmail());// colocar e-mail no banco
+			txtEmail.setText(pessoal.getEmail());
 			txtID.setText(pessoal.getId() + "");
 			txtLocalidade.setText(pessoal.getEndereco().getLocalidade());
 			txtLogradouro.setText(pessoal.getEndereco().getLogradouro());
@@ -268,12 +276,16 @@ public class FrmCadSocio implements Initializable {
 					cbSituacao.getSelectionModel().select(i);
 				}
 			}
-			
-
+			if(pessoal.getId() > 0) {
+			btnAlterar.setDisable(false);
+			btnExcluir.setDisable(false);
+			btnNovo.setDisable(true);
+			}
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 			e.printStackTrace();
 		}
+		
 	}
 
 	@FXML
@@ -281,10 +293,9 @@ public class FrmCadSocio implements Initializable {
 		try {
 			Pessoal pessoal = new Pessoal();
 			pessoal.setId(Integer.parseInt(txtID.getText()));
-
 			new NPessoal().excluir(pessoal);
 			limparTudo();
-
+			new Alert(AlertType.INFORMATION, "Excluído com sucesso!").show();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -294,7 +305,6 @@ public class FrmCadSocio implements Initializable {
 	private void limpar(ActionEvent event) {
 		try {
 			limparTudo();
-
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -355,5 +365,5 @@ public class FrmCadSocio implements Initializable {
 		btnLimpar.setGraphic(new ImageView(new Image("/icones/clean.png", 26, 26, false, false)));
 		btnBuscar.setGraphic(new ImageView(new Image("/icones/serach.png", 26, 26, false, false)));
 	}
-
+	//----------------------------------------------------------
 }

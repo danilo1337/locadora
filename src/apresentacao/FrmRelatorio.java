@@ -244,18 +244,22 @@ public class FrmRelatorio implements Initializable {
 		case "Filme":
 			editavel = true;
 			btnGrafico.setDisable(true);
+			btnListar.setDisable(false);
 			break;
 		case "Locação":
 			editavel = false;
 			btnGrafico.setDisable(true);
+			btnListar.setDisable(false);
 			break;
 		case "Pessoal":
 			editavel = true;
 			btnGrafico.setDisable(true);
+			btnListar.setDisable(false);
 			break;
 		case "Diário":
 			editavel = true;
 			btnGrafico.setDisable(false);
+			btnListar.setDisable(true);
 			break;
 		}
 		dateInicio.setDisable(editavel);
