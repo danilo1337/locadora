@@ -1,4 +1,4 @@
-package apresentacao;
+﻿package apresentacao;
 
 
 import java.io.IOException;
@@ -12,7 +12,10 @@ import java.util.function.UnaryOperator;
 
 import javax.swing.JDesktopPane;
 
-import entidade.*;
+import entidade.Copias;
+import entidade.Locacao;
+import entidade.LocacaoItem;
+import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,17 +24,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import negocio.NCopias;
 import negocio.NLocacao;
 import negocio.NPessoal;
+import padrao.decorator.AnoFilme;
+import padrao.decorator.BasicFilme;
+import padrao.decorator.Filme;
+import padrao.decorator.GeneroFilme;
 import padrao.iterator.LocacaoIterator;
 
 
@@ -130,6 +142,7 @@ public class FrmAlugar implements Initializable {
                 locacaoItem.setCodigoCopia(copias.getCodigoCopia());
                 locacaoItem.setValor(copias.getFilmes().getTipoFilme().getPreco());
                 locacaoItem.setTitulo(copias.getFilmes().getTitulo());
+                locacaoItem.setFilmes(copias.getFilmes());
                 listViewLista.getItems().add(locacaoItem);
 
                 if (txtValorTotal.getText().isEmpty()) {
@@ -143,6 +156,22 @@ public class FrmAlugar implements Initializable {
             }
         } else {
             new Alert(Alert.AlertType.WARNING, "Campo copia vazio.").show();
+        }
+    }
+
+    @FXML
+    void btnInfo(ActionEvent event) {
+        int index = listViewLista.getSelectionModel().getSelectedIndex();
+        if(index >= 0){
+            LocacaoItem locacaoItem = listViewLista.getItems().get(index);
+
+            Filme filme = new BasicFilme(locacaoItem.getTitulo());
+            filme = new GeneroFilme(locacaoItem.getFilmes().getGenero() ,filme);
+            filme = new AnoFilme(locacaoItem.getFilmes().getAnoLancamento(), filme);
+
+            new Alert(Alert.AlertType.INFORMATION, filme.getInfo()).show();
+        }else{
+            new Alert(Alert.AlertType.ERROR, "Selecionar uma copia para informações.").show();
         }
     }
 
@@ -187,6 +216,7 @@ public class FrmAlugar implements Initializable {
         }
     }
 
+
     @FXML
     void btnSalvar(ActionEvent event) throws Exception {
         lista = listViewLista.getItems();
@@ -204,7 +234,6 @@ public class FrmAlugar implements Initializable {
         }
         new Alert(Alert.AlertType.INFORMATION, "Locação salva.").show();
         limpar();
-        enviarDados();
     }
 
     private void limpar() {
@@ -239,7 +268,9 @@ public class FrmAlugar implements Initializable {
         locacao = new Locacao(pessoal, lista);*/
         //Precisa-se fazer este comando funcionar para jogar os dados para a outra tela ...
         //controller.dadosLocacao(listViewLista.getSelectionModel().getSelectedItem());
-        controller.dadosLocacao(locacao.getListaItens().iterator());
+        controller.dadosLocacao(new LocacaoIterator().listagemComArrayList());
+
+
+
     }
-    
 }

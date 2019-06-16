@@ -1,5 +1,9 @@
 package apresentacao;
 
+import java.net.URL;
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import entidade.Filmes;
 import entidade.LocacaoItem;
 import javafx.collections.FXCollections;
@@ -11,14 +15,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import persistencia.PLocacaoItem;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.ResourceBundle;
 
 public class FrmListarProdutosLocacao implements Initializable {
 
@@ -82,7 +86,7 @@ public class FrmListarProdutosLocacao implements Initializable {
     private void carregarTabela() throws Exception {
         // Puxando as variaveis da classe Locacao para gerar Colunas
         //String colunas[] = new LocacaoItem().getColunas();
-        String colunas[] = new String[]{"ID", "TITULO", "VALOR"};
+        String colunas[] = new String[]{"ID", "TÍTULO", "VALOR"};
         String nomeVariaveis[] = new String[]{"id", "filmes", "valor"};
         for (int i = 0; i < colunas.length; i++) {
             tabela.getColumns().add(new TableColumn<>(colunas[i]));

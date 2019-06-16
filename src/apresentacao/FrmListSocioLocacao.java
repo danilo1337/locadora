@@ -1,6 +1,11 @@
 package apresentacao;
 
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import entidade.Pessoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import padrao.iterator.PessoalIterator;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.ResourceBundle;
 
 public class FrmListSocioLocacao implements Initializable {
     @FXML

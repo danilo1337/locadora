@@ -55,7 +55,7 @@ public class FrmLogin implements Initializable {
 				sessao.setLogin(login);
 				abrirSistema(event);
 			}else{
-				new Alert(AlertType.ERROR, "Usu√°rio ou Senha incorreto").show();
+				new Alert(AlertType.ERROR, "Usu·rio ou Senha incorreto").show();
 			}
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
@@ -76,8 +76,8 @@ public class FrmLogin implements Initializable {
 			stage.setScene(scene);
 			stage.show();
 			stage.centerOnScreen();
-			stage.setTitle("Locadora Altas Horas - Usu√°rio: " + txtLogin.getText());
+			stage.setTitle("Locadora Altas Horas - Usu·rio: " + txtLogin.getText());
 		} else
-			throw new Exception("N√£o foi poss√≠vel localizar a tela");
+			throw new Exception("N„o foi possÌvel localizar a tela");
 	}
 }

@@ -70,17 +70,14 @@ public class FrmCadFilme implements Initializable {
 	ObservableList<String> listaGen;
 	ObservableList<TipoFilme> listaTipo;
 
+	private int tipoFilme;
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			GerarFaixaEtaria();
 			GerarGenero();
 			GerarTipo();
 			txtID.setText("0");
-			btnNovo.setText("");
-			btnAlterar.setText("");
-			btnExcluir.setText("");
-			btnLimpar.setText("");
-			btnBuscar.setText("");
 			btnNovo.setGraphic(new ImageView(new Image("/icones/save.png", 26, 26, false, false)));
 			btnAlterar.setGraphic(new ImageView(new Image("/icones/edit.png", 26, 26, false, false)));
 			btnExcluir.setGraphic(new ImageView(new Image("/icones/delete.png", 26, 26, false, false)));
@@ -121,7 +118,7 @@ public class FrmCadFilme implements Initializable {
 	@FXML
 	private void alterar(ActionEvent event) {
 		try {
-			limparTudo();
+			 limparTudo();
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, e.getMessage()).show();
 		}
@@ -130,7 +127,7 @@ public class FrmCadFilme implements Initializable {
     @FXML
     private void buscar(ActionEvent event) {
         try {
-            Filmes filme = new NFilme().consultar(txtTituloFilme.getText());
+            Filmes filme = new NFilme().consultar(txtTitulo_consulta.getText());
             txtID.setText(String.valueOf(filme.getId()));
             txtTituloFilme.setText(filme.getTitulo());
             txtAnoLancamento.setText(filme.getAnoLancamento());
@@ -144,9 +141,9 @@ public class FrmCadFilme implements Initializable {
 				}
 			}
 
-			String TipoFilme = filme.getTitulo();
+			int tipoFilme = filme.getTipoFilme().getId();
 			for (int i = 0; i < lista.size(); i++) {
-				if (lista.get(i).equals(TipoFilme)) {
+				if (listaTipo.get(i).getId()==tipoFilme) {
 					Cb_Tipo.getSelectionModel().select(i);
 					break;
 				}
@@ -154,7 +151,7 @@ public class FrmCadFilme implements Initializable {
 
 			String Genero = filme.getGenero();
 			for (int i = 0; i < lista.size(); i++) {
-				if (lista.get(i).equals(Genero)) {
+				if (listaGen.get(i).equals(Genero)) {
 					Cb_Genero.getSelectionModel().select(i);
 					break;
 				}
@@ -233,9 +230,10 @@ public class FrmCadFilme implements Initializable {
         try {
             listaGen = FXCollections.observableArrayList();
             
-            listaGen.add("Aï¿½ï¿½o");
+            listaGen.add("Ação");
             listaGen.add("Drama");
-            listaGen.add("Comï¿½dia");
+            listaGen.add("Comédia");
+            listaGen.add("Comédia Romântica");
             listaGen.add("Terror");
             listaGen.add("Suspense");
             listaGen.add("Guerra");

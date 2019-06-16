@@ -1,7 +1,11 @@
 package apresentacao;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import entidade.Locacao;
-import entidade.Pessoal;
 import estruturaDeDados.Pilha;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,16 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import padrao.iterator.LocacaoIterator;
-import persistencia.PLocacao;
-import persistencia.PPessoal;
-
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
-import com.itextpdf.text.html.simpleparser.ImageProvider;
 
 public class FrmHistorico implements Initializable {
 
@@ -44,9 +38,8 @@ public class FrmHistorico implements Initializable {
 
     @FXML
     void consultar(ActionEvent event) throws Exception {
-//        dadosLocacao(new LocacaoIterator().listagemComArrayList());
-    	
-    }
+        dadosLocacao(new LocacaoIterator().listagemComArrayList());
+        }
 
     @FXML
     void limpar(ActionEvent event) {
@@ -55,7 +48,7 @@ public class FrmHistorico implements Initializable {
 
     private void gerarColunas() {
         // adiocionando as colunas
-        String colunas[] = {"ID", "SÃ“CIO", "DATA LOCACAO", "DATA PAGAMENTO", "VALOR TOTAL", "MULTA"};
+        String colunas[] = {"ID", "SÓCIO", "DATA LOCACAO", "DATA PAGAMENTO", "VALOR TOTAL", "MULTA"};
         String nomeVariaveis[] = {"id", "pessoal", "dataLocacao", "dataPagamento", "valorTotal", "multa"};
         for (int i = 0; i < colunas.length; i++) {
             tabela.getColumns().add(new TableColumn<>(colunas[i]));
@@ -80,24 +73,14 @@ public class FrmHistorico implements Initializable {
         tabela.setItems(listaProdutos);
     }*/
 
-  Iterator<?> pilhas;
-  public void dadosLocacao(Iterator<?> dados){
-	  Locacao l = (Locacao)dados.next();
-	  System.out.println(l);
+  Iterator<Locacao> pilhas;
+  public void dadosLocacao(Iterator<Locacao> dados){
       listaProdutos = FXCollections.observableArrayList();
       pilhas = dados;
-      while(dados.hasNext()) {
-    	  pilha.empilhar((Locacao)dados.next());
-    	  listaProdutos.add(pilha);
-//    	  listaProdutos.add(pilhas.next());
-//    	  pilha.empilhar());
+      ArrayList<Locacao> arrayList = new ArrayList<>();
+      for (Locacao item : arrayList) {
+          pilha.empilhar(listaProdutos.add(item));
       }
-//      ArrayList<Locacao> arrayList = new ArrayList<>();
-//      for (Locacao item : arrayList) {
-//          pilha.empilhar(listaProdutos.add(item));
-//      }
-      pilha.ImprimirPilha();
       tabela.setItems(listaProdutos);
   }
-	
 }
