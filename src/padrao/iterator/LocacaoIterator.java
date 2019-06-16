@@ -1,12 +1,10 @@
 package padrao.iterator;
 
-import entidade.Locacao;
-import entidade.Pessoal;
-import persistencia.PLocacao;
-import persistencia.PPessoal;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import entidade.Locacao;
+import persistencia.PLocacao;
 
 public class LocacaoIterator {
 
@@ -15,7 +13,7 @@ public class LocacaoIterator {
 
     public Iterator<Locacao> listagemComArrayList() throws Exception {
         ArrayList<Locacao> arrayList = new ArrayList<>();
-        arrayList.addAll(new PLocacao().listar());
+        arrayList.addAll(new PLocacao().listar2());
         return arrayList.iterator();
     }
 }
