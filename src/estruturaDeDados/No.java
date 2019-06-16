@@ -13,6 +13,7 @@ public class No {
         this.info = info;
         this.prox = prox;
         this.pessoa = pessoa;
+        
     }
 
     public Locacao getInfo() {
