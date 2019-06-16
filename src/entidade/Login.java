@@ -1,8 +1,5 @@
 package entidade;
 
-import enums.PermissaoUsuario;
-import enums.SituacaoUsuario;
-
 /*
  * @author Hugo Henrique
  */

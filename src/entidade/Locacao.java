@@ -1,7 +1,7 @@
 package entidade;
 
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Locacao {
@@ -97,4 +97,6 @@ public class Locacao {
     public void setListaItens(List<LocacaoItem> listaItens) {
         this.listaItens = listaItens;
     }
+    public String[] getColunas() {return new String[] {"ID","NOME","LOCAÇÃO","PAGAMENTO","TOTAL","MULTA"};}
+    public String[] getVariaveis() {return new String[] {"id","pessoal","dataLocacao","dataPagamento","valorTotal","multa"};}
 }

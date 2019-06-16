@@ -67,7 +67,7 @@ public class LocacaoItem {
     }
 
     public String[] getColunas() {
-        return new String[]{ "CODIGO COPIA", "TITULO", "VALOR"};
+        return new String[]{ "CÓDIGO COPIA", "TITULO", "VALOR"};
     }
 
     public String[] getVariaveis() {

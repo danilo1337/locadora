@@ -1,7 +1,5 @@
 package entidade;
 
-import java.util.Date;
-
 /**
  * @author Felipe Karioka
  */
@@ -88,4 +86,6 @@ public class Copias {
     public void setFilmes(Filmes filmes) {
         this.filmes = filmes;
     }
+    
+    
 }

@@ -51,12 +51,15 @@ public class Pessoal {
 	public void setSituacao(int situacao) {this.situacao = situacao;}
 	
 	public String[] getColunas() {
-		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc", "TELEFONE", "CELULAR", "E-MAIL", "TIPO","SITUAÇÃO" };
+		return new String[]{ "ID", "NOME", "SEXO", "CPF", "D.Nasc", "TELEFONE", "CELULAR", "E-MAIL"};
 	}
 	public String[] getVariaveis() {
 		return new String[]{ "id", "nomeCompleto", "sexo", "cpf", "dataNascimento", "telefone",
-				"celular", "email", "tipo", "situacao" };
+				"celular", "email"};
 	}
-
+	@Override
+	public String toString() {
+		return nomeCompleto;
+	}
 
 }
