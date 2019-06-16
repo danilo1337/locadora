@@ -15,6 +15,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+
 public abstract class PdfTemplate {
 	private String nome_pdf = "";
 	private String caminho = "";
