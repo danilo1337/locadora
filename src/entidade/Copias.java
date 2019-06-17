@@ -14,7 +14,16 @@ public class Copias {
     private java.sql.Date dataReserva = null;
     private java.sql.Date dataVenda = null;
     private Filmes filmes;
-
+    
+    public Copias() {
+    	filmes = new Filmes();
+    }
+    public String[]getColunas(){
+    	return new String[] {"CÓDIGO","TÍTULO","STATUS"};
+    }
+    public String[]getVariaveis(){
+    	return new String[] {"codigoCopia","filmes","disponivel"};
+    }
     public int getId() {
         return id;
     }
