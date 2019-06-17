@@ -271,6 +271,31 @@ public class PLocacao {
 		cnn.close();
 		return saida;
 	}
-	
+	public Double totalMensal(Date data1 , Date data2) throws SQLException {
+		Connection cnn = util.Conexao.getConexao();
+		String sql = "SELECT SUM(VALOR_TOTAL) FROM LOCACAO" + 
+				" WHERE 1 = 1";
+		if (data1 != null) {
+			if (data1.before(data2) || data1.compareTo(data2) == 0) {
+				sql += " AND data_locacao between ? and ?";
+			}
+		}
+		PreparedStatement stm = cnn.prepareStatement(sql);
+		if (data2 != null) {
+			if (data1.before(data2) || data1.compareTo(data2) == 0) {
+				stm.setDate(1, data1);
+				stm.setDate(2, data2);
+			}
+		}
+		ResultSet rs = stm.executeQuery();
+		Double total= 0.0;
+		while (rs.next()) {
+			total = rs.getDouble("sum");
+		}
+		
+		rs.close();
+		cnn.close();
+		return total;
+	}
 	
 }

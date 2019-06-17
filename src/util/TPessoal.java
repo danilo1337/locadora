@@ -1,12 +1,10 @@
 package util;
 
-import java.sql.SQLException;
-
-import entidade.Pessoal;
-import persistencia.PPessoal;
+import entidade.Filmes;
+import negocio.NFilme;
 
 public class TPessoal {
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws Exception {
 //		Endereco e = new Endereco();
 //		e.setBairro("Vila");
 //		e.setCep("78744");
@@ -45,15 +43,17 @@ public class TPessoal {
 //		saida+= "\nLocalidade: "+pes.getEndereco().getLocalidade();
 //		System.out.println(saida);
 ////------------------------------------------
-		
-		for (Pessoal pessoal : new PPessoal().listar()) {
-			String saida = "";
-			saida+= "Nome: "+pessoal.getNomeCompleto();
-			saida+="End id:"+pessoal.getEndereco().getId();
-			saida+= "\nUF: "+pessoal.getEndereco().getUF();
-			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
-			System.out.println(saida);
-			
-		}
+//		
+//		for (Pessoal pessoal : new PPessoal().listar()) {
+//			String saida = "";
+//			saida+= "Nome: "+pessoal.getNomeCompleto();
+//			saida+="End id:"+pessoal.getEndereco().getId();
+//			saida+= "\nUF: "+pessoal.getEndereco().getUF();
+//			saida+= "\nLocalidade: "+pessoal.getEndereco().getLocalidade();
+//			System.out.println(saida);
+//			
+//		}
+		Filmes f = new NFilme().consultar("FImose NO PAU");
+		System.out.println(f.getTitulo());
 	}
 }

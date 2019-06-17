@@ -1,6 +1,7 @@
 package apresentacao;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -81,26 +83,21 @@ public class FrmRelatorio implements Initializable {
 	@FXML
 	void grafico(ActionEvent event) {
 		try {
-//		paneDaTabela.getChildren().clear();
-//		PieChart pie = new PieChart();
-//		pie.setPrefWidth(paneDaTabela.getPrefWidth());
-//		pie.setPrefHeight(paneDaTabela.getPrefHeight());
-//		paneDaTabela.getChildren().add(pie);
-//			Double valores[] = new PLocacao().listarDiario();
-//    	PieChart.Data slice1 = new PieChart.Data("Mínimo", valores[0]);
-//    	PieChart.Data slice2 = new PieChart.Data("Média"  , valores[1]);
-//    	PieChart.Data slice3 = new PieChart.Data("Máxima" , valores[2]);
-//    	pie.getData().add(slice1);
-//    	pie.getData().add(slice2);
-//    	pie.getData().add(slice3);
-//----------------------------------------------
-
-		gerarBarCharDiario();
+			String selecionado = (String) cbTipos.getSelectionModel().getSelectedItem();
+			switch (selecionado) {
+				case "Diário":
+					gerarBarCharDiario();
+					break;
+				case "Total":
+					gerarBarTotal();
+					break;
+			}	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 
 	@FXML
 	void gerarPdf(ActionEvent event) {
@@ -108,20 +105,22 @@ public class FrmRelatorio implements Initializable {
 			String selecionado = (String) cbTipos.getSelectionModel().getSelectedItem();
 			if (selecionado.isEmpty() || selecionado == null)
 				throw new Exception("Escolha um tipo de relatório");
-	
+
 			Date date = new Date(new Date().getTime());
-			java.sql.Date data1 = validaData(dateInicio); 
+			java.sql.Date data1 = validaData(dateInicio);
 			java.sql.Date data2 = validaData(dateFinal);
-			
+
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyhhmmss");
 			String nomeDoPdf = "" + sdf.format(date);
 			switch (selecionado) {
 			case "Filme":
-				PdfFilmes pdfF = new PdfFilmes(nomeDoPdf, new Filmes().getColunas(), new PFilmes().listar(new Filmes()));
+				PdfFilmes pdfF = new PdfFilmes(nomeDoPdf, new Filmes().getColunas(),
+						new PFilmes().listar(new Filmes()));
 				pdfF.gerarPersonalizado("Relatório de Filmes", "Relatório de todos os Filmes:");
 				break;
 			case "Locação":
-				PdfLocacao pdfL = new PdfLocacao(nomeDoPdf, new Locacao().getColunas(), new PLocacao().listar(data1,data2));
+				PdfLocacao pdfL = new PdfLocacao(nomeDoPdf, new Locacao().getColunas(),
+						new PLocacao().listar(data1, data2));
 				pdfL.gerarPersonalizado("Relatório de Locação", "Relatório de todas as locações:");
 				break;
 			case "Pessoal":
@@ -153,27 +152,38 @@ public class FrmRelatorio implements Initializable {
 
 	private void gerarBarCharDiario() throws Exception {
 		paneDaTabela.getChildren().clear();
-		BarChart<String,Number> bar = new BarChart<>(new CategoryAxis(),  new NumberAxis());
+		BarChart<String, Number> bar = new BarChart<>(new CategoryAxis(), new NumberAxis());
 		bar.setPrefWidth(paneDaTabela.getPrefWidth());
 		bar.setPrefHeight(paneDaTabela.getPrefHeight());
 		paneDaTabela.getChildren().add(bar);
 		Double valores[] = new PLocacao().listarDiario();
-		XYChart.Series<String,Number> xy1 = new XYChart.Series<String,Number>();
+		XYChart.Series<String, Number> xy1 = new XYChart.Series<String, Number>();
 		xy1.setName("Mínimo");
-		xy1.getData().add(new XYChart.Data<String,Number>(valores[0]+"",valores[0]));
+		xy1.getData().add(new XYChart.Data<String, Number>(valores[0] + "", valores[0]));
 		XYChart.Series<String, Number> xy2 = new XYChart.Series<String, Number>();
 		XYChart.Series<String, Number> xy3 = new XYChart.Series<String, Number>();
 		xy3.setName("Médio");
-		xy3.getData().add(new XYChart.Data<String, Number>(valores[1]+"",valores[1]));
+		xy3.getData().add(new XYChart.Data<String, Number>(valores[1] + "", valores[1]));
 		xy2.setName("Máximo");
-		xy2.getData().add(new XYChart.Data<String, Number>(valores[2]+"",valores[2]));
+		xy2.getData().add(new XYChart.Data<String, Number>(valores[2] + "", valores[2]));
 		bar.getData().add(xy1);
 		bar.getData().add(xy2);
 		bar.getData().add(xy3);
-		bar.setTitle("RELATÓRIO DE VENDAS DIÁRIO"
-				+ "\n\tTOTAL: R$"+valores[3]);
+		bar.setTitle("RELATÓRIO DE VENDAS DIÁRIO" + "\n\tTOTAL: R$" + valores[3]);
 	}
-
+	private void gerarBarTotal() throws ParseException, SQLException {
+		paneDaTabela.getChildren().clear();
+		PieChart pie = new PieChart();
+		pie.setPrefWidth(paneDaTabela.getPrefWidth());
+		pie.setPrefHeight(paneDaTabela.getPrefHeight());
+		paneDaTabela.getChildren().add(pie);
+		paneDaTabela.getChildren().add(new ImageView(new Image("/icones/money.png", 50, 50, false, false)));
+		java.sql.Date data1 = validaData(dateInicio);
+		java.sql.Date data2 = validaData(dateFinal);
+		Double total = new PLocacao().totalMensal(data1, data2);
+    	PieChart.Data slice1 = new PieChart.Data("Total\nR$ "+total, total);
+    	pie.getData().add(slice1);
+	}
 	private void gerarTabela(String selecionado) throws Exception {
 		gerarConfigTabela();
 		String colunas[] = null;
@@ -183,7 +193,8 @@ public class FrmRelatorio implements Initializable {
 		java.sql.Date data2;
 		data1 = validaData(dateInicio);
 		data2 = validaData(dateFinal);
-		//"Aluguel", "Devolução","Filme","Locação","Pedidos","Pessoal","Reserva","Venda"
+		// "Aluguel",
+		// "Devolução","Filme","Locação","Pedidos","Pessoal","Reserva","Venda"
 		switch (selecionado) {
 		case "Filme":
 			colunas = new Filmes().getColunas();
@@ -193,7 +204,7 @@ public class FrmRelatorio implements Initializable {
 		case "Locação":
 			colunas = new Locacao().getColunas();
 			nomeVariaveis = new Locacao().getVariaveis();
-			iterator = new PLocacao().listar(data1,data2).iterator();
+			iterator = new PLocacao().listar(data1, data2).iterator();
 			break;
 		case "Pessoal":
 			colunas = new Pessoal().getColunas();
@@ -221,11 +232,10 @@ public class FrmRelatorio implements Initializable {
 
 	private void gerarTipos() {
 		ObservableList<Object> lista = FXCollections.observableArrayList();
-		lista.addAll(Arrays.asList(
-				new String[] {"Filme","Locação","Pessoal","Diário"}
-				));
+		lista.addAll(Arrays.asList(new String[] { "Filme", "Locação", "Pessoal", "Diário", "Total" }));
 		cbTipos.setItems(lista);
-		cbTipos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> listnerCombobox(newValue));
+		cbTipos.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> listnerCombobox(newValue));
 	}
 
 	private void imprimirNaTabela(Iterator<?> dados) throws Exception {
@@ -261,10 +271,15 @@ public class FrmRelatorio implements Initializable {
 			btnGrafico.setDisable(false);
 			btnListar.setDisable(true);
 			break;
+		case "Total":
+			editavel = false;
+			btnGrafico.setDisable(false);
+			btnListar.setDisable(true);
+			break;
 		}
 		dateInicio.setDisable(editavel);
 		dateFinal.setDisable(editavel);
-		
+
 		return newValue;
 	}
 
@@ -274,7 +289,8 @@ public class FrmRelatorio implements Initializable {
 		if (dateInicio.getValue() == null || dateFinal.getValue() == null) {
 			dataSql = new java.sql.Date(new java.util.Date().getTime());
 		} else {
-			dataSql = new java.sql.Date(sdf.parse(datePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).getTime());
+			dataSql = new java.sql.Date(
+					sdf.parse(datePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).getTime());
 		}
 		return dataSql;
 	}
