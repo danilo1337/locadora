@@ -1,16 +1,15 @@
 package persistencia;
 
-import entidade.Copias;
-import entidade.Filmes;
-import entidade.Login;
-import entidade.TipoFilme;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import entidade.Copias;
+import entidade.Filmes;
+import entidade.TipoFilme;
 
 /*
  * @author Hugo Henrique
@@ -122,11 +121,31 @@ public class PCopias {
         ps.execute();
     }
 
-    public List<Copias> listar() throws SQLException {
-        String sql = "SELECT id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda FROM copias";
+    public List<Copias> listar(Copias param) throws SQLException {
+        String sql = "SELECT"
+        		+ " C.id,C.codigo_copia,"
+        		+ " C.filme_id, C.disponivel,"
+        		+ " C.reservada, C.disponivel_venda,"
+        		+ " C.data_reserva, C.data_venda,"
+        		+ " F.TITULO"
+        		+ " FROM COPIAS C "
+        		+ " INNER JOIN FILME F "
+        		+ " ON C.FILME_ID = F.ID "
+        		+ " WHERE 1 = 1 ";
         Connection cnn = util.Conexao.getConexao();
-        PreparedStatement ps = cnn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
+        if (param.getFilmes().getTitulo() != null) {
+			if (!param.getFilmes().getTitulo().isEmpty()) {
+				sql += " AND upper(F.TITULO) like ?";
+			}
+		}
+
+		PreparedStatement prd = cnn.prepareStatement(sql);
+		if (param.getFilmes().getTitulo() != null) {
+            if (!param.getFilmes().getTitulo().isEmpty()) {
+                prd.setString(1, "%" + param.getFilmes().getTitulo().toUpperCase() + "%");
+            }
+        }
+        ResultSet rs = prd.executeQuery();
 
         List<Copias> lista = new ArrayList<>();
         while (rs.next()) {
@@ -139,6 +158,10 @@ public class PCopias {
             retorno.setDisponivelVenda(rs.getBoolean("disponivel_venda"));
             retorno.setDataReserva(rs.getDate("data_reserva"));
             retorno.setDataVenda(rs.getDate("data_venda"));
+            Filmes f = new Filmes();
+            f.setId(rs.getInt("filme_id"));
+            f.setTitulo(rs.getString("titulo"));
+            retorno.setFilmes(f);
             lista.add(retorno);
         }
         rs.close();

@@ -34,7 +34,7 @@ public class NCopias {
 		return per.consultar(id);
 	}
 
-	public List<Copias> listar() throws Exception {
-		return per.listar();
+	public List<Copias> listar(Copias param) throws Exception {
+		return per.listar(param);
 	}
 }
