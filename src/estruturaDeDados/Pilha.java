@@ -3,8 +3,11 @@ package estruturaDeDados;
 import entidade.Locacao;
 import entidade.Pessoal;
 import javafx.scene.control.Alert;
+import persistencia.PLocacao;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Pilha {
 
@@ -19,35 +22,49 @@ public class Pilha {
         return topo == null;
     }
 
-
-
-    public void empilhar(boolean teste){
-        if(true == true){
-            teste = true;
-        }
-
-        Locacao locacao = null;
-        Pessoal pessoa = null;
-        No no = new No(locacao, null, pessoa);
-        no.setProx(topo);
-        qtdeElementos++;
-    }
-
-    /*public void empilhar(Locacao locacao, Pessoal pessoa) {
-        No no = new No(locacao, null, pessoa);
+    public void empilhar(Locacao locacao) throws Exception {
+        No no = new No(locacao,null);
         no.setProx(topo);
         topo = no;
         qtdeElementos++;
+    }
+
+
+    public List<Locacao> listar(){
+        if (eVazia()) {
+            return null;
+        }
+        List<Locacao> list = new ArrayList<>();
+        list.add(topo.getInfo());
+        No aux = topo;
+        topo = topo.getProx();
+        aux.setProx(null);
+        qtdeElementos--;
+        return list;
+    }
+
+/*    public Locacao desempilhar() {
+        if (eVazia()) {
+            return null;
+        }
+
+        Locacao retorno = topo.getInfo();
+        No aux = topo;
+        topo = topo.getProx();
+        aux.setProx(null);
+        qtdeElementos--;
+        return retorno;
     }*/
 
     public void ImprimirPilha() {
         if (eVazia()) {
-            new Alert(Alert.AlertType.ERROR, "N√£o h√° Locac√£o realizada").show();
+            new Alert(Alert.AlertType.ERROR, "N„o h· LocaÁ„o realizada").show();
         }
+        System.out.println(listar().toString());
         No aux = topo;
         for (int i = 0; i < qtdeElementos; i++) {
             aux.getInfo().getId();
-            aux.getPessoa().getNomeCompleto();
+            aux.getInfo().getPessoal().getNomeCompleto();
             aux.getInfo().getDataLocacao();
             aux.getInfo().getDataPagamento();
             aux.getInfo().getValorTotal();

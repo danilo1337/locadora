@@ -228,7 +228,6 @@ public class FrmAlugar implements Initializable {
         NLocacao nLocacao = new NLocacao();
         try {
             nLocacao.salvar(locacao);
-            enviarDados();
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Erro ao salvar a locação.").show();
         }
@@ -257,20 +256,17 @@ public class FrmAlugar implements Initializable {
         }
     }
 
-    public void enviarDados() throws Exception {
+    /*public void enviarDados() throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/frmListarHistorico.fxml"));
         Parent tabelaUsadaParent = loader.load();
         Scene  tabelaUsadaScene = new Scene(tabelaUsadaParent);
         FrmHistorico controller = loader.getController();
         Iterator<Locacao> pilhas;
-        /*lista = listViewLista.getItems();
-        locacao = new Locacao(pessoal, lista);*/
+        lista = listViewLista.getItems();
+        locacao = new Locacao(pessoal, lista);
         //Precisa-se fazer este comando funcionar para jogar os dados para a outra tela ...
         //controller.dadosLocacao(listViewLista.getSelectionModel().getSelectedItem());
         controller.dadosLocacao(new LocacaoIterator().listagemComArrayList());
-
-
-
-    }
+    }*/
 }

@@ -2,18 +2,17 @@ package estruturaDeDados;
 
 import entidade.Locacao;
 import entidade.Pessoal;
+import persistencia.PLocacao;
 
 public class No {
 
     private Locacao info;
     private No prox;
-    private Pessoal pessoa;
 
-    public No(Locacao info, No prox, Pessoal pessoa) {
+    public No(Locacao info, No prox) {
         this.info = info;
         this.prox = prox;
-        this.pessoa = pessoa;
-        
+
     }
 
     public Locacao getInfo() {
@@ -32,11 +31,6 @@ public class No {
         this.prox = prox;
     }
 
-    public Pessoal getPessoa() {
-        return pessoa;
-    }
 
-    public void setPessoa(Pessoal pessoa) {
-        this.pessoa = pessoa;
-    }
+
 }
