@@ -14,6 +14,7 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#cadastrarCliente" text="Sócio" />
                   <MenuItem fx:id="mnuTitulo" mnemonicParsing="false" onAction="#cadastrarTitulo" text="Título" />
+                  <MenuItem mnemonicParsing="false" onAction="#cadastrarCopia" text="Cópia" />
                   <!-- <MenuItem mnemonicParsing="false" text="Funcionário" /> -->
                   <!--  -->
               </items>
