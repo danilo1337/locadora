@@ -23,13 +23,35 @@ public class PCopias {
         try {
             String sql = "INSERT INTO copias(codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement ps = cnn.prepareStatement(sql);
-            ps.setString(1, copias.getCodigoCopia());
-            ps.setInt(2, copias.getFilmeId());
-            ps.setBoolean(3, copias.getDisponivel());
-            ps.setBoolean(4, copias.getReservada());
-            ps.setBoolean(5, copias.getDisponivelVenda());
-            ps.setDate(6, copias.getDataReserva());
-            ps.setDate(7, copias.getDataVenda());
+            int i = 0;
+            ps.setString(++i, copias.getCodigoCopia());
+            ps.setInt(++i, copias.getFilmeId());
+            ps.setBoolean(++i, copias.getDisponivel());
+            ps.setBoolean(++i, copias.getReservada());
+            ps.setBoolean(++i, copias.getDisponivelVenda());
+            ps.setDate(++i, copias.getDataReserva());
+            ps.setDate(++i, copias.getDataVenda());
+            ps.execute();
+            cnn.commit();
+        } catch (Exception e) {
+            cnn.rollback();
+            e.printStackTrace();
+        }
+        cnn.close();
+    }
+    
+    public void incluir2(Copias copias) throws SQLException {
+        Connection cnn = util.Conexao.getConexao();
+        cnn.setAutoCommit(false);
+        try {
+            String sql = "INSERT INTO copias(codigo_copia, filme_id, disponivel, reservada, disponivel_venda) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = cnn.prepareStatement(sql);
+            int i = 0;
+            ps.setString(++i, copias.getCodigoCopia());
+            ps.setInt(++i, copias.getFilmeId());
+            ps.setBoolean(++i, copias.getDisponivel());
+            ps.setBoolean(++i, copias.getReservada());
+            ps.setBoolean(++i, copias.getDisponivelVenda());
             ps.execute();
             cnn.commit();
         } catch (Exception e) {
@@ -50,8 +72,8 @@ public class PCopias {
     }
 
     public Copias consultarCodigo(String codigoCopia) throws SQLException {
-        String sql = "SELECT copias.id as copia_id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda, \n" +
-                "ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id, tipo, preco, preco_venda\n" +
+        String sql = "SELECT copias.id as copia_id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda, " +
+                "ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id, tipo, preco, preco_venda " +
                 "FROM copias INNER JOIN filme on (copias.filme_id = filme.id) INNER JOIN tipo_filme on (filme.tipo_id = tipo_filme.id) WHERE codigo_copia = ? AND disponivel = true";
         Connection cnn = util.Conexao.getConexao();
         PreparedStatement ps = cnn.prepareStatement(sql);
@@ -79,6 +101,37 @@ public class PCopias {
         cnn.close();
         return retorno;
     }
+    public Copias consultarCodigoGeral(String codigoCopia) throws SQLException {
+        String sql = "SELECT copias.id as copia_id, codigo_copia, filme_id, disponivel, reservada, disponivel_venda, data_reserva, data_venda, " +
+                "ano_lancamento, faixa_etaria, titulo, sinopse, genero, tipo_id, tipo, preco, preco_venda " +
+                "FROM copias INNER JOIN filme on (copias.filme_id = filme.id) INNER JOIN tipo_filme on (filme.tipo_id = tipo_filme.id) WHERE codigo_copia = ?";
+        Connection cnn = util.Conexao.getConexao();
+        PreparedStatement ps = cnn.prepareStatement(sql);
+
+        ps.setString(1, codigoCopia);
+        ResultSet rs = ps.executeQuery();
+
+        Copias retorno = new Copias();
+        if (rs.next()) {
+            retorno.setId(rs.getInt("copia_id"));
+            retorno.setCodigoCopia(rs.getString("codigo_copia"));
+            retorno.setFilmeId(rs.getInt("filme_id"));
+            retorno.setDisponivel(rs.getBoolean("disponivel"));
+            retorno.setReservada(rs.getBoolean("reservada"));
+            retorno.setDisponivelVenda(rs.getBoolean("disponivel_venda"));
+            retorno.setDataReserva(rs.getDate("data_reserva"));
+            retorno.setDataVenda(rs.getDate("data_venda"));
+            TipoFilme tipoFilme = new TipoFilme(rs.getInt("tipo_id"), rs.getString("tipo"),
+                    rs.getDouble("preco"), rs.getDouble("preco_venda"));
+            Filmes filmes = new Filmes(rs.getInt("filme_id"), rs.getString("ano_lancamento"), rs.getString("faixa_etaria"),
+                    rs.getString("titulo"), rs.getString("sinopse"), rs.getString("genero"), tipoFilme);
+            retorno.setFilmes(filmes);
+        }
+        rs.close();
+        cnn.close();
+        return retorno;
+    }
+
 
     public void alterar(Copias copias) throws SQLException {
         Connection cnn = util.Conexao.getConexao();

@@ -22,16 +22,29 @@ public class NCopias {
 	public void salvar(Copias copias) throws SQLException {
 		if (copias.getId() == 0)
 			per.incluir(copias);
-//		else
-//			per.alterar(login);
+		else
+			per.alterar(copias);
 	}
 
+	public void salvar2(Copias copias) throws SQLException {
+		if (copias.getId() == 0)
+			per.incluir2(copias);
+		else
+			per.alterar(copias);
+	}
+	
 	public void excluir(int id) throws Exception {
 		per.excluir(id);
 	}
 
 	public Copias consultar(int id) throws Exception {
 		return per.consultar(id);
+	}
+	public Copias consultar(String codigoCopia) throws Exception {
+		return per.consultarCodigo(codigoCopia);
+	}
+	public Copias consultarGeral(String codigoCopia) throws Exception {
+		return per.consultarCodigoGeral(codigoCopia);
 	}
 
 	public List<Copias> listar(Copias param) throws Exception {
