@@ -1,8 +1,6 @@
 package apresentacao;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
@@ -25,6 +23,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import negocio.NPessoal;
+import padrao.adapter.DataAdapter;
 import util.NovaCena;
 
 public class FrmCadSocio implements Initializable {
@@ -131,18 +130,9 @@ public class FrmCadSocio implements Initializable {
 	@FXML
 	private void novo(ActionEvent event) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			java.sql.Date dataSql;
-			java.util.Date dataUtil;
 			Pessoal pessoal = new Pessoal();
 			Endereco endereco = new Endereco();
-			if (dateNascimento.getValue() == null) {
-				dataSql = new java.sql.Date(new java.util.Date().getTime());
-			} else {
-				dataUtil = sdf.parse(dateNascimento.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-				dataSql = new java.sql.Date(dataUtil.getTime());
-			}
-
+			
 			endereco.setId(id_endereco);
 			endereco.setBairro(txtBairro.getText());
 			endereco.setCep(txtCep.getText());
@@ -154,7 +144,7 @@ public class FrmCadSocio implements Initializable {
 			pessoal.setId(Integer.parseInt(txtID.getText()));
 			pessoal.setCelular(txtCelular.getText());
 			pessoal.setCpf(txtCpf.getText());
-			pessoal.setDataNascimento(dataSql);
+			pessoal.setDataNascimento(new DataAdapter().formatarDatePicker(dateNascimento));
 			pessoal.setNomeCompleto(txtNome.getText());
 			pessoal.setTelefone(txtTelefone.getText());
 			pessoal.setCelular(txtCelular.getText());
